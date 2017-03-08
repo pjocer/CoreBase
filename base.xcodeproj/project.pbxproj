@@ -10,6 +10,8 @@
 		3F6EC8E7AE964D1787067A3C /* libPods-base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51951871AE991C9C8BB13A54 /* libPods-base.a */; };
 		4BBA6E78A8E53E1B1C048C23 /* libPods-baseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA653DA660CB6E64DB71699B /* libPods-baseTests.a */; };
 		4DC600CCCADD1F4D46F26DBD /* libPods-baseUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CD56D0B24D1521EA27F9150 /* libPods-baseUITests.a */; };
+		60A64BD01E6FD97300E92869 /* BaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A64BCD1E6FD97300E92869 /* BaseCollectionViewCell.m */; };
+		60A64BD11E6FD97300E92869 /* BaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A64BCF1E6FD97300E92869 /* BaseTableViewCell.m */; };
 		B78FC45D1E6E8BCE007F33CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45C1E6E8BCE007F33CA /* main.m */; };
 		B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */; };
 		B78FC46E1E6E8BCE007F33CA /* baseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC46D1E6E8BCE007F33CA /* baseTests.m */; };
@@ -44,6 +46,10 @@
 		0C6EF52B57F2C0273C9B3B00 /* Pods-base.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-base.debug.xcconfig"; path = "Pods/Target Support Files/Pods-base/Pods-base.debug.xcconfig"; sourceTree = "<group>"; };
 		2FCD6C2B78FB47E19896D5C9 /* Pods-baseUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		51951871AE991C9C8BB13A54 /* libPods-base.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-base.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60A64BCC1E6FD97300E92869 /* BaseCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCollectionViewCell.h; sourceTree = "<group>"; };
+		60A64BCD1E6FD97300E92869 /* BaseCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCollectionViewCell.m; sourceTree = "<group>"; };
+		60A64BCE1E6FD97300E92869 /* BaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableViewCell.h; sourceTree = "<group>"; };
+		60A64BCF1E6FD97300E92869 /* BaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewCell.m; sourceTree = "<group>"; };
 		6CD56D0B24D1521EA27F9150 /* libPods-baseUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9187FC09986539714AB4644B /* Pods-base.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-base.release.xcconfig"; path = "Pods/Target Support Files/Pods-base/Pods-base.release.xcconfig"; sourceTree = "<group>"; };
 		B78FC4571E6E8BCE007F33CA /* base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = base.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +216,10 @@
 		B78FC4A91E6FA651007F33CA /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				60A64BCC1E6FD97300E92869 /* BaseCollectionViewCell.h */,
+				60A64BCD1E6FD97300E92869 /* BaseCollectionViewCell.m */,
+				60A64BCE1E6FD97300E92869 /* BaseTableViewCell.h */,
+				60A64BCF1E6FD97300E92869 /* BaseTableViewCell.m */,
 				B78FC4AA1E6FA65F007F33CA /* UIButton+BaseCreation.h */,
 				B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */,
 				B78FC4AD1E6FA722007F33CA /* BasePagingView.h */,
@@ -499,11 +509,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60A64BD11E6FD97300E92869 /* BaseTableViewCell.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
 				B78FC45D1E6E8BCE007F33CA /* main.m in Sources */,
+				60A64BD01E6FD97300E92869 /* BaseCollectionViewCell.m in Sources */,
 				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,
 				B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */,
 			);
