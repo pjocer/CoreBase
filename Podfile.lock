@@ -4,7 +4,7 @@ PODS:
   - ReactiveObjC (2.1.2)
   - Reveal-iOS-SDK (1.6.2)
   - SMPageControl (1.2)
-  - TXFire (1.0.0):
+  - TXFire (1.0.1):
     - ReactiveObjC
 
 DEPENDENCIES:
@@ -21,7 +21,7 @@ SPEC CHECKSUMS:
   ReactiveObjC: 7b6782ae39f9ac0f57205c3b0c0b69b9dd7048c0
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
-  TXFire: c19f8c3f00fbb9ed254636cfe1b2691e9eafd4dd
+  TXFire: 4a58831856c4ec90b642c7a8736ec9b4bb921fed
 
 PODFILE CHECKSUM: 4e4c8f904752b7cc61dd66291a636f11be749b76
 

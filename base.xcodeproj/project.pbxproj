@@ -15,8 +15,11 @@
 		B78FC46E1E6E8BCE007F33CA /* baseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC46D1E6E8BCE007F33CA /* baseTests.m */; };
 		B78FC4791E6E8BCE007F33CA /* baseUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4781E6E8BCE007F33CA /* baseUITests.m */; };
 		B78FC4871E6E8C66007F33CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B78FC45A1E6E8BCE007F33CA /* Assets.xcassets */; };
-		B78FC48A1E6E8DDE007F33CA /* BasePagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4891E6E8DDE007F33CA /* BasePagingView.m */; };
 		B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC48C1E6E93F5007F33CA /* PagingViewController.m */; };
+		B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4A41E6F9DB7007F33CA /* UIColor+BaseStyle.m */; };
+		B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4A61E6F9DB7007F33CA /* UIFont+BaseStyle.m */; };
+		B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */; };
+		B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4AE1E6FA722007F33CA /* BasePagingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,10 +58,16 @@
 		B78FC4741E6E8BCE007F33CA /* baseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = baseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78FC4781E6E8BCE007F33CA /* baseUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = baseUITests.m; sourceTree = "<group>"; };
 		B78FC47A1E6E8BCE007F33CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B78FC4881E6E8DDE007F33CA /* BasePagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePagingView.h; sourceTree = "<group>"; };
-		B78FC4891E6E8DDE007F33CA /* BasePagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePagingView.m; sourceTree = "<group>"; };
 		B78FC48B1E6E93F5007F33CA /* PagingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagingViewController.h; sourceTree = "<group>"; };
 		B78FC48C1E6E93F5007F33CA /* PagingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagingViewController.m; sourceTree = "<group>"; };
+		B78FC4A31E6F9DB7007F33CA /* UIColor+BaseStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BaseStyle.h"; sourceTree = "<group>"; };
+		B78FC4A41E6F9DB7007F33CA /* UIColor+BaseStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BaseStyle.m"; sourceTree = "<group>"; };
+		B78FC4A51E6F9DB7007F33CA /* UIFont+BaseStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+BaseStyle.h"; sourceTree = "<group>"; };
+		B78FC4A61E6F9DB7007F33CA /* UIFont+BaseStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+BaseStyle.m"; sourceTree = "<group>"; };
+		B78FC4AA1E6FA65F007F33CA /* UIButton+BaseCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+BaseCreation.h"; sourceTree = "<group>"; };
+		B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+BaseCreation.m"; sourceTree = "<group>"; };
+		B78FC4AD1E6FA722007F33CA /* BasePagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePagingView.h; sourceTree = "<group>"; };
+		B78FC4AE1E6FA722007F33CA /* BasePagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePagingView.m; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -181,10 +190,32 @@
 		B78FC4861E6E8C2D007F33CA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				B78FC4881E6E8DDE007F33CA /* BasePagingView.h */,
-				B78FC4891E6E8DDE007F33CA /* BasePagingView.m */,
+				B78FC4A91E6FA651007F33CA /* Components */,
+				B78FC4A21E6F9DB7007F33CA /* css */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		B78FC4A21E6F9DB7007F33CA /* css */ = {
+			isa = PBXGroup;
+			children = (
+				B78FC4A31E6F9DB7007F33CA /* UIColor+BaseStyle.h */,
+				B78FC4A41E6F9DB7007F33CA /* UIColor+BaseStyle.m */,
+				B78FC4A51E6F9DB7007F33CA /* UIFont+BaseStyle.h */,
+				B78FC4A61E6F9DB7007F33CA /* UIFont+BaseStyle.m */,
+			);
+			path = css;
+			sourceTree = "<group>";
+		};
+		B78FC4A91E6FA651007F33CA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B78FC4AA1E6FA65F007F33CA /* UIButton+BaseCreation.h */,
+				B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */,
+				B78FC4AD1E6FA722007F33CA /* BasePagingView.h */,
+				B78FC4AE1E6FA722007F33CA /* BasePagingView.m */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,7 +290,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = "Taylor Tang";
+				ORGANIZATIONNAME = Azazie;
 				TargetAttributes = {
 					B78FC4561E6E8BCE007F33CA = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -469,9 +500,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
-				B78FC48A1E6E8DDE007F33CA /* BasePagingView.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
+				B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */,
+				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
 				B78FC45D1E6E8BCE007F33CA /* main.m in Sources */,
+				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,
+				B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
