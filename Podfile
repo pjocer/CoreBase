@@ -8,6 +8,7 @@ target 'base' do
   # Pods for base
   
   pod 'ReactiveObjC'
+	pod 'AFNetworking'
   pod 'Masonry'
   pod 'JSONModel'
 	pod 'SMPageControl'

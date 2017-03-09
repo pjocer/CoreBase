@@ -22,6 +22,9 @@
 		B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4A61E6F9DB7007F33CA /* UIFont+BaseStyle.m */; };
 		B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */; };
 		B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4AE1E6FA722007F33CA /* BasePagingView.m */; };
+		B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */; };
+		B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4CE1E715464007F33CA /* BaseStorage.m */; };
+		B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4D11E715949007F33CA /* BaseTmpNetworkStorage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,12 @@
 		B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+BaseCreation.m"; sourceTree = "<group>"; };
 		B78FC4AD1E6FA722007F33CA /* BasePagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePagingView.h; sourceTree = "<group>"; };
 		B78FC4AE1E6FA722007F33CA /* BasePagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePagingView.m; sourceTree = "<group>"; };
+		B78FC4C61E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFHTTPSessionManager+BaseRACSupports.h"; sourceTree = "<group>"; };
+		B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFHTTPSessionManager+BaseRACSupports.m"; sourceTree = "<group>"; };
+		B78FC4CD1E715464007F33CA /* BaseStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseStorage.h; sourceTree = "<group>"; };
+		B78FC4CE1E715464007F33CA /* BaseStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseStorage.m; sourceTree = "<group>"; };
+		B78FC4D01E715949007F33CA /* BaseTmpNetworkStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTmpNetworkStorage.h; sourceTree = "<group>"; };
+		B78FC4D11E715949007F33CA /* BaseTmpNetworkStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTmpNetworkStorage.m; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -196,6 +205,8 @@
 		B78FC4861E6E8C2D007F33CA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B78FC4C91E7151EE007F33CA /* storage */,
+				B78FC4C21E70F59C007F33CA /* net */,
 				B78FC4A91E6FA651007F33CA /* Components */,
 				B78FC4A21E6F9DB7007F33CA /* css */,
 			);
@@ -226,6 +237,26 @@
 				B78FC4AE1E6FA722007F33CA /* BasePagingView.m */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		B78FC4C21E70F59C007F33CA /* net */ = {
+			isa = PBXGroup;
+			children = (
+				B78FC4C61E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.h */,
+				B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */,
+			);
+			path = net;
+			sourceTree = "<group>";
+		};
+		B78FC4C91E7151EE007F33CA /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				B78FC4CD1E715464007F33CA /* BaseStorage.h */,
+				B78FC4CE1E715464007F33CA /* BaseStorage.m */,
+				B78FC4D01E715949007F33CA /* BaseTmpNetworkStorage.h */,
+				B78FC4D11E715949007F33CA /* BaseTmpNetworkStorage.m */,
+			);
+			path = storage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -510,9 +541,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				60A64BD11E6FD97300E92869 /* BaseTableViewCell.m in Sources */,
+				B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
+				B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */,
 				B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */,
+				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
 				B78FC45D1E6E8BCE007F33CA /* main.m in Sources */,
 				60A64BD01E6FD97300E92869 /* BaseCollectionViewCell.m in Sources */,

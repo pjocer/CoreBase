@@ -10,8 +10,12 @@
 #import "BasePagingView.h"
 #import <TXFire/TXFire.h>
 #import <Masonry/Masonry.h>
+#import "AFHTTPSessionManager+BaseRACSupports.h"
+#import "BaseTmpNetworkStorage.h"
 
 @interface PagingViewController ()
+
+@property (nonatomic, strong) AFHTTPSessionManager *testHTTPManager;
 
 @end
 
@@ -20,6 +24,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSString *content = @"abc";
+    BOOL result = [BaseTmpNetworkStorage write:[content dataUsingEncoding:NSUTF8StringEncoding] toKey:@"test"];
+    TXLog(@"%@", stringify_bool(result));
+    
+    _testHTTPManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:nil];
+    _testHTTPManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    [[[_testHTTPManager rac_GET:@"https://m.baidu.com" parameters:nil]
+      takeUntil:self.rac_willDeallocSignal]
+     subscribeNext:^(id x){
+         NSData *data = [(RACTuple *)x second];
+         TXLog(@"%@", data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]: @"empty");
+     }
+     error:^(NSError *error){
+         TXLog(@"%@", error);
+     }
+     completed:^{
+         TXLog(@"%@", @"completed");
+     }];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
