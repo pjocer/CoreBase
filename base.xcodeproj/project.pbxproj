@@ -12,6 +12,7 @@
 		4DC600CCCADD1F4D46F26DBD /* libPods-baseUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CD56D0B24D1521EA27F9150 /* libPods-baseUITests.a */; };
 		60A64BD01E6FD97300E92869 /* BaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A64BCD1E6FD97300E92869 /* BaseCollectionViewCell.m */; };
 		60A64BD11E6FD97300E92869 /* BaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A64BCF1E6FD97300E92869 /* BaseTableViewCell.m */; };
+		B757C91E1E7280F30081C4CF /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = B757C91D1E7280F30081C4CF /* Network.m */; };
 		B78FC45D1E6E8BCE007F33CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45C1E6E8BCE007F33CA /* main.m */; };
 		B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */; };
 		B78FC46E1E6E8BCE007F33CA /* baseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC46D1E6E8BCE007F33CA /* baseTests.m */; };
@@ -55,6 +56,8 @@
 		60A64BCF1E6FD97300E92869 /* BaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewCell.m; sourceTree = "<group>"; };
 		6CD56D0B24D1521EA27F9150 /* libPods-baseUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9187FC09986539714AB4644B /* Pods-base.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-base.release.xcconfig"; path = "Pods/Target Support Files/Pods-base/Pods-base.release.xcconfig"; sourceTree = "<group>"; };
+		B757C91C1E7280F30081C4CF /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
+		B757C91D1E7280F30081C4CF /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
 		B78FC4571E6E8BCE007F33CA /* base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = base.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78FC45A1E6E8BCE007F33CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B78FC45C1E6E8BCE007F33CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -244,6 +247,8 @@
 			children = (
 				B78FC4C61E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.h */,
 				B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */,
+				B757C91C1E7280F30081C4CF /* Network.h */,
+				B757C91D1E7280F30081C4CF /* Network.m */,
 			);
 			path = net;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B757C91E1E7280F30081C4CF /* Network.m in Sources */,
 				60A64BD11E6FD97300E92869 /* BaseTableViewCell.m in Sources */,
 				B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,

@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "PagingViewController.h"
+#import "Network.h"
+#import <TXFire/TXFire.h>
 
 @interface AppDelegate ()
 
@@ -30,6 +32,19 @@
     self.window.rootViewController = nav;
     
     [self.window makeKeyAndVisible];
+    
+    [Network setAPIRelativeURL:[NSURL URLWithString:@"https://api.azazie.com/1.0"]];
+    
+    [[Network.APISession rac_GET:@"https://m.baidu.com" parameters:nil]
+     subscribeNext:^(RACTuple *tuple){
+         Dlogvars(tuple);
+     }
+     error:^(NSError *error){
+         Dlogvars(error);
+         NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+         Dlogvars(response.allHeaderFields);
+         Dlogvars([[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding]);
+     }];
     
     return YES;
 }

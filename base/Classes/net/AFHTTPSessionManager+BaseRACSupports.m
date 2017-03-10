@@ -7,6 +7,7 @@
 //
 
 #import "AFHTTPSessionManager+BaseRACSupports.h"
+#import <TXFire/TXFire.h>
 
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
@@ -19,9 +20,11 @@
                                            success:^(NSURLSessionDataTask *task, id _Nullable responseObject){
                                                [subscriber sendNext:RACTuplePack(task.response, responseObject)];
                                                [subscriber sendCompleted];
+                                               Dlogvars(task.currentRequest.allHTTPHeaderFields);
                                            }
                                            failure:^(NSURLSessionDataTask *task, NSError *error){
-                                               [subscriber sendNext:error];
+                                               [subscriber sendError:error];
+                                               Dlogvars(task.currentRequest.allHTTPHeaderFields);
                                            }];
         
         if (dataTask)
