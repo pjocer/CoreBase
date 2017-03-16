@@ -8,12 +8,14 @@
 
 #import "AFHTTPSessionManager+BaseRACSupports.h"
 #import <TXFire/TXFire.h>
+#import "UIApplication+Base.h"
 
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
 {
     return [RACSignal createSignal:^(id<RACSubscriber> subscriber){
+        [[UIApplication sharedApplication] showNetworkActivityIndicator];
         NSURLSessionDataTask *dataTask = [self GET:path
                                         parameters:parameters
                                           progress:NULL
@@ -21,10 +23,12 @@
                                                [subscriber sendNext:RACTuplePack(task.response, responseObject)];
                                                [subscriber sendCompleted];
                                                Dlogvars(task.currentRequest.allHTTPHeaderFields);
+                                               [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                                            }
                                            failure:^(NSURLSessionDataTask *task, NSError *error){
                                                [subscriber sendError:error];
                                                Dlogvars(task.currentRequest.allHTTPHeaderFields);
+                                               [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                                            }];
         
         if (dataTask)

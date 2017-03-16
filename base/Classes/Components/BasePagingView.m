@@ -17,7 +17,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:CGRectZero];
+    self = [super initWithFrame:frame];
     if (self)
     {
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -56,9 +56,7 @@
     return self;
 }
 
-#pragma mark - reaction
-
-- (void)configurePage
+- (void)updatePageForPageControl
 {
     CGFloat width = self.scrollView.bounds.size.width;
     CGFloat offsetX = self.scrollView.contentOffset.x;
@@ -76,18 +74,18 @@
 {
     if (!decelerate)
     {
-        [self configurePage];
+        [self updatePageForPageControl];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self configurePage];
+    [self updatePageForPageControl];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    [self configurePage];
+    [self updatePageForPageControl];
 }
 
 #pragma mark - add pages

@@ -10,6 +10,8 @@
 #import "PagingViewController.h"
 #import "Network.h"
 #import <TXFire/TXFire.h>
+#import "UIViewController+Base.h"
+#import "UIApplication+Base.h"
 
 @interface AppDelegate ()
 
@@ -26,6 +28,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     PagingViewController *vc = [[PagingViewController alloc] initWithNibName:nil bundle:nil];
+    [vc addViewForNetworkFailed];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [vc removeViewForNetworkFailed];
+    });
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];

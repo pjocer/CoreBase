@@ -26,6 +26,11 @@
 		B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */; };
 		B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4CE1E715464007F33CA /* BaseStorage.m */; };
 		B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC4D11E715949007F33CA /* BaseTmpNetworkStorage.m */; };
+		B7A89C841E76A4E20020F186 /* CustomNavigationBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89C811E76A4E20020F186 /* CustomNavigationBarViewController.m */; };
+		B7A89C851E76A4E20020F186 /* CustomNavigationBarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89C831E76A4E20020F186 /* CustomNavigationBarTableViewController.m */; };
+		B7A89CDA1E7ABE900020F186 /* UIViewController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CD91E7ABE900020F186 /* UIViewController+Base.m */; };
+		B7A89CDD1E7AC0100020F186 /* Base.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B7A89CDC1E7AC0100020F186 /* Base.bundle */; };
+		B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CE01E7AC4150020F186 /* UIApplication+Base.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +91,15 @@
 		B78FC4CE1E715464007F33CA /* BaseStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseStorage.m; sourceTree = "<group>"; };
 		B78FC4D01E715949007F33CA /* BaseTmpNetworkStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTmpNetworkStorage.h; sourceTree = "<group>"; };
 		B78FC4D11E715949007F33CA /* BaseTmpNetworkStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTmpNetworkStorage.m; sourceTree = "<group>"; };
+		B7A89C801E76A4E20020F186 /* CustomNavigationBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBarViewController.h; sourceTree = "<group>"; };
+		B7A89C811E76A4E20020F186 /* CustomNavigationBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBarViewController.m; sourceTree = "<group>"; };
+		B7A89C821E76A4E20020F186 /* CustomNavigationBarTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBarTableViewController.h; sourceTree = "<group>"; };
+		B7A89C831E76A4E20020F186 /* CustomNavigationBarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBarTableViewController.m; sourceTree = "<group>"; };
+		B7A89CD81E7ABE900020F186 /* UIViewController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Base.h"; sourceTree = "<group>"; };
+		B7A89CD91E7ABE900020F186 /* UIViewController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Base.m"; sourceTree = "<group>"; };
+		B7A89CDC1E7AC0100020F186 /* Base.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Base.bundle; sourceTree = "<group>"; };
+		B7A89CDF1E7AC4150020F186 /* UIApplication+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Base.h"; sourceTree = "<group>"; };
+		B7A89CE01E7AC4150020F186 /* UIApplication+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Base.m"; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -167,6 +181,7 @@
 		B78FC4591E6E8BCE007F33CA /* base */ = {
 			isa = PBXGroup;
 			children = (
+				B7A89CDB1E7AC0100020F186 /* Resources */,
 				B78FC4861E6E8C2D007F33CA /* Classes */,
 				B78FC45E1E6E8BCE007F33CA /* AppDelegate.h */,
 				B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */,
@@ -208,6 +223,9 @@
 		B78FC4861E6E8C2D007F33CA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B7A89CDE1E7AC4050020F186 /* core */,
+				B7A89C7F1E7698540020F186 /* UIViewControllerSubclasses */,
+				B7A89C581E7643260020F186 /* webview */,
 				B78FC4C91E7151EE007F33CA /* storage */,
 				B78FC4C21E70F59C007F33CA /* net */,
 				B78FC4A91E6FA651007F33CA /* Components */,
@@ -238,6 +256,8 @@
 				B78FC4AB1E6FA65F007F33CA /* UIButton+BaseCreation.m */,
 				B78FC4AD1E6FA722007F33CA /* BasePagingView.h */,
 				B78FC4AE1E6FA722007F33CA /* BasePagingView.m */,
+				B7A89CD81E7ABE900020F186 /* UIViewController+Base.h */,
+				B7A89CD91E7ABE900020F186 /* UIViewController+Base.m */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -262,6 +282,41 @@
 				B78FC4D11E715949007F33CA /* BaseTmpNetworkStorage.m */,
 			);
 			path = storage;
+			sourceTree = "<group>";
+		};
+		B7A89C581E7643260020F186 /* webview */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = webview;
+			sourceTree = "<group>";
+		};
+		B7A89C7F1E7698540020F186 /* UIViewControllerSubclasses */ = {
+			isa = PBXGroup;
+			children = (
+				B7A89C801E76A4E20020F186 /* CustomNavigationBarViewController.h */,
+				B7A89C811E76A4E20020F186 /* CustomNavigationBarViewController.m */,
+				B7A89C821E76A4E20020F186 /* CustomNavigationBarTableViewController.h */,
+				B7A89C831E76A4E20020F186 /* CustomNavigationBarTableViewController.m */,
+			);
+			name = UIViewControllerSubclasses;
+			sourceTree = "<group>";
+		};
+		B7A89CDB1E7AC0100020F186 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B7A89CDC1E7AC0100020F186 /* Base.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B7A89CDE1E7AC4050020F186 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				B7A89CDF1E7AC4150020F186 /* UIApplication+Base.h */,
+				B7A89CE01E7AC4150020F186 /* UIApplication+Base.m */,
+			);
+			name = core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +437,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7A89CDD1E7AC0100020F186 /* Base.bundle in Resources */,
 				B78FC4871E6E8C66007F33CA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,12 +606,16 @@
 				B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
+				B7A89CDA1E7ABE900020F186 /* UIViewController+Base.m in Sources */,
 				B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */,
+				B7A89C851E76A4E20020F186 /* CustomNavigationBarTableViewController.m in Sources */,
 				B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */,
 				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
+				B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */,
 				B78FC45D1E6E8BCE007F33CA /* main.m in Sources */,
 				60A64BD01E6FD97300E92869 /* BaseCollectionViewCell.m in Sources */,
+				B7A89C841E76A4E20020F186 /* CustomNavigationBarViewController.m in Sources */,
 				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,
 				B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */,
 			);

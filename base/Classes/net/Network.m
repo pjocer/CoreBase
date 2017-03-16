@@ -11,12 +11,12 @@
 #import <UIKit/UIKit.h>
 #import <TXFire/TXFire.h>
 
-static inline pthread_mutex_t shared_mutex(void)
-{
-    static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-    return mutex;
-}
-
+//static inline pthread_mutex_t shared_mutex(void)
+//{
+//    static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+//    return mutex;
+//}
+//
 @implementation Network
 
 @end

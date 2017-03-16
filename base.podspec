@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Azazie Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
@@ -10,8 +10,10 @@ Pod::Spec.new do |s|
 	s.license      = "Copyright (c) 2017-present Azazie, Inc. All rights reserved."
 
   s.source       = { :git => "https://g.digi800.com/azios/base.git", :tag => s.version }
-  s.source_files  = "base/Classes", "base/Classes/**/*.{h,m}"
+
+  s.source_files  			= "base/Classes", "base/Classes/**/*.{h,m}"
   s.public_header_files = "base/Classes/**/*.h"
+	s.resource_bundles    = {'Base' => 'base/Resources/Base.bundle/*'}
 
   s.requires_arc = true
 

@@ -21,7 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UIScrollView *scrollView;
 @property (nonatomic, strong, readonly) SMPageControl *pageControl;
 
+//@property (nonatomic, assign) BOOL automaticallyUpdatePageControl;
+
 - (void)addPages:(NSArray<UIView *> *)views; // will remove other pages.
+
+- (void)updatePageForPageControl;
 
 #pragma mark - scrollView delegate
 
