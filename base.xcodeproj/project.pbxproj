@@ -31,6 +31,10 @@
 		B7A89CDA1E7ABE900020F186 /* UIViewController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CD91E7ABE900020F186 /* UIViewController+Base.m */; };
 		B7A89CDD1E7AC0100020F186 /* Base.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B7A89CDC1E7AC0100020F186 /* Base.bundle */; };
 		B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CE01E7AC4150020F186 /* UIApplication+Base.m */; };
+		B7A89CEC1E7B70AC0020F186 /* UIImage+BaseGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CEB1E7B70AC0020F186 /* UIImage+BaseGIF.m */; };
+		B7A89CF91E7B74170020F186 /* util.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CF81E7B74170020F186 /* util.m */; };
+		B7A89CFC1E7B765F0020F186 /* GIFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CFB1E7B765E0020F186 /* GIFViewController.m */; };
+		B7A89D021E7B77320020F186 /* UIImageView+BaseGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89D011E7B77320020F186 /* UIImageView+BaseGIF.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +104,14 @@
 		B7A89CDC1E7AC0100020F186 /* Base.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Base.bundle; sourceTree = "<group>"; };
 		B7A89CDF1E7AC4150020F186 /* UIApplication+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Base.h"; sourceTree = "<group>"; };
 		B7A89CE01E7AC4150020F186 /* UIApplication+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Base.m"; sourceTree = "<group>"; };
+		B7A89CEA1E7B70AC0020F186 /* UIImage+BaseGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BaseGIF.h"; sourceTree = "<group>"; };
+		B7A89CEB1E7B70AC0020F186 /* UIImage+BaseGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BaseGIF.m"; sourceTree = "<group>"; };
+		B7A89CF71E7B74170020F186 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		B7A89CF81E7B74170020F186 /* util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = util.m; sourceTree = "<group>"; };
+		B7A89CFA1E7B765E0020F186 /* GIFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIFViewController.h; sourceTree = "<group>"; };
+		B7A89CFB1E7B765E0020F186 /* GIFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GIFViewController.m; sourceTree = "<group>"; };
+		B7A89D001E7B77320020F186 /* UIImageView+BaseGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+BaseGIF.h"; sourceTree = "<group>"; };
+		B7A89D011E7B77320020F186 /* UIImageView+BaseGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+BaseGIF.m"; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +197,8 @@
 				B78FC4861E6E8C2D007F33CA /* Classes */,
 				B78FC45E1E6E8BCE007F33CA /* AppDelegate.h */,
 				B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */,
+				B7A89CFA1E7B765E0020F186 /* GIFViewController.h */,
+				B7A89CFB1E7B765E0020F186 /* GIFViewController.m */,
 				B78FC48B1E6E93F5007F33CA /* PagingViewController.h */,
 				B78FC48C1E6E93F5007F33CA /* PagingViewController.m */,
 				B78FC4641E6E8BCE007F33CA /* Info.plist */,
@@ -223,6 +237,8 @@
 		B78FC4861E6E8C2D007F33CA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B7A89CF01E7B73710020F186 /* util */,
+				B7A89CE41E7B70330020F186 /* gif */,
 				B7A89CDE1E7AC4050020F186 /* core */,
 				B7A89C7F1E7698540020F186 /* UIViewControllerSubclasses */,
 				B7A89C581E7643260020F186 /* webview */,
@@ -317,6 +333,26 @@
 				B7A89CE01E7AC4150020F186 /* UIApplication+Base.m */,
 			);
 			name = core;
+			sourceTree = "<group>";
+		};
+		B7A89CE41E7B70330020F186 /* gif */ = {
+			isa = PBXGroup;
+			children = (
+				B7A89CEA1E7B70AC0020F186 /* UIImage+BaseGIF.h */,
+				B7A89CEB1E7B70AC0020F186 /* UIImage+BaseGIF.m */,
+				B7A89D001E7B77320020F186 /* UIImageView+BaseGIF.h */,
+				B7A89D011E7B77320020F186 /* UIImageView+BaseGIF.m */,
+			);
+			name = gif;
+			sourceTree = "<group>";
+		};
+		B7A89CF01E7B73710020F186 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				B7A89CF71E7B74170020F186 /* util.h */,
+				B7A89CF81E7B74170020F186 /* util.m */,
+			);
+			name = util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -607,15 +643,19 @@
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B7A89CDA1E7ABE900020F186 /* UIViewController+Base.m in Sources */,
+				B7A89CF91E7B74170020F186 /* util.m in Sources */,
 				B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */,
 				B7A89C851E76A4E20020F186 /* CustomNavigationBarTableViewController.m in Sources */,
 				B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */,
 				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
+				B7A89CFC1E7B765F0020F186 /* GIFViewController.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
 				B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */,
 				B78FC45D1E6E8BCE007F33CA /* main.m in Sources */,
 				60A64BD01E6FD97300E92869 /* BaseCollectionViewCell.m in Sources */,
+				B7A89D021E7B77320020F186 /* UIImageView+BaseGIF.m in Sources */,
 				B7A89C841E76A4E20020F186 /* CustomNavigationBarViewController.m in Sources */,
+				B7A89CEC1E7B70AC0020F186 /* UIImage+BaseGIF.m in Sources */,
 				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,
 				B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */,
 			);

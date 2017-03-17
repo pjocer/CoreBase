@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "PagingViewController.h"
+#import "GIFViewController.h"
 #import "Network.h"
 #import <TXFire/TXFire.h>
 #import "UIViewController+Base.h"
@@ -27,11 +28,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    PagingViewController *vc = [[PagingViewController alloc] initWithNibName:nil bundle:nil];
-    [vc addViewForNetworkFailed];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [vc removeViewForNetworkFailed];
-    });
+//    PagingViewController *vc = [[PagingViewController alloc] initWithNibName:nil bundle:nil];
+    GIFViewController *vc = [[GIFViewController alloc] initWithNibName:nil bundle:nil];
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -40,17 +38,6 @@
     [self.window makeKeyAndVisible];
     
     [Network setAPIRelativeURL:[NSURL URLWithString:@"https://api.azazie.com/1.0"]];
-    
-    [[Network.APISession rac_GET:@"https://m.baidu.com" parameters:nil]
-     subscribeNext:^(RACTuple *tuple){
-         Dlogvars(tuple);
-     }
-     error:^(NSError *error){
-         Dlogvars(error);
-         NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
-         Dlogvars(response.allHeaderFields);
-         Dlogvars([[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding]);
-     }];
     
     return YES;
 }
