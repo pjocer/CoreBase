@@ -50,7 +50,7 @@
         NSMutableParagraphStyle *mutableParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         mutableParagraphStyle.paragraphSpacing = 13.f;
         mutableParagraphStyle.alignment = NSTextAlignmentCenter;
-        label.attributedText = [[NSMutableAttributedString alloc] initWithString:@"Oops, something's wrong here.\n Please tap secreen to retry"
+        label.attributedText = [[NSMutableAttributedString alloc] initWithString:@"Oops, something's wrong here.\n Please tap screen to retry."
                                                                       attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18.f],
                                                                                    NSForegroundColorAttributeName: [UIColor tx_colorWithHex:0xcccccc],
                                                                                    NSParagraphStyleAttributeName: mutableParagraphStyle}];

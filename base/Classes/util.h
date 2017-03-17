@@ -11,6 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-UIKIT_EXTERN NSString * BasePathForResource(NSString *_Nonnull name, NSString *_Nullable ext);
+UIKIT_EXTERN NSString * _Nullable BasePathForResource(NSString *_Nonnull name, NSString *_Nullable ext);
 
 NS_ASSUME_NONNULL_END
