@@ -11,8 +11,8 @@
 #import "GIFViewController.h"
 #import "Network.h"
 #import <TXFire/TXFire.h>
-#import "UIViewController+Base.h"
-#import "UIApplication+Base.h"
+#import "base.h"
+#import "LoadingIndicatorTableViewController.h"
 
 @interface AppDelegate ()
 
@@ -29,7 +29,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
 //    PagingViewController *vc = [[PagingViewController alloc] initWithNibName:nil bundle:nil];
-    GIFViewController *vc = [[GIFViewController alloc] initWithNibName:nil bundle:nil];
+//    GIFViewController *vc = [[GIFViewController alloc] initWithNibName:nil bundle:nil];
+    LoadingIndicatorTableViewController *vc = [[LoadingIndicatorTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];

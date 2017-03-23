@@ -18,8 +18,12 @@ PODS:
   - Masonry (1.0.2)
   - ReactiveObjC (2.1.2)
   - Reveal-iOS-SDK (1.6.2)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
   - SMPageControl (1.2)
-  - TXFire (1.0.1):
+  - TXFire (1.0.4):
+    - Masonry
     - ReactiveObjC
 
 DEPENDENCIES:
@@ -28,6 +32,7 @@ DEPENDENCIES:
   - Masonry
   - ReactiveObjC
   - Reveal-iOS-SDK
+  - SDWebImage
   - SMPageControl
   - TXFire
 
@@ -37,9 +42,10 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   ReactiveObjC: 7b6782ae39f9ac0f57205c3b0c0b69b9dd7048c0
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
-  TXFire: 4a58831856c4ec90b642c7a8736ec9b4bb921fed
+  TXFire: c60c59a5f5c2f73b4b8bb707d2bd493ec97d9774
 
-PODFILE CHECKSUM: 3d5f76f02ef6dc33f78fd7be036d55617db9531e
+PODFILE CHECKSUM: 889f37602de15413ebdddcff705d969d4e559538
 
 COCOAPODS: 1.2.0

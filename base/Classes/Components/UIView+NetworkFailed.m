@@ -1,17 +1,17 @@
 //
-//  UIViewController+Base.m
+//  UIView+NetworkFailed.m
 //  base
 //
-//  Created by Demi on 16/03/2017.
+//  Created by Demi on 22/03/2017.
 //  Copyright © 2017 Azazie. All rights reserved.
 //
 
-#import "UIViewController+Base.h"
+#import "UIView+NetworkFailed.h"
 #import <TXFire/TXFire.h>
 #import <Masonry/Masonry.h>
 #import <objc/runtime.h>
 
-@implementation UIViewController (Base)
+@implementation UIView (NetworkFailed)
 
 - (UIView *)base_viewForNetworkFailed
 {
@@ -23,13 +23,13 @@
     objc_setAssociatedObject(self, @selector(base_viewForNetworkFailed), view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (UIView *)addViewForNetworkFailed
+- (UIView *)addSubviewForNetworkFailed
 {
     UIView *view = [self base_viewForNetworkFailed];
     if (!view)
     {
         view = [[UIView alloc] init];
-        [self.view addSubview:view];
+        [self addSubview:view];
         [self base_setViewForNetworkFailed:view];
         view.backgroundColor = [UIColor tx_colorWithHex:0xf9f9f9];
         [view mas_makeConstraints:^(MASConstraintMaker *maker){
@@ -64,7 +64,7 @@
     return view;
 }
 
-- (void)removeViewForNetworkFailed
+- (void)removeSubviewForNetworkFailed
 {
     UIView *view = [self base_viewForNetworkFailed];
     if (view)

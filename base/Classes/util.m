@@ -8,8 +8,19 @@
 
 #import "util.h"
 
+static inline NSBundle *BaseBundle(void)
+{
+    return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"Base" ofType:@"bundle"]];
+}
+
 NSString * BasePathForResource(NSString *name, NSString *ext)
 {
-    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"Base" ofType:@"bundle"]];
-    return [bundle pathForResource:name ofType:ext];
+    return [BaseBundle() pathForResource:name ofType:ext];
 }
+
+UIImage * BaseImageWithNamed(NSString *name)
+{
+    return [UIImage imageNamed:name inBundle:BaseBundle() compatibleWithTraitCollection:nil];
+}
+
+

@@ -9,7 +9,6 @@
 #import "GIFViewController.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import <Masonry/Masonry.h>
-#import "UIImage+BaseGIF.h"
 
 @interface GIFViewController ()
 
@@ -22,7 +21,6 @@
     [super viewDidLoad];
 
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage loadingGIF];
     [self.view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *maker){
         maker.center.equalTo(self.view);
