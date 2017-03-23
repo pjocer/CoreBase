@@ -14,12 +14,19 @@ typedef void(^BaseImageLoadCompletion)(UIImage *_Nullable);
 
 @interface UIImageView (Loading)
 
-- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(nullable UIImage *)image completion:(nullable BaseImageLoadCompletion)completion;
-
 /// 默认铺满颜色为@LoadingPlaceholderColorHex的图片
-- (void)setImageWithDefaultPlaceholder;
++ (UIImage *)defaultPlaceholderImage;
++ (UIImage *)productPlaceholderImage;
 
-- (void)setImageWithProductPlaceholder;
+- (void)az_setImageWithURL:(NSURL *)URL
+          placeholderImage:(nullable UIImage *)image
+      showLoadingIndicator:(BOOL)showLoadingIndicator
+                completion:(nullable BaseImageLoadCompletion)completion;
+
+/// No loading indicator
+- (void)az_setImageWithURL:(NSURL *)URL
+          placeholderImage:(nullable UIImage *)image
+                completion:(nullable BaseImageLoadCompletion)completion;
 
 - (void)setProductImageWithURL:(NSURL *)URL;
 - (void)setImageUsingDefaultPlaceholderWithURL:(NSURL *)URL;

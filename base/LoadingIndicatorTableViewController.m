@@ -53,7 +53,6 @@
             maker.edges.mas_equalTo(UIEdgeInsetsZero);
         }];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [imageView setImageWithDefaultPlaceholder];
     }
     return cell;
 }

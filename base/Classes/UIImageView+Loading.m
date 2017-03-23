@@ -14,31 +14,51 @@
 #import "util.h"
 #import <SDWebImage/SDWebImageManager.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "UIView+LoadingIndicator.h"
+#import <ReactiveObjC/ReactiveObjC.h>
 
 @implementation UIImageView (Loading)
 
-- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image completion:(void (^)(UIImage * _Nullable))completion
++ (UIImage *)defaultPlaceholderImage
 {
+    return [[UIImage tx_imageWithColor:[UIColor tx_colorWithHex:LoadingPlaceholderColorHex]] tx_centerResizingImage];
+}
+
++ (UIImage *)productPlaceholderImage
+{
+    return BaseImageWithNamed(@"product_placeholder");
+}
+
+- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image showLoadingIndicator:(BOOL)showLoadingIndicator completion:(BaseImageLoadCompletion)completion
+{
+    if (showLoadingIndicator)
+    {
+        [self startLoading];
+    }
+    
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
+    @weakify(self);
     [self sd_setImageWithURL:URL placeholderImage:image completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        [[UIApplication sharedApplication] hideNetworkActivityIndicator];
         main_thread_safe(^{
+            @strongify(self);
+            [self stopLoading];
             if (completion)
             {
                 completion(image);
             }
         });
-        [[UIApplication sharedApplication] hideNetworkActivityIndicator];
     }];
 }
 
-+ (UIImage *)tx_defaultPlaceholderImage
+- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image completion:(void (^)(UIImage * _Nullable))completion
 {
-    return [[UIImage tx_imageWithColor:[UIColor tx_colorWithHex:LoadingPlaceholderColorHex]] tx_centerResizingImage];
+    [self az_setImageWithURL:URL placeholderImage:image showLoadingIndicator:NO completion:completion];
 }
 
 - (void)setImageWithDefaultPlaceholder
 {
-    self.image = [UIImageView tx_defaultPlaceholderImage];
+    self.image = [UIImageView defaultPlaceholderImage];
 }
 
 - (void)setImageWithProductPlaceholder
@@ -54,7 +74,7 @@
 
 - (void)setImageUsingDefaultPlaceholderWithURL:(NSURL *)URL
 {
-    [self az_setImageWithURL:URL placeholderImage:[UIImageView tx_defaultPlaceholderImage] completion:NULL];
+    [self az_setImageWithURL:URL placeholderImage:[UIImageView defaultPlaceholderImage] completion:NULL];
 }
 
 @end
