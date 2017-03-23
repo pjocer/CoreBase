@@ -23,5 +23,6 @@ Pod::Spec.new do |s|
   s.dependency "SMPageControl"
   s.dependency "TXFire"
   s.dependency "AFNetworking"
+	s.dependency "SDWebImage"
 
 end
