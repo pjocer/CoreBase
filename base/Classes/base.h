@@ -11,17 +11,28 @@
 
 #import "util.h"
 
+#pragma mark - Network Failed
+
 #import "UIView+NetworkFailed.h"
 #import "UIViewController+NetworkFailed.h"
 
+#pragma mark - web image
+
 #import "UIImageView+Loading.h"
+
+#pragma mark - loading indicator
 
 #import "UIView+LoadingIndicator.h"
 #import "UITableViewCell+LoadingIndicator.h"
 #import "UITableViewHeaderFooterView+LoadingIndicator.h"
 #import "UICollectionReusableView+LoadingIndicator.h"
 
+#pragma mark - core
+
 #import "UIApplication+Base.h"
+#import "NSString+Base.h"
+
+#pragma mark
 
 #import "CustomNavigationBarViewController.h"
 #import "CustomNavigationBarTableViewController.h"
@@ -34,6 +45,7 @@
 
 #import "UIButton+BaseCreation.h"
 #import "BasePagingView.h"
+#import "UIView+SeparatorLine.h"
 
 #import "UIColor+BaseStyle.h"
 #import "UIFont+BaseStyle.h"

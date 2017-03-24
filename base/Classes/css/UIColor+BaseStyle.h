@@ -15,6 +15,8 @@ UIKIT_EXTERN NSUInteger const LightTextColorHex; // a7a7a7
 
 UIKIT_EXTERN NSUInteger const LoadingPlaceholderColorHex; // f8f8f8
 
+UIKIT_EXTERN NSUInteger const AzazieColorHex; // ee7086
+
 @interface UIColor (BaseStyle)
 
 @end
