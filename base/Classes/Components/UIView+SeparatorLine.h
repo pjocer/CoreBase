@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <TXFire/TXFire.h>
 
 @interface UIView (SeparatorLine)
 
-@property (nonatomic, assign) TXViewPosition separatorLinePosition;
+- (void)drawSeparatorLineToPosition:(UIRectEdge)pos lineWidth:(CGFloat)lineWidth;
+/// Default width is ONE_PIXEL,  (1.f / [UIScreen mainScreen].scale)
+- (void)drawSeparatorLineToPosition:(UIRectEdge)pos;
 
 @end

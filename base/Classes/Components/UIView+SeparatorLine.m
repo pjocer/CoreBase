@@ -9,109 +9,87 @@
 #import "UIView+SeparatorLine.h"
 #import <objc/runtime.h>
 #import <Masonry/Masonry.h>
+#import <TXFire/TXFire.h>
 
-static void *kSeparatorLinePosition = &kSeparatorLinePosition;
+static void const *kTop = &kTop;
+static void const *kLeft = &kLeft;
+static void const *kBottom = &kBottom;
+static void const *kRight = &kRight;
 
 @implementation UIView (SeparatorLine)
 
-- (const void *)seperator_keyForPosition:(TXViewPosition)pos
+- (const void *)separatorLineKeyForPosition:(UIRectEdge)pos
 {
-    static void *kTop = &kTop;
-    static void *kLeft = &kLeft;
-    static void *kBottom = &kBottom;
-    static void *kRight = &kRight;
-    
-    if (pos == TXViewPositionTop)
-    {
+    if (pos == UIRectEdgeTop)
         return kTop;
-    }
-    else if (pos == TXViewPositionLeft)
-    {
+    else if (pos == UIRectEdgeLeft)
         return kLeft;
-    }
-    else if (pos == TXViewPositionRight)
-    {
-        return kRight;
-    }
-    else
-    {
+    else if (pos == UIRectEdgeBottom)
         return kBottom;
-    }
+    else if (pos == UIRectEdgeRight)
+        return kRight;
+    return NULL;
 }
 
-- (UIView *)seperator_lineAtPosition:(TXViewPosition)pos
+- (void)drawSeparatorLineToPosition:(UIRectEdge)target lineWidth:(CGFloat)lineWidth
 {
-    return objc_getAssociatedObject(self, [self seperator_keyForPosition:pos]);
-}
-
-- (void)setSeparatorLine:(UIView *)line atPosition:(TXViewPosition)pos
-{
-    objc_setAssociatedObject(self, [self seperator_keyForPosition:pos], line, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (TXViewPosition)separatorLinePosition
-{
-    return [objc_getAssociatedObject(self, kSeparatorLinePosition) integerValue];
-}
-
-- (void)setSeparatorLinePosition:(TXViewPosition)separatorLinePosition
-{
-    objc_setAssociatedObject(self, kSeparatorLinePosition, @(separatorLinePosition), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    TXViewPosition posArray[4];
-    posArray[0] = TXViewPositionTop;
-    posArray[1] = TXViewPositionLeft;
-    posArray[2] = TXViewPositionBottom;
-    posArray[3] = TXViewPositionRight;
+    UIRectEdge positions[4];
+    positions[0] = UIRectEdgeTop;
+    positions[1] = UIRectEdgeLeft;
+    positions[2] = UIRectEdgeBottom;
+    positions[3] = UIRectEdgeRight;
     
-    for (NSInteger i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
-        TXViewPosition pos = posArray[i];
-        UIView *line = [self seperator_lineAtPosition:pos];
-        if (pos & separatorLinePosition)
+        UIRectEdge pos = positions[i];
+        const void *keyForView = [self separatorLineKeyForPosition:pos];
+        UIView *line = objc_getAssociatedObject(self, keyForView);
+        if ((pos & target) == 0)
         {
-            if (!line) // add separator line
-            {
-                UIView *line = [[UIView alloc] init].tx_backgroundColorHex(0xe1e1e1);
-                [self addSubview:line];
-                [self setSeparatorLine:line atPosition:pos];
-                [line mas_makeConstraints:^(MASConstraintMaker *maker){
-                    if (pos == TXViewPositionTop || pos == TXViewPositionBottom)
-                    {
-                        maker.left.and.right.equalTo(self);
-                        maker.height.mas_equalTo(1.f);
-                        if (pos == TXViewPositionTop)
-                        {
-                            maker.top.equalTo(self);
-                        }
-                        else
-                        {
-                            maker.bottom.equalTo(self);
-                        }
-                    }
-                    else
-                    {
-                        maker.top.and.bottom.equalTo(self);
-                        maker.width.mas_equalTo(1.f);
-                        if (pos == TXViewPositionLeft)
-                        {
-                            maker.left.equalTo(self);
-                        }
-                        else
-                        {
-                            maker.right.equalTo(self);
-                        }
-                    }
-                }];
-            }
-        }
-        else
-        {
-            if (line) // remove separator line
+            if (line)
             {
                 [line removeFromSuperview];
+                objc_setAssociatedObject(self, keyForView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }
+            continue;
         }
+        line = [[UIView alloc] init].tx_backgroundColorHex(0xe1e1e1);
+        [self addSubview:line];
+        objc_setAssociatedObject(self, keyForView, line, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [line mas_makeConstraints:^(MASConstraintMaker *maker){
+            if (pos == UIRectEdgeTop || pos == UIRectEdgeBottom)
+            {
+                maker.leading.and.trailing.equalTo(self);
+                maker.height.mas_equalTo(lineWidth);
+                if (pos == UIRectEdgeTop)
+                {
+                    maker.top.equalTo(self);
+                }
+                else
+                {
+                    maker.bottom.equalTo(self);
+                }
+            }
+            else
+            {
+                maker.top.and.bottom.equalTo(self);
+                maker.width.mas_equalTo(lineWidth);
+                if (pos == UIRectEdgeLeft)
+                {
+                    maker.leading.equalTo(self);
+                }
+                else
+                {
+                    maker.trailing.equalTo(self);
+                }
+            }
+        }];
     }
+}
+
+- (void)drawSeparatorLineToPosition:(UIRectEdge)pos
+{
+    [self drawSeparatorLineToPosition:pos lineWidth:ONE_PIXEL];
 }
 
 @end

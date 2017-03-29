@@ -10,6 +10,11 @@
 
 @interface CustomNavigationBarViewController : UIViewController
 
-@property (nonatomic, readonly, strong) UINavigationBar *navigationBar; // A navigationItem pushed yet.
+/// A navigationItem pushed yet.
+@property (nonatomic, readonly, strong) UINavigationBar *navigationBar;
+
+- (void)backlizeLeftBarButtonItem;
+
+
 
 @end

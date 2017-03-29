@@ -10,6 +10,8 @@
 		3F6EC8E7AE964D1787067A3C /* libPods-base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51951871AE991C9C8BB13A54 /* libPods-base.a */; };
 		4BBA6E78A8E53E1B1C048C23 /* libPods-baseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA653DA660CB6E64DB71699B /* libPods-baseTests.a */; };
 		4DC600CCCADD1F4D46F26DBD /* libPods-baseUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CD56D0B24D1521EA27F9150 /* libPods-baseUITests.a */; };
+		B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A3481E8BC4EF00D1AA57 /* CNBViewController.m */; };
+		B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */; };
 		B757C91E1E7280F30081C4CF /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = B757C91D1E7280F30081C4CF /* Network.m */; };
 		B78FC45D1E6E8BCE007F33CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45C1E6E8BCE007F33CA /* main.m */; };
 		B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */; };
@@ -72,6 +74,10 @@
 		51951871AE991C9C8BB13A54 /* libPods-base.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-base.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CD56D0B24D1521EA27F9150 /* libPods-baseUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9187FC09986539714AB4644B /* Pods-base.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-base.release.xcconfig"; path = "Pods/Target Support Files/Pods-base/Pods-base.release.xcconfig"; sourceTree = "<group>"; };
+		B708A3471E8BC4EF00D1AA57 /* CNBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBViewController.h; sourceTree = "<group>"; };
+		B708A3481E8BC4EF00D1AA57 /* CNBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBViewController.m; sourceTree = "<group>"; };
+		B708A34A1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractivePopDelegateProxy.h; sourceTree = "<group>"; };
+		B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractivePopDelegateProxy.m; sourceTree = "<group>"; };
 		B757C91C1E7280F30081C4CF /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		B757C91D1E7280F30081C4CF /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
 		B78FC4571E6E8BCE007F33CA /* base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = base.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -228,6 +234,8 @@
 				B78FC4861E6E8C2D007F33CA /* Classes */,
 				B78FC45E1E6E8BCE007F33CA /* AppDelegate.h */,
 				B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */,
+				B708A3471E8BC4EF00D1AA57 /* CNBViewController.h */,
+				B708A3481E8BC4EF00D1AA57 /* CNBViewController.m */,
 				B7BC61231E84D1F000859FE6 /* DrilldropViewController.h */,
 				B7BC61241E84D1F000859FE6 /* DrilldropViewController.m */,
 				B7BC61071E83A21800859FE6 /* LoadingIndicatorTableViewController.h */,
@@ -344,6 +352,8 @@
 				B7A89C811E76A4E20020F186 /* CustomNavigationBarViewController.m */,
 				B7A89C821E76A4E20020F186 /* CustomNavigationBarTableViewController.h */,
 				B7A89C831E76A4E20020F186 /* CustomNavigationBarTableViewController.m */,
+				B708A34A1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.h */,
+				B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */,
 			);
 			name = UIViewControllerSubclasses;
 			sourceTree = "<group>";
@@ -709,6 +719,7 @@
 			files = (
 				B757C91E1E7280F30081C4CF /* Network.m in Sources */,
 				B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */,
+				B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */,
 				B7BC61091E83A21800859FE6 /* LoadingIndicatorTableViewController.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
@@ -723,6 +734,7 @@
 				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
 				B7BC61031E837A8800859FE6 /* UITableViewHeaderFooterView+LoadingIndicator.m in Sources */,
 				B7A89CFC1E7B765F0020F186 /* GIFViewController.m in Sources */,
+				B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */,
 				B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,

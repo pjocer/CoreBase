@@ -57,7 +57,7 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
 {
     self.currentIndex = NSNotFound;
     self.backgroundColor = [UIColor whiteColor];
-    self.separatorLinePosition = TXViewPositionTop | TXViewPositionBottom;
+    [self drawSeparatorLineToPosition:UIRectEdgeTop | UIRectEdgeBottom];
     @weakify(self);
     [[RACObserve(self, items) skip:1] subscribeNext:^(id  _Nullable x) {
         @strongify(self);
@@ -81,6 +81,7 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
 {
     NSUInteger count = _items.count;
     [_buttons makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    _buttons = nil;
     if (count == 0)
     {
         return;
@@ -103,7 +104,7 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
                 maker.top.and.bottom.equalTo(self);
                 maker.width.equalTo(self).dividedBy(count);
             }];
-            button.separatorLinePosition = TXViewPositionLeft;
+            [button drawSeparatorLineToPosition:UIRectEdgeLeft];
         }
         else
         {
@@ -126,8 +127,8 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
     [button setImage:item.selectedImage forState:UIControlStateSelected];
     
     @weakify(item, self, button);
-    RAC(button, selected) = RACObserve(item, selected);
-    [[[[RACObserve(item, selectedOptionIndex) skip:1] filter:^BOOL(id  _Nullable value) {
+    RAC(button, selected) = [item rac_valuesForKeyPath:@keypath(item, selected) observer:button];
+    [[[[[item rac_valuesForKeyPath:@keypath(item, selectedOptionIndex) observer:button] skip:1] filter:^BOOL(id  _Nullable value) {
         @strongify(item);
         return item.usingOptionAsTitle;
     }] map:^id _Nullable(NSNumber *index) {
@@ -148,32 +149,33 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
     
         [(RACSubject *)self.items[idx].didClickSignal sendNext:self.items[idx]];
         
-        if (self.currentIndex == idx) // click same, do cancel
+        if (self.currentIndex == idx) // same button has been clicked, cancel drilldrop.
         {
             self.currentIndex = NSNotFound;
-            [self setDrilldropHidden:YES animated:YES completion:NULL];
+            [self hideDrilldropWithAnimated:YES completion:NULL];
             return;
         }
         
         void(^action)(void) = ^{
             @strongify(self);
-            self.currentIndex = idx;
             if (self.currentItem.options.count > 0)
             {
                 [self.tableView reloadData];
-                [self setDrilldropHidden:NO animated:YES completion:NULL];
                 [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentItem.selectedOptionIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+                [self showDrilldropWithAnimated:YES completion:NULL];
             }
         };
         
         if (self.currentIndex != NSNotFound) // dismiss before
         {
-            [self setDrilldropHidden:YES animated:YES completion:^(BOOL finished) {
+            self.currentIndex = idx;
+            [self hideDrilldropWithAnimated:YES completion:^(BOOL finished) {
                 action();
             }];
         }
         else
         {
+            self.currentIndex = idx;
             action();
         }
     }];
@@ -264,7 +266,7 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
     CGRect finalFrame;
     {
         finalFrame.origin.x = 0;
-        finalFrame.origin.y = CGRectGetMaxY(selfFrame) - 1; // -1 for hides the UITableView separator
+        finalFrame.origin.y = CGRectGetMaxY(selfFrame);
         finalFrame.size.width = self.window.tx_width;
         finalFrame.size.height = self.window.tx_height - finalFrame.origin.y;
     }
@@ -289,6 +291,7 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
         if (!_tableView)
         {
             UITableView *tableView = [[UITableView alloc] initWithFrame:initialFrame style:UITableViewStyleGrouped];
+            tableView.contentInset = UIEdgeInsetsMake(-1, 0, 0, 0); // -1 for hides the UITableView separator
             tableView.scrollsToTop = NO;
             tableView.alwaysBounceVertical = NO;
             UITapGestureRecognizer *tap = tableView.tx_tapGestureRecognizer;
@@ -325,17 +328,17 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
     }
 }
 
-- (void)setDrilldropHidden:(BOOL)hidden animated:(BOOL)animated completion:(void(^)(BOOL finished))completion
-{
-    if (hidden)
-    {
-        [self hideDrilldropWithAnimated:animated completion:completion];
-    }
-    else
-    {
-        [self showDrilldropWithAnimated:animated completion:completion];
-    }
-}
+//- (void)setDrilldropHidden:(BOOL)hidden animated:(BOOL)animated completion:(void(^)(BOOL finished))completion
+//{
+//    if (hidden)
+//    {
+//        [self hideDrilldropWithAnimated:animated completion:completion];
+//    }
+//    else
+//    {
+//        [self showDrilldropWithAnimated:animated completion:completion];
+//    }
+//}
 
 - (void)handleTap:(UITapGestureRecognizer *)tap
 {
