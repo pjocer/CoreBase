@@ -10,11 +10,8 @@
 #import <TXFire/TXFire.h>
 #import "util.h"
 #import <ReactiveObjC/ReactiveObjC.h>
-#import "InteractivePopDelegateProxy.h"
 
 @interface CustomNavigationBarViewController ()
-
-@property (nonatomic, strong) InteractivePopDelegateProxy *interactivePopDelegateProxy;
 
 @end
 
@@ -26,7 +23,6 @@
     if (self)
     {
         self.tx_interactiveNavigationBarHidden = YES;
-        _interactivePopDelegateProxy = [[InteractivePopDelegateProxy alloc] init];
     }
     return self;
 }
@@ -37,7 +33,6 @@
     if (self)
     {
         self.tx_interactiveNavigationBarHidden = YES;
-        _interactivePopDelegateProxy = [[InteractivePopDelegateProxy alloc] init];
     }
     return self;
 }
@@ -54,27 +49,6 @@
     UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
     [navigationBar pushNavigationItem:navigationItem animated:NO];
     _navigationBar = navigationBar;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    if (self.navigationController)
-    {
-        _interactivePopDelegateProxy.navigationController = self.navigationController;
-        id<UIGestureRecognizerDelegate> originalDelegate = self.navigationController.interactivePopGestureRecognizer.delegate;
-        if (_interactivePopDelegateProxy != originalDelegate && ![originalDelegate isKindOfClass:[InteractivePopDelegateProxy class]])
-        {
-            _interactivePopDelegateProxy.originalDelegate = originalDelegate;
-            self.navigationController.interactivePopGestureRecognizer.delegate = _interactivePopDelegateProxy;
-        }
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void)backlizeLeftBarButtonItem
