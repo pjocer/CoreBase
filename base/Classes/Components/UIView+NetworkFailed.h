@@ -14,4 +14,6 @@
 - (UIView *)addSubviewForNetworkFailed;
 - (void)removeSubviewForNetworkFailed;
 
+- (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY;
+
 @end

@@ -18,37 +18,45 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
 
 @implementation UIView (NetworkLoading)
 
-- (UIView *)addSubviewForNetworkLoading
+- (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY
 {
     UIView *networkLoadingView = objc_getAssociatedObject(self, kNetworkLoadingView);
-    if (networkLoadingView)
+    const NSInteger tag = 10;
+    if (!networkLoadingView)
     {
-        return networkLoadingView;
+        networkLoadingView = [[UIView alloc] init].tx_backgroundColor([UIColor tx_colorWithHex:0xf8f8f8]);
+        objc_setAssociatedObject(self, kNetworkLoadingView, networkLoadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        
+        [self addSubview:networkLoadingView];
+        [networkLoadingView mas_makeConstraints:^(MASConstraintMaker *maker){
+            maker.edges.mas_equalTo(UIEdgeInsetsZero);
+        }];
+        
+        UIImageView *gifImageView = [[UIImageView alloc] init];
+        gifImageView.tag = tag;
+        [networkLoadingView addSubview:gifImageView];
+        
+        NSTimeInterval duration = 0;
+        CFArrayRef frames = [UIImage tx_gifFramesWithFile:BasePathForResource(@"loading", @"gif") totalDuration:&duration];
+        gifImageView.animationImages = [(__bridge NSArray *)frames tx_map:^id _Nonnull(id  _Nonnull object) {
+            CGImageRef cgImageRef = (__bridge CGImageRef)object;
+            return [UIImage imageWithCGImage:cgImageRef scale:2 orientation:UIImageOrientationUp];
+        }];
+        gifImageView.animationDuration = duration;
+        [gifImageView startAnimating];
     }
     
-    networkLoadingView = [[UIView alloc] init].tx_backgroundColor([UIColor tx_colorWithHex:0xf8f8f8]);
-    objc_setAssociatedObject(self, kNetworkLoadingView, networkLoadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    [self addSubview:networkLoadingView];
-    [networkLoadingView mas_makeConstraints:^(MASConstraintMaker *maker){
-        maker.edges.mas_equalTo(UIEdgeInsetsZero);
+    [[networkLoadingView viewWithTag:tag] mas_remakeConstraints:^(MASConstraintMaker *maker){
+        maker.centerX.equalTo(networkLoadingView);
+        maker.centerY.equalTo(networkLoadingView).offset(offsetY);
     }];
-    
-    UIImageView *gifImageView = [[UIImageView alloc] init];
-    [networkLoadingView addSubview:gifImageView];
-    [gifImageView mas_makeConstraints:^(MASConstraintMaker *maker){
-        maker.center.equalTo(networkLoadingView);
-    }];
-    NSTimeInterval duration = 0;
-    CFArrayRef frames = [UIImage tx_gifFramesWithFile:BasePathForResource(@"loading", @"gif") totalDuration:&duration];
-    gifImageView.animationImages = [(__bridge NSArray *)frames tx_map:^id _Nonnull(id  _Nonnull object) {
-        CGImageRef cgImageRef = (__bridge CGImageRef)object;
-        return [UIImage imageWithCGImage:cgImageRef scale:2 orientation:UIImageOrientationUp];
-    }];
-    gifImageView.animationDuration = duration;
-    [gifImageView startAnimating];
     
     return networkLoadingView;
+}
+
+- (UIView *)addSubviewForNetworkLoading
+{
+    return [self addSubviewForNetworkLoadingWithOffsetY:0];
 }
 
 - (void)removeSubviewForNetworkLoading

@@ -10,66 +10,50 @@
 #import <TXFire/TXFire.h>
 #import <Masonry/Masonry.h>
 #import <objc/runtime.h>
+#import "NetworkFailedView.h"
+
+static const void *kNetworkFailedComponent = &kNetworkFailedComponent;
 
 @implementation UIView (NetworkFailed)
 
-- (UIView *)base_viewForNetworkFailed
+- (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY
 {
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)base_setViewForNetworkFailed:(UIView *)view
-{
-    objc_setAssociatedObject(self, @selector(base_viewForNetworkFailed), view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (UIView *)addSubviewForNetworkFailed
-{
-    UIView *view = [self base_viewForNetworkFailed];
+    UIView *view = objc_getAssociatedObject(self, kNetworkFailedComponent);
+    const NSInteger tag = 10;
     if (!view)
     {
         view = [[UIView alloc] init];
         [self addSubview:view];
-        [self base_setViewForNetworkFailed:view];
-        view.backgroundColor = [UIColor tx_colorWithHex:0xf9f9f9];
         [view mas_makeConstraints:^(MASConstraintMaker *maker){
             maker.edges.mas_equalTo(UIEdgeInsetsZero);
         }];
         
-        NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"Base" ofType:@"bundle"]];
+        objc_setAssociatedObject(self, kNetworkFailedComponent, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        view.backgroundColor = [UIColor tx_colorWithHex:0xf8f8f8];
         
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"network_failed" inBundle:bundle compatibleWithTraitCollection:nil]];
-        [view addSubview:imageView];
-        [imageView mas_makeConstraints:^(MASConstraintMaker *maker){
-            maker.centerX.equalTo(view);
-            maker.bottom.equalTo(view.mas_centerY).offset(-20.f);
-        }];
-        
-        UILabel *label = [[UILabel alloc] init];
-        label.numberOfLines = 0;
-        NSMutableParagraphStyle *mutableParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        mutableParagraphStyle.paragraphSpacing = 13.f;
-        mutableParagraphStyle.alignment = NSTextAlignmentCenter;
-        label.attributedText = [[NSMutableAttributedString alloc] initWithString:@"Oops, something's wrong here.\n Please tap screen to retry."
-                                                                      attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18.f],
-                                                                                   NSForegroundColorAttributeName: [UIColor tx_colorWithHex:0xcccccc],
-                                                                                   NSParagraphStyleAttributeName: mutableParagraphStyle}];
-        [view addSubview:label];
-        [label mas_makeConstraints:^(MASConstraintMaker *maker){
-            maker.left.equalTo(view);
-            maker.right.equalTo(view);
-            maker.top.equalTo(view.mas_centerY).offset(17.f);
-        }];
+        NetworkFailedView *nfView = [[NetworkFailedView alloc] init];
+        nfView.tag = tag;
+        [view addSubview:nfView];
     }
+    [[view viewWithTag:tag] mas_remakeConstraints:^(MASConstraintMaker *maker){
+        maker.centerX.equalTo(view);
+        maker.centerY.equalTo(view).offset(offsetY);
+    }];
+    
     return view;
+}
+
+- (UIView *)addSubviewForNetworkFailed
+{
+    return [self addSubviewForNetworkFailedWithOffsetY:0];
 }
 
 - (void)removeSubviewForNetworkFailed
 {
-    UIView *view = [self base_viewForNetworkFailed];
+    UIView *view = objc_getAssociatedObject(self, kNetworkFailedComponent);
     if (view)
     {
-        [self base_setViewForNetworkFailed:nil];
+        objc_setAssociatedObject(self, kNetworkFailedComponent, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [view removeFromSuperview];
     }
 }

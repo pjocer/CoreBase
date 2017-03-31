@@ -42,8 +42,6 @@
 		B7BC61031E837A8800859FE6 /* UITableViewHeaderFooterView+LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC61021E837A8800859FE6 /* UITableViewHeaderFooterView+LoadingIndicator.m */; };
 		B7BC61091E83A21800859FE6 /* LoadingIndicatorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC61081E83A21800859FE6 /* LoadingIndicatorTableViewController.m */; };
 		B7BC61191E84BE6C00859FE6 /* NSString+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC61181E84BE6C00859FE6 /* NSString+Base.m */; };
-		B7BC611C1E84BF6F00859FE6 /* DrilldropMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC611B1E84BF6F00859FE6 /* DrilldropMenuItem.m */; };
-		B7BC611F1E84C14100859FE6 /* DrilldropMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC611E1E84C14100859FE6 /* DrilldropMenuView.m */; };
 		B7BC61221E84CB9600859FE6 /* UIView+SeparatorLine.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC61211E84CB9600859FE6 /* UIView+SeparatorLine.m */; };
 		B7BC61251E84D1F000859FE6 /* DrilldropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC61241E84D1F000859FE6 /* DrilldropViewController.m */; };
 		B7BC61271E84D25100859FE6 /* filter_category@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC61261E84D25100859FE6 /* filter_category@2x.png */; };
@@ -51,6 +49,10 @@
 		B7BC612B1E850EAE00859FE6 /* filter_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC612A1E850EAE00859FE6 /* filter_selected@2x.png */; };
 		B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */; };
 		B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D51E8DF62B0070C6A2 /* NetworkLoadingViewController.m */; };
+		B7FFA9DB1E8E66E90070C6A2 /* DrilldropMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D81E8E66E90070C6A2 /* DrilldropMenuItem.m */; };
+		B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DA1E8E66E90070C6A2 /* DrilldropMenuView.m */; };
+		B7FFA9DF1E8E67CF0070C6A2 /* NetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DE1E8E67CF0070C6A2 /* NetworkFailedView.m */; };
+		B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,10 +145,6 @@
 		B7BC61081E83A21800859FE6 /* LoadingIndicatorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicatorTableViewController.m; sourceTree = "<group>"; };
 		B7BC61171E84BE6C00859FE6 /* NSString+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base.h"; sourceTree = "<group>"; };
 		B7BC61181E84BE6C00859FE6 /* NSString+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base.m"; sourceTree = "<group>"; };
-		B7BC611A1E84BF6F00859FE6 /* DrilldropMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrilldropMenuItem.h; sourceTree = "<group>"; };
-		B7BC611B1E84BF6F00859FE6 /* DrilldropMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrilldropMenuItem.m; sourceTree = "<group>"; };
-		B7BC611D1E84C14100859FE6 /* DrilldropMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrilldropMenuView.h; sourceTree = "<group>"; };
-		B7BC611E1E84C14100859FE6 /* DrilldropMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrilldropMenuView.m; sourceTree = "<group>"; };
 		B7BC61201E84CB9600859FE6 /* UIView+SeparatorLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SeparatorLine.h"; sourceTree = "<group>"; };
 		B7BC61211E84CB9600859FE6 /* UIView+SeparatorLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SeparatorLine.m"; sourceTree = "<group>"; };
 		B7BC61231E84D1F000859FE6 /* DrilldropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrilldropViewController.h; sourceTree = "<group>"; };
@@ -158,6 +156,14 @@
 		B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NetworkLoading.m"; sourceTree = "<group>"; };
 		B7FFA9D41E8DF62B0070C6A2 /* NetworkLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkLoadingViewController.h; sourceTree = "<group>"; };
 		B7FFA9D51E8DF62B0070C6A2 /* NetworkLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkLoadingViewController.m; sourceTree = "<group>"; };
+		B7FFA9D71E8E66E90070C6A2 /* DrilldropMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrilldropMenuItem.h; sourceTree = "<group>"; };
+		B7FFA9D81E8E66E90070C6A2 /* DrilldropMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrilldropMenuItem.m; sourceTree = "<group>"; };
+		B7FFA9D91E8E66E90070C6A2 /* DrilldropMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrilldropMenuView.h; sourceTree = "<group>"; };
+		B7FFA9DA1E8E66E90070C6A2 /* DrilldropMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrilldropMenuView.m; sourceTree = "<group>"; };
+		B7FFA9DD1E8E67CF0070C6A2 /* NetworkFailedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkFailedView.h; sourceTree = "<group>"; };
+		B7FFA9DE1E8E67CF0070C6A2 /* NetworkFailedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkFailedView.m; sourceTree = "<group>"; };
+		B7FFA9E01E8E6A860070C6A2 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
+		B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -367,6 +373,8 @@
 				B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */,
 				B708A34D1E8CB4CA00D1AA57 /* UINavigationController+Base.h */,
 				B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */,
+				B7FFA9E01E8E6A860070C6A2 /* BaseNavigationController.h */,
+				B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */,
 			);
 			name = UIViewControllerSubclasses;
 			sourceTree = "<group>";
@@ -417,6 +425,8 @@
 		B7BC60E91E827C2900859FE6 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				B7FFA9DD1E8E67CF0070C6A2 /* NetworkFailedView.h */,
+				B7FFA9DE1E8E67CF0070C6A2 /* NetworkFailedView.m */,
 				B7BC60E61E827B4000859FE6 /* UIView+NetworkFailed.h */,
 				B7BC60E71E827B4000859FE6 /* UIView+NetworkFailed.m */,
 				B7FFA9D11E8DEE310070C6A2 /* UIView+NetworkLoading.h */,
@@ -439,10 +449,10 @@
 		B7BC61101E84BC9D00859FE6 /* drilldrop */ = {
 			isa = PBXGroup;
 			children = (
-				B7BC611A1E84BF6F00859FE6 /* DrilldropMenuItem.h */,
-				B7BC611B1E84BF6F00859FE6 /* DrilldropMenuItem.m */,
-				B7BC611D1E84C14100859FE6 /* DrilldropMenuView.h */,
-				B7BC611E1E84C14100859FE6 /* DrilldropMenuView.m */,
+				B7FFA9D71E8E66E90070C6A2 /* DrilldropMenuItem.h */,
+				B7FFA9D81E8E66E90070C6A2 /* DrilldropMenuItem.m */,
+				B7FFA9D91E8E66E90070C6A2 /* DrilldropMenuView.h */,
+				B7FFA9DA1E8E66E90070C6A2 /* DrilldropMenuView.m */,
 			);
 			name = drilldrop;
 			sourceTree = "<group>";
@@ -746,6 +756,7 @@
 				B7BC61001E8379B800859FE6 /* UICollectionReusableView+LoadingIndicator.m in Sources */,
 				B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */,
 				B7A89C851E76A4E20020F186 /* CustomNavigationBarTableViewController.m in Sources */,
+				B7FFA9DF1E8E67CF0070C6A2 /* NetworkFailedView.m in Sources */,
 				B78FC4A71E6F9DB7007F33CA /* UIColor+BaseStyle.m in Sources */,
 				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
 				B7BC61031E837A8800859FE6 /* UITableViewHeaderFooterView+LoadingIndicator.m in Sources */,
@@ -754,15 +765,16 @@
 				B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */,
 				B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
+				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,
+				B7FFA9DB1E8E66E90070C6A2 /* DrilldropMenuItem.m in Sources */,
 				B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */,
 				B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */,
 				B78FC45D1E6E8BCE007F33CA /* main.m in Sources */,
-				B7BC611F1E84C14100859FE6 /* DrilldropMenuView.m in Sources */,
 				B7A89C841E76A4E20020F186 /* CustomNavigationBarViewController.m in Sources */,
-				B7BC611C1E84BF6F00859FE6 /* DrilldropMenuItem.m in Sources */,
 				B7BC61191E84BE6C00859FE6 /* NSString+Base.m in Sources */,
 				B7BC60EC1E827C4600859FE6 /* UIViewController+NetworkFailed.m in Sources */,
+				B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */,
 				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,
 				B78FC4AF1E6FA722007F33CA /* BasePagingView.m in Sources */,
 				B7BC60F71E83617000859FE6 /* UIImageView+Loading.m in Sources */,

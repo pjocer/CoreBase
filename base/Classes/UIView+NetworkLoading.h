@@ -13,4 +13,6 @@
 - (UIView *)addSubviewForNetworkLoading;
 - (void)removeSubviewForNetworkLoading;
 
+- (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY;
+
 @end
