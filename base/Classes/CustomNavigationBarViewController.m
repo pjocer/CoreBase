@@ -22,7 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.tx_interactiveNavigationBarHidden = YES;
+        [self cnb_commonInit];
     }
     return self;
 }
@@ -32,9 +32,17 @@
     self = [super initWithCoder:coder];
     if (self)
     {
-        self.tx_interactiveNavigationBarHidden = YES;
+        [self cnb_commonInit];
     }
     return self;
+}
+
+- (void)cnb_commonInit
+{
+    self.tx_interactiveNavigationBarHidden = YES;
+    _navigationBar = [[UINavigationBar alloc] init];
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
+    [_navigationBar pushNavigationItem:navigationItem animated:NO];
 }
 
 - (void)viewDidLoad
@@ -42,13 +50,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 64.f)];
-    [self.view addSubview:navigationBar];
-    navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
-    [navigationBar pushNavigationItem:navigationItem animated:NO];
-    _navigationBar = navigationBar;
+    [self.view addSubview:_navigationBar];
+    _navigationBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 64.f);
+    _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 }
 
 - (void)backlizeLeftBarButtonItem

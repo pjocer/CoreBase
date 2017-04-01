@@ -32,8 +32,6 @@
         maker.center.equalTo(self.view);
     }];
     
-    [self backlizeLeftBarButtonItem];
-    
     @weakify(self);
     button.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
         @strongify(self);

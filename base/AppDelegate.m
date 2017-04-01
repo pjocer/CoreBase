@@ -17,6 +17,7 @@
 #import "CNBViewController.h"
 #import "UINavigationController+Base.h"
 #import "NetworkLoadingViewController.h"
+#import "BaseNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -36,11 +37,11 @@
 //    GIFViewController *vc = [[GIFViewController alloc] initWithNibName:nil bundle:nil];
 //    LoadingIndicatorTableViewController *vc = [[LoadingIndicatorTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 //    UIViewController *vc = [[DrilldropViewController alloc] initWithNibName:nil bundle:nil];
-//    UIViewController *vc = [[CNBViewController alloc] initWithNibName:nil bundle:nil];
-    UIViewController *vc = [[NetworkLoadingViewController alloc] initWithNibName:nil bundle:nil];
+    UIViewController *vc = [[CNBViewController alloc] initWithNibName:nil bundle:nil];
+//    UIViewController *vc = [[NetworkLoadingViewController alloc] initWithNibName:nil bundle:nil];
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     self.window.rootViewController = nav;
     
     [nav makeAlwaysInteractivePopGestureRecognizer];
