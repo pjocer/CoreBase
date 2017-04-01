@@ -37,7 +37,7 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
         [networkLoadingView addSubview:gifImageView];
         
         NSTimeInterval duration = 0;
-        CFArrayRef frames = [UIImage tx_gifFramesWithFile:BasePathForResource(@"loading", @"gif") totalDuration:&duration];
+        CFArrayRef frames = [UIImage tx_gifFramesWithFile:BasePathForResource(@"refreshing", @"gif") totalDuration:&duration];
         gifImageView.animationImages = [(__bridge NSArray *)frames tx_map:^id _Nonnull(id  _Nonnull object) {
             CGImageRef cgImageRef = (__bridge CGImageRef)object;
             return [UIImage imageWithCGImage:cgImageRef scale:2 orientation:UIImageOrientationUp];
