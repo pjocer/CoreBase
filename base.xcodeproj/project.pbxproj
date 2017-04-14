@@ -13,7 +13,12 @@
 		B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A3481E8BC4EF00D1AA57 /* CNBViewController.m */; };
 		B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */; };
 		B708A34F1E8CB4CA00D1AA57 /* UINavigationController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */; };
+		B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B7534FA41EA0A72A00C94516 /* AccessToken.m */; };
 		B757C91E1E7280F30081C4CF /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = B757C91D1E7280F30081C4CF /* Network.m */; };
+		B76BB4081E9F59E000F1EC6A /* RouterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB4071E9F59E000F1EC6A /* RouterRequest.m */; };
+		B76BB4111E9F59E700F1EC6A /* RouterResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */; };
+		B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */; };
+		B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB4101E9F59E700F1EC6A /* RouterManager.m */; };
 		B78FC45D1E6E8BCE007F33CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45C1E6E8BCE007F33CA /* main.m */; };
 		B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */; };
 		B78FC46E1E6E8BCE007F33CA /* baseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC46D1E6E8BCE007F33CA /* baseTests.m */; };
@@ -85,8 +90,18 @@
 		B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractivePopDelegateProxy.m; sourceTree = "<group>"; };
 		B708A34D1E8CB4CA00D1AA57 /* UINavigationController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Base.h"; sourceTree = "<group>"; };
 		B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Base.m"; sourceTree = "<group>"; };
+		B7534FA31EA0A72A00C94516 /* AccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessToken.h; sourceTree = "<group>"; };
+		B7534FA41EA0A72A00C94516 /* AccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessToken.m; sourceTree = "<group>"; };
 		B757C91C1E7280F30081C4CF /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		B757C91D1E7280F30081C4CF /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
+		B76BB4061E9F59E000F1EC6A /* RouterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterRequest.h; sourceTree = "<group>"; };
+		B76BB4071E9F59E000F1EC6A /* RouterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterRequest.m; sourceTree = "<group>"; };
+		B76BB4091E9F59E700F1EC6A /* RouterResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterResponse.h; sourceTree = "<group>"; };
+		B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterResponse.m; sourceTree = "<group>"; };
+		B76BB40B1E9F59E700F1EC6A /* RouterRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterRegistry.h; sourceTree = "<group>"; };
+		B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterRegistry.m; sourceTree = "<group>"; };
+		B76BB40F1E9F59E700F1EC6A /* RouterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterManager.h; sourceTree = "<group>"; };
+		B76BB4101E9F59E700F1EC6A /* RouterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterManager.m; sourceTree = "<group>"; };
 		B78FC4571E6E8BCE007F33CA /* base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = base.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78FC45A1E6E8BCE007F33CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B78FC45C1E6E8BCE007F33CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -220,6 +235,30 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B76BB4051E9F59C800F1EC6A /* router */ = {
+			isa = PBXGroup;
+			children = (
+				B76BB4061E9F59E000F1EC6A /* RouterRequest.h */,
+				B76BB4071E9F59E000F1EC6A /* RouterRequest.m */,
+				B76BB4091E9F59E700F1EC6A /* RouterResponse.h */,
+				B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */,
+				B76BB40B1E9F59E700F1EC6A /* RouterRegistry.h */,
+				B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */,
+				B76BB40F1E9F59E700F1EC6A /* RouterManager.h */,
+				B76BB4101E9F59E700F1EC6A /* RouterManager.m */,
+			);
+			name = router;
+			sourceTree = "<group>";
+		};
+		B76BB4151EA071B900F1EC6A /* AccessToken */ = {
+			isa = PBXGroup;
+			children = (
+				B7534FA31EA0A72A00C94516 /* AccessToken.h */,
+				B7534FA41EA0A72A00C94516 /* AccessToken.m */,
+			);
+			name = AccessToken;
+			sourceTree = "<group>";
+		};
 		B78FC44E1E6E8BCE007F33CA = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +340,8 @@
 			isa = PBXGroup;
 			children = (
 				B7BC60ED1E827CC000859FE6 /* base.h */,
+				B76BB4151EA071B900F1EC6A /* AccessToken */,
+				B76BB4051E9F59C800F1EC6A /* router */,
 				B7A89CF01E7B73710020F186 /* util */,
 				B7BC60E91E827C2900859FE6 /* Networking */,
 				B7BC60F41E83610700859FE6 /* ImageLoading */,
@@ -746,11 +787,13 @@
 				B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */,
 				B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */,
 				B7BC61091E83A21800859FE6 /* LoadingIndicatorTableViewController.m in Sources */,
+				B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */,
 				B7BC60F31E835CCA00859FE6 /* UIView+LoadingIndicator.m in Sources */,
 				B7BC61221E84CB9600859FE6 /* UIView+SeparatorLine.m in Sources */,
+				B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */,
 				B7A89CF91E7B74170020F186 /* util.m in Sources */,
 				B7BC61251E84D1F000859FE6 /* DrilldropViewController.m in Sources */,
 				B7BC61001E8379B800859FE6 /* UICollectionReusableView+LoadingIndicator.m in Sources */,
@@ -761,9 +804,12 @@
 				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
 				B7BC61031E837A8800859FE6 /* UITableViewHeaderFooterView+LoadingIndicator.m in Sources */,
 				B708A34F1E8CB4CA00D1AA57 /* UINavigationController+Base.m in Sources */,
+				B76BB4111E9F59E700F1EC6A /* RouterResponse.m in Sources */,
 				B7A89CFC1E7B765F0020F186 /* GIFViewController.m in Sources */,
 				B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */,
 				B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */,
+				B76BB4081E9F59E000F1EC6A /* RouterRequest.m in Sources */,
+				B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
 				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,
