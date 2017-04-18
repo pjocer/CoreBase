@@ -10,38 +10,95 @@
 #import <TXFire/TXFire.h>
 #import "UIApplication+Base.h"
 
+static NSString *const HTTP_METHOD_GET  = @"GET";
+static NSString *const HTTP_METHOD_POST = @"POST";
+
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
-- (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
+/// AFNetworking 中的私有方法，copy出来使用
+- (NSURLSessionDataTask *)base_dataTaskWithHTTPMethod:(NSString *)method
+                                       URLString:(NSString *)URLString
+                                      parameters:(id)parameters
+                                  uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgress
+                                downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgress
+                                         success:(void (^)(NSURLSessionDataTask *, id))success
+                                         failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
 {
-    return [RACSignal createSignal:^(id<RACSubscriber> subscriber){
+    NSError *serializationError = nil;
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+    if (serializationError) {
+        if (failure) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu"
+            dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+                failure(nil, serializationError);
+            });
+#pragma clang diagnostic pop
+        }
+        
+        return nil;
+    }
+    
+    __block NSURLSessionDataTask *dataTask = nil;
+    dataTask = [self dataTaskWithRequest:request
+                          uploadProgress:uploadProgress
+                        downloadProgress:downloadProgress
+                       completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+                           if (error) {
+                               if (failure) {
+                                   failure(dataTask, error);
+                               }
+                           } else {
+                               if (success) {
+                                   success(dataTask, responseObject);
+                               }
+                           }
+                       }];
+    
+    return dataTask;
+}
+
+- (RACSignal<RACTuple *> *)rac_method:(NSString *)method path:(NSString *)path parameters:(id)parameters
+{
+    return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
-        NSURLSessionDataTask *dataTask = [self GET:path
-                                        parameters:parameters
-                                          progress:NULL
-                                           success:^(NSURLSessionDataTask *task, id _Nullable responseObject){
-                                               [subscriber sendNext:RACTuplePack(task.response, responseObject)];
-                                               [subscriber sendCompleted];
-                                               Dlogvars(task.currentRequest.allHTTPHeaderFields);
-                                               [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-                                           }
-                                           failure:^(NSURLSessionDataTask *task, NSError *error){
-                                               [subscriber sendError:error];
-                                               Dlogvars(task.currentRequest.allHTTPHeaderFields);
-                                               [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-                                           }];
+        
+        NSURLSessionDataTask *dataTask =
+        [self base_dataTaskWithHTTPMethod:method
+                                URLString:path
+                               parameters:path
+                           uploadProgress:nil
+                         downloadProgress:nil
+                                  success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
+                                      [subscriber sendNext:RACTuplePack(task.response, responseObject)];
+                                      [subscriber sendCompleted];
+                                      Dlogvars(task.currentRequest.allHTTPHeaderFields);
+                                      [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                                  } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
+                                      [subscriber sendError:error];
+                                      Dlogvars(dataTask.currentRequest.allHTTPHeaderFields);
+                                      [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                                  }];
         
         if (dataTask)
         {
-            return [RACDisposable disposableWithBlock:^{
+            [dataTask resume];
+            [RACDisposable disposableWithBlock:^{
                 [dataTask cancel];
             }];
         }
-        else
-        {
-            return (RACDisposable *)nil;
-        }
+        return nil;
     }];
+}
+
+- (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
+{
+    return [self rac_method:HTTP_METHOD_GET path:path parameters:parameters];
+}
+
+- (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(id)parameters
+{
+    return [self rac_method:HTTP_METHOD_POST path:path parameters:parameters];
 }
 
 @end

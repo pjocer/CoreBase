@@ -10,6 +10,8 @@
 #import <pthread/pthread.h>
 #import <UIKit/UIKit.h>
 #import <TXFire/TXFire.h>
+#import <ReactiveObjC/ReactiveObjC.h>
+#import "AccessToken.h"
 
 //static inline pthread_mutex_t shared_mutex(void)
 //{
@@ -63,10 +65,7 @@ static NSURL *APIRelativeURL = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSCAssert(APIRelativeURL, @"you must setAPIRelativeURL before.");
-        session = [[AFHTTPSessionManager alloc] initWithBaseURL:APIRelativeURL];
-        [session.requestSerializer setValue:self.customUserAgent forHTTPHeaderField:@"User-Agent"];
-        AFJSONResponseSerializer *jsonResponseSerializer = (AFJSONResponseSerializer *)session.responseSerializer;
-        jsonResponseSerializer.removesKeysWithNullValues = YES;
+        session = [[BaseHTTPSessionManager alloc] initWithBaseURL:APIRelativeURL];
     });
     return session;
 }

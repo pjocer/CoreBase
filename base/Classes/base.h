@@ -37,6 +37,8 @@
 
 #import "AFHTTPSessionManager+BaseRACSupports.h"
 #import "Network.h"
+#import "NSError+Networking.h"
+#import "BaseHTTPSessionManager.h"
 
 #import "UIButton+BaseCreation.h"
 #import "BasePagingView.h"

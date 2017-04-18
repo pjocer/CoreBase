@@ -56,6 +56,8 @@
 		B7BC61271E84D25100859FE6 /* filter_category@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC61261E84D25100859FE6 /* filter_category@2x.png */; };
 		B7BC61291E850EA300859FE6 /* filter_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC61281E850EA300859FE6 /* filter_normal@2x.png */; };
 		B7BC612B1E850EAE00859FE6 /* filter_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC612A1E850EAE00859FE6 /* filter_selected@2x.png */; };
+		B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */; };
+		B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */; };
 		B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */; };
 		B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D51E8DF62B0070C6A2 /* NetworkLoadingViewController.m */; };
 		B7FFA9DB1E8E66E90070C6A2 /* DrilldropMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D81E8E66E90070C6A2 /* DrilldropMenuItem.m */; };
@@ -178,6 +180,10 @@
 		B7BC61261E84D25100859FE6 /* filter_category@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_category@2x.png"; sourceTree = "<group>"; };
 		B7BC61281E850EA300859FE6 /* filter_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_normal@2x.png"; sourceTree = "<group>"; };
 		B7BC612A1E850EAE00859FE6 /* filter_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_selected@2x.png"; sourceTree = "<group>"; };
+		B7F15EF71EA5AA1900C18CD4 /* BaseHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseHTTPSessionManager.h; sourceTree = "<group>"; };
+		B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseHTTPSessionManager.m; sourceTree = "<group>"; };
+		B7F15EFA1EA5B5ED00C18CD4 /* NSError+Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Networking.h"; sourceTree = "<group>"; };
+		B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+Networking.m"; sourceTree = "<group>"; };
 		B7FFA9D11E8DEE310070C6A2 /* UIView+NetworkLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NetworkLoading.h"; sourceTree = "<group>"; };
 		B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NetworkLoading.m"; sourceTree = "<group>"; };
 		B7FFA9D41E8DF62B0070C6A2 /* NetworkLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkLoadingViewController.h; sourceTree = "<group>"; };
@@ -402,6 +408,10 @@
 			children = (
 				B78FC4C61E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.h */,
 				B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */,
+				B7F15EFA1EA5B5ED00C18CD4 /* NSError+Networking.h */,
+				B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */,
+				B7F15EF71EA5AA1900C18CD4 /* BaseHTTPSessionManager.h */,
+				B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */,
 				B757C91C1E7280F30081C4CF /* Network.h */,
 				B757C91D1E7280F30081C4CF /* Network.m */,
 			);
@@ -810,6 +820,7 @@
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */,
 				B7BC60F31E835CCA00859FE6 /* UIView+LoadingIndicator.m in Sources */,
+				B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */,
 				B7BC61221E84CB9600859FE6 /* UIView+SeparatorLine.m in Sources */,
 				B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */,
 				B7A89CF91E7B74170020F186 /* util.m in Sources */,
@@ -834,6 +845,7 @@
 				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,
 				B7534FAA1EA0B25800C94516 /* NSString+Validation.m in Sources */,
+				B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */,
 				B7FFA9DB1E8E66E90070C6A2 /* DrilldropMenuItem.m in Sources */,
 				B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */,
 				B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */,

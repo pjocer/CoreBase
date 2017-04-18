@@ -13,8 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AFHTTPSessionManager (BaseRACSupports)
 
-/// RACTuple(NSHTTPURLResponse<nullable>, id responseObject<nullable>)
+///
+
+
+
+
+/**
+ RACSignal的value为RACTuple(NSHTTPURLResponse<nullable>, id responseObject<nullable>)
+ 信号的queue取决于-completionQueue.
+ */
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(nullable id)parameters;
+- (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(nullable id)parameters;
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AFHTTPSessionManager+BaseRACSupports.h"
+#import "BaseHTTPSessionManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setAPIRelativeURL:(NSURL *)relativeURL;
 
-@property (class, nonatomic, readonly, strong) AFHTTPSessionManager *APISession;
+@property (class, nonatomic, readonly, strong) BaseHTTPSessionManager *APISession;
 
 @end
 
