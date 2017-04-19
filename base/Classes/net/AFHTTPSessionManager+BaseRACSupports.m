@@ -10,8 +10,10 @@
 #import <TXFire/TXFire.h>
 #import "UIApplication+Base.h"
 
-static NSString *const HTTP_METHOD_GET  = @"GET";
-static NSString *const HTTP_METHOD_POST = @"POST";
+const HTTPMethod HTTPMethodGET = @"GET";
+const HTTPMethod HTTPMethodPOST = @"POST";
+const HTTPMethod HTTPMethodPUT = @"PUT";
+const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
@@ -58,7 +60,7 @@ static NSString *const HTTP_METHOD_POST = @"POST";
     return dataTask;
 }
 
-- (RACSignal<RACTuple *> *)rac_method:(NSString *)method path:(NSString *)path parameters:(id)parameters
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters
 {
     return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
@@ -66,7 +68,7 @@ static NSString *const HTTP_METHOD_POST = @"POST";
         NSURLSessionDataTask *dataTask =
         [self base_dataTaskWithHTTPMethod:method
                                 URLString:path
-                               parameters:path
+                               parameters:parameters
                            uploadProgress:nil
                          downloadProgress:nil
                                   success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
@@ -93,12 +95,21 @@ static NSString *const HTTP_METHOD_POST = @"POST";
 
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
 {
-    return [self rac_method:HTTP_METHOD_GET path:path parameters:parameters];
+    return [self rac_method:HTTPMethodGET path:path parameters:parameters];
 }
 
 - (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(id)parameters
 {
-    return [self rac_method:HTTP_METHOD_POST path:path parameters:parameters];
+    return [self rac_method:HTTPMethodPOST path:path parameters:parameters];
+}
+
+- (RACSignal<RACTuple *> *)rac_PUT:(NSString *)path parameters:(nullable id)parameters
+{
+    return [self rac_method:HTTPMethodPUT path:path parameters:parameters];
+}
+- (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path parameters:(nullable id)parameters
+{
+    return [self rac_method:HTTPMethodDELETE path:path parameters:parameters];
 }
 
 @end
