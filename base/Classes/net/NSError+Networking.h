@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong, nullable) NSHTTPURLResponse *HTTPResponse;
 
+@property (nonatomic, readonly, strong, nullable) NSString *errorMessageByServer;
+@property (nonatomic, readonly, strong, nullable) NSNumber *errorCodeByServer;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,6 +8,7 @@
 
 #import "NSError+Networking.h"
 #import <AFNetworking/AFNetworking.h>
+#import <TXFire/TXFire.h>
 
 @implementation NSError (Networking)
 
@@ -53,6 +54,26 @@
 - (NSHTTPURLResponse *)HTTPResponse
 {
     return self.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+}
+
+- (NSString *)errorMessageByServer
+{
+    NSDictionary *responseObject = self.responseObject;
+    if (responseObject)
+    {
+        return [responseObject tx_stringForKey:@"msg"];
+    }
+    return nil;
+}
+
+- (NSNumber *)errorCodeByServer
+{
+    NSDictionary *responseObject = self.responseObject;
+    if (responseObject)
+    {
+        return [responseObject tx_numberForKey:@"code"];
+    }
+    return nil;
 }
 
 @end
