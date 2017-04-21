@@ -17,12 +17,12 @@ FOUNDATION_EXTERN NSString *const ProfileChangeNewKey;
 
 @interface Profile : JSONModel
 
-@property (nonatomic, readonly, copy) NSString *userID;
-@property (nonatomic, readonly, copy, nullable) NSString *userName;
+@property (nonatomic, readonly, copy) NSString *user_id;
+@property (nonatomic, readonly, copy, nullable) NSString *user_name;
 @property (nonatomic, readonly, copy) NSString *email;
-@property (nonatomic, readonly, assign) NSInteger languageID;
-@property (nonatomic, readonly, assign) NSInteger currencyID;
-@property (nonatomic, readonly, copy) NSString *langCode;
+@property (nonatomic, readonly, assign) NSInteger language_id;
+@property (nonatomic, readonly, assign) NSInteger currency_id;
+@property (nonatomic, readonly, copy) NSString *lang_code;
 @property (nonatomic, readonly, assign) NSInteger shoppingCartGoodsTotal;
 
 /// thread safe

@@ -22,12 +22,12 @@ static BOOL loadedFromDisk = NO;
 
 @interface Profile ()
 
-@property (nonatomic, copy) NSString *userID;
-@property (nonatomic, copy) NSString *userName;
+@property (nonatomic, copy) NSString *user_id;
+@property (nonatomic, copy, nullable) NSString *user_name;
 @property (nonatomic, copy) NSString *email;
-@property (nonatomic, assign) NSInteger languageID;
-@property (nonatomic, assign) NSInteger currencyID;
-@property (nonatomic, copy) NSString *langCode;
+@property (nonatomic, assign) NSInteger language_id;
+@property (nonatomic, assign) NSInteger currency_id;
+@property (nonatomic, copy) NSString *lang_code;
 @property (nonatomic, assign) NSInteger shoppingCartGoodsTotal;
 
 @end
