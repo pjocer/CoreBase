@@ -23,7 +23,6 @@ FOUNDATION_EXTERN NSString *const ProfileChangeNewKey;
 @property (nonatomic, readonly, assign) NSInteger languageID;
 @property (nonatomic, readonly, assign) NSInteger currencyID;
 @property (nonatomic, readonly, copy) NSString *langCode;
-@property (nonatomic, readonly, assign) NSInteger preLoginShoppingCartGoodsTotal;
 @property (nonatomic, readonly, assign) NSInteger shoppingCartGoodsTotal;
 
 /// thread safe

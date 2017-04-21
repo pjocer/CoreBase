@@ -28,7 +28,6 @@ static BOOL loadedFromDisk = NO;
 @property (nonatomic, assign) NSInteger languageID;
 @property (nonatomic, assign) NSInteger currencyID;
 @property (nonatomic, copy) NSString *langCode;
-@property (nonatomic, assign) NSInteger preLoginShoppingCartGoodsTotal;
 @property (nonatomic, assign) NSInteger shoppingCartGoodsTotal;
 
 @end
