@@ -25,7 +25,7 @@ FOUNDATION_EXTERN const HTTPMethod HTTPMethodDELETE;
  信号的sendNext, sendCompleted, sendError动作都在-completionQueue中发送.
  */
 
-- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters;
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(nullable id)parameters;
 
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(nullable id)parameters;
 - (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(nullable id)parameters;

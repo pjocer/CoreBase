@@ -13,6 +13,7 @@
 		B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A3481E8BC4EF00D1AA57 /* CNBViewController.m */; };
 		B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */; };
 		B708A34F1E8CB4CA00D1AA57 /* UINavigationController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */; };
+		B7511E281EA9E5F200A5A972 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = B7511E271EA9E5F200A5A972 /* Profile.m */; };
 		B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B7534FA41EA0A72A00C94516 /* AccessToken.m */; };
 		B7534FAA1EA0B25800C94516 /* NSString+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7534FA91EA0B25800C94516 /* NSString+Validation.m */; };
 		B7534FAC1EA0B39F00C94516 /* RegexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7534FAB1EA0B39F00C94516 /* RegexTests.m */; };
@@ -96,6 +97,8 @@
 		B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractivePopDelegateProxy.m; sourceTree = "<group>"; };
 		B708A34D1E8CB4CA00D1AA57 /* UINavigationController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Base.h"; sourceTree = "<group>"; };
 		B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Base.m"; sourceTree = "<group>"; };
+		B7511E261EA9E5F200A5A972 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		B7511E271EA9E5F200A5A972 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		B7534FA31EA0A72A00C94516 /* AccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessToken.h; sourceTree = "<group>"; };
 		B7534FA41EA0A72A00C94516 /* AccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessToken.m; sourceTree = "<group>"; };
 		B7534FA81EA0B25800C94516 /* NSString+Validation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Validation.h"; sourceTree = "<group>"; };
@@ -252,6 +255,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B7511E251EA9E5D600A5A972 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B7511E261EA9E5F200A5A972 /* Profile.h */,
+				B7511E271EA9E5F200A5A972 /* Profile.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		B76BB4051E9F59C800F1EC6A /* router */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				B7BC60ED1E827CC000859FE6 /* base.h */,
+				B7511E251EA9E5D600A5A972 /* Profile */,
 				B76BB4151EA071B900F1EC6A /* AccessToken */,
 				B76BB4051E9F59C800F1EC6A /* router */,
 				B7A89CF01E7B73710020F186 /* util */,
@@ -842,6 +855,7 @@
 				B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */,
 				B7534FB21EA0B57900C94516 /* CoreTextField.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
+				B7511E281EA9E5F200A5A972 /* Profile.m in Sources */,
 				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,
 				B7534FAA1EA0B25800C94516 /* NSString+Validation.m in Sources */,

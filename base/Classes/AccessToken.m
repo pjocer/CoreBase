@@ -17,7 +17,7 @@ NSString *const AccessTokenChangeOldKey = @"AccessTokenChangeOldKey";
 NSString *const AccessTokenChangeNewKey = @"AccessTokenChangeNewKey";
 
 
-static NSString *const key = @"current_profile";
+static NSString *const key = @"com.azaize.accesstoken";
 static AccessToken *globalAccessToken = nil;
 
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
