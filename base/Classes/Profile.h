@@ -27,6 +27,8 @@ FOUNDATION_EXTERN NSString *const ProfileChangeNewKey;
 
 /// thread safe
 + (nullable Profile *)currentProfile;
+/// thread safe
++ (void)setCurrentProfile:(nullable Profile *)profile;
 
 + (RACSignal<Profile *> *)loadProfile;
 
