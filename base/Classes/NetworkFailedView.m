@@ -55,7 +55,7 @@
     [self addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *maker){
         maker.left.and.right.and.bottom.equalTo(self);
-        maker.top.equalTo(imageView).offset(37.f);
+        maker.top.equalTo(imageView.mas_bottom).offset(37.f);
     }];
 }
 

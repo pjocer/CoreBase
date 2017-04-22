@@ -379,7 +379,7 @@
 				B76BB4151EA071B900F1EC6A /* AccessToken */,
 				B76BB4051E9F59C800F1EC6A /* router */,
 				B7A89CF01E7B73710020F186 /* util */,
-				B7BC60E91E827C2900859FE6 /* Networking */,
+				B7BC60E91E827C2900859FE6 /* Network Failed+Loading */,
 				B7BC60F41E83610700859FE6 /* ImageLoading */,
 				B7A89CE41E7B70330020F186 /* LoadingIndicator */,
 				B7A89CDE1E7AC4050020F186 /* core */,
@@ -509,7 +509,7 @@
 			name = util;
 			sourceTree = "<group>";
 		};
-		B7BC60E91E827C2900859FE6 /* Networking */ = {
+		B7BC60E91E827C2900859FE6 /* Network Failed+Loading */ = {
 			isa = PBXGroup;
 			children = (
 				B7FFA9DD1E8E67CF0070C6A2 /* NetworkFailedView.h */,
@@ -521,7 +521,7 @@
 				B7BC60EA1E827C4600859FE6 /* UIViewController+NetworkFailed.h */,
 				B7BC60EB1E827C4600859FE6 /* UIViewController+NetworkFailed.m */,
 			);
-			name = Networking;
+			name = "Network Failed+Loading";
 			sourceTree = "<group>";
 		};
 		B7BC60F41E83610700859FE6 /* ImageLoading */ = {
