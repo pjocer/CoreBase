@@ -32,7 +32,7 @@ FOUNDATION_EXTERN NSString *const AccessTokenChangeNewKey;
 
 /// thread safe
 + (nullable AccessToken *)currentAccessToken;
-/// thread safe
+/// thread safe, also clear profile.
 + (void)setCurrentAccessToken:(nullable AccessToken *)token;
 
 @end

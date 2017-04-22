@@ -9,7 +9,7 @@
 #import "AccessToken.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import <pthread/pthread.h>
-
+#import "Profile.h"
 
 NSString *const AccessTokenDidChangeNotification = @"AccessTokenDidChangeNotification";
 NSString *const AccessTokenDidChangeUserIDKey = @"AccessTokenDidChangeUserIDKey";
@@ -149,6 +149,8 @@ static BOOL loadedFromDisk = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:AccessTokenDidChangeNotification object:nil userInfo:userInfo];
         });
     }
+    
+    [Profile setCurrentProfile:nil];
 }
 
 @end

@@ -11,6 +11,7 @@
 
 #import "util.h"
 
+#import "Profile.h"
 #import "AccessToken.h"
 
 #import "UIView+NetworkFailed.h"

@@ -24,6 +24,7 @@
 		B76BB4111E9F59E700F1EC6A /* RouterResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */; };
 		B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */; };
 		B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB4101E9F59E700F1EC6A /* RouterManager.m */; };
+		B775BEBA1EAB5DF1003EBABC /* ProfileAutoLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B775BEB91EAB5DF1003EBABC /* ProfileAutoLoader.m */; };
 		B78FC45D1E6E8BCE007F33CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45C1E6E8BCE007F33CA /* main.m */; };
 		B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC45F1E6E8BCE007F33CA /* AppDelegate.m */; };
 		B78FC46E1E6E8BCE007F33CA /* baseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FC46D1E6E8BCE007F33CA /* baseTests.m */; };
@@ -118,6 +119,8 @@
 		B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterRegistry.m; sourceTree = "<group>"; };
 		B76BB40F1E9F59E700F1EC6A /* RouterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterManager.h; sourceTree = "<group>"; };
 		B76BB4101E9F59E700F1EC6A /* RouterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterManager.m; sourceTree = "<group>"; };
+		B775BEB81EAB5DF1003EBABC /* ProfileAutoLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileAutoLoader.h; sourceTree = "<group>"; };
+		B775BEB91EAB5DF1003EBABC /* ProfileAutoLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileAutoLoader.m; sourceTree = "<group>"; };
 		B78FC4571E6E8BCE007F33CA /* base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = base.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78FC45A1E6E8BCE007F33CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B78FC45C1E6E8BCE007F33CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 			children = (
 				B7511E261EA9E5F200A5A972 /* Profile.h */,
 				B7511E271EA9E5F200A5A972 /* Profile.m */,
+				B775BEB81EAB5DF1003EBABC /* ProfileAutoLoader.h */,
+				B775BEB91EAB5DF1003EBABC /* ProfileAutoLoader.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -855,6 +860,7 @@
 				B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */,
 				B7534FB21EA0B57900C94516 /* CoreTextField.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
+				B775BEBA1EAB5DF1003EBABC /* ProfileAutoLoader.m in Sources */,
 				B7511E281EA9E5F200A5A972 /* Profile.m in Sources */,
 				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,

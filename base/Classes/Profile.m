@@ -34,27 +34,6 @@ static BOOL loadedFromDisk = NO;
 
 @implementation Profile
 
-+ (RACSignal<Profile *> *)loadProfile
-{
-    Profile *profile = [self currentProfile];
-    if (profile)
-    {
-        return [RACSignal return:profile];
-    }
-    
-    return [[[Network.APISession rac_GET:@"me" parameters:nil] tryMap:^id _Nonnull(RACTuple * _Nullable value, NSError * _Nullable __autoreleasing * _Nullable errorPtr) {
-        NSDictionary *responseObject = value.second;
-        Profile *profile = [[Profile alloc] initWithDictionary:responseObject error:nil];
-        if (!profile && errorPtr)
-        {
-            *errorPtr = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotParseResponse userInfo:@{NSLocalizedDescriptionKey: @"cann't parse response"}];
-        }
-        return profile;
-    }] doNext:^(Profile * _Nullable x) {
-        [Profile setCurrentProfile:x];
-    }];
-}
-
 + (nullable Profile *)currentProfile
 {
     pthread_mutex_lock(&mutex);
