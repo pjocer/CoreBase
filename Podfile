@@ -15,6 +15,7 @@ target 'base' do
 	pod 'TXFire'
 	pod 'Reveal-iOS-SDK', :configurations => ['Debug']
 	pod 'SDWebImage'
+	pod 'MBProgressHUD'
 
   target 'baseTests' do
     inherit! :search_paths

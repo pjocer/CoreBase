@@ -40,6 +40,7 @@
 #import "Network.h"
 #import "NSError+Networking.h"
 #import "BaseHTTPSessionManager.h"
+#import "RACSignal+Util.h"
 
 #import "UIButton+BaseCreation.h"
 #import "BasePagingView.h"
