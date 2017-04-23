@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Network : NSObject
 
+/// 启动长连接(获取Profile等)
++ (void)startService;
 
 @end
 

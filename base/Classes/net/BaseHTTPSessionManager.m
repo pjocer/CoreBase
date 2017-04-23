@@ -9,6 +9,7 @@
 #import "BaseHTTPSessionManager.h"
 #import "AccessToken.h"
 #import "Network.h"
+#import <ReactiveObjC/ReactiveObjC.h>
 
 @implementation BaseHTTPSessionManager
 
@@ -21,21 +22,21 @@
         AFJSONResponseSerializer *jsonResponseSerializer = (AFJSONResponseSerializer *)self.responseSerializer;
         jsonResponseSerializer.removesKeysWithNullValues = YES;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAccessTokenChanged:) name:AccessTokenDidChangeNotification object:nil];
+        @weakify(self);
+        [[[[[[NSNotificationCenter defaultCenter] rac_addObserverForName:AccessTokenDidChangeNotification object:nil] map:^id _Nullable(NSNotification * _Nullable value) {
+            return value.userInfo[AccessTokenChangeNewKey];
+        }] startWith:[AccessToken currentAccessToken]] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id  _Nullable x) {
+            @strongify(self);
+            [self updateHeaderForToken:x];
+        }];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)onAccessTokenChanged:(NSNotification *)note
+- (void)updateHeaderForToken:(AccessToken *)token
 {
     @synchronized (self)
     {
-        AccessToken *token = note.userInfo[AccessTokenChangeNewKey];
         if (token)
         {
             [self.requestSerializer setValue:token.tokenString forHTTPHeaderField:@"Token"];

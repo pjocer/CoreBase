@@ -33,6 +33,7 @@
                 [self requestProfileUntilSuccess];
             }
         }
+        [self prepare];
     }
     return self;
 }

@@ -11,15 +11,14 @@
 #import <UIKit/UIKit.h>
 #import <TXFire/TXFire.h>
 #import <ReactiveObjC/ReactiveObjC.h>
-#import "AccessToken.h"
+#import "ProfileAutoLoader.h"
 
-//static inline pthread_mutex_t shared_mutex(void)
-//{
-//    static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-//    return mutex;
-//}
-//
 @implementation Network
+
++ (void)startService
+{
+    [ProfileAutoLoader sharedLoader];
+}
 
 @end
 

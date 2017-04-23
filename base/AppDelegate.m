@@ -37,8 +37,8 @@
 //    GIFViewController *vc = [[GIFViewController alloc] initWithNibName:nil bundle:nil];
 //    LoadingIndicatorTableViewController *vc = [[LoadingIndicatorTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 //    UIViewController *vc = [[DrilldropViewController alloc] initWithNibName:nil bundle:nil];
-    UIViewController *vc = [[CNBViewController alloc] initWithNibName:nil bundle:nil];
-//    UIViewController *vc = [[NetworkLoadingViewController alloc] initWithNibName:nil bundle:nil];
+//    UIViewController *vc = [[CNBViewController alloc] initWithNibName:nil bundle:nil];
+    UIViewController *vc = [[NetworkLoadingViewController alloc] initWithNibName:nil bundle:nil];
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
