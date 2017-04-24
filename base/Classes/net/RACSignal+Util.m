@@ -90,6 +90,7 @@ static void notifyDataNotAllowed(UIViewController *vc)
             
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
             hud.removeFromSuperViewOnHide = YES;
+            hud.label.text = msg;
             hud.mode = MBProgressHUDModeText;
             hud.removeFromSuperViewOnHide = YES;
             [hud hideAnimated:YES afterDelay:3.f];
