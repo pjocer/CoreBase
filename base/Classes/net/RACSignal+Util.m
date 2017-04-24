@@ -41,18 +41,23 @@ static void notifyDataNotAllowed(UIViewController *vc)
 
 @implementation RACSignal (Util)
 
-- (RACSignal *)hudWithViewController:(__weak UIViewController *)viewController
+- (RACSignal *)hudWithView:(__weak UIView *)view
 {
-    @weakify(viewController);
+    @weakify(view);
     return [[self initially:^{
-        @strongify(viewController);
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
+        @strongify(view);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
         hud.graceTime = 0.5f;
         hud.removeFromSuperViewOnHide = YES;
     }] finally:^{
-        @strongify(viewController);
-        [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+        @strongify(view);
+        [MBProgressHUD hideHUDForView:view animated:YES];
     }];
+}
+
+- (RACSignal *)hudWithViewController:(__weak UIViewController *)viewController
+{
+    return [self hudWithView:viewController.view];
 }
 
 - (RACSignal *)catchURLErrorWithViewController:(__weak UIViewController *)viewController

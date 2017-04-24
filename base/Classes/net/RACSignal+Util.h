@@ -10,7 +10,7 @@
 
 @interface RACSignal<__covariant ValueType> (Util)
 
-/// typically
+- (RACSignal<ValueType> *)hudWithView:(__weak UIView *)view;
 - (RACSignal<ValueType> *)hudWithViewController:(__weak UIViewController *)viewController;
 
 - (RACSignal<ValueType> *)catchURLErrorWithViewController:(__weak UIViewController *)viewController;
