@@ -10,6 +10,7 @@
 #import <ReactiveObjC/ReactiveObjC.h>
 #import <pthread/pthread.h>
 #import "Profile.h"
+#import "WebsiteDataStore.h"
 
 NSString *const AccessTokenDidChangeNotification = @"AccessTokenDidChangeNotification";
 NSString *const AccessTokenDidChangeUserIDKey = @"AccessTokenDidChangeUserIDKey";
@@ -103,6 +104,11 @@ static BOOL loadedFromDisk = NO;
             return;
         }
         
+        /// remove cookies.
+        if (!newToken)
+        {
+            [WebsiteDataStore removeAllCookies];
+        }
         
         if (oldToken && newToken && [oldToken.userID isEqualToString:newToken.userID])
         {

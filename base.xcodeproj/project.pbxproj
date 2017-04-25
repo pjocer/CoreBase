@@ -13,6 +13,7 @@
 		B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A3481E8BC4EF00D1AA57 /* CNBViewController.m */; };
 		B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */; };
 		B708A34F1E8CB4CA00D1AA57 /* UINavigationController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */; };
+		B7160DC41EAF64FE00A55702 /* WebsiteDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = B7160DC31EAF64FE00A55702 /* WebsiteDataStore.m */; };
 		B7429F781EACA451001B1C97 /* RACSignal+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = B7429F771EACA451001B1C97 /* RACSignal+Util.m */; };
 		B7511E281EA9E5F200A5A972 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = B7511E271EA9E5F200A5A972 /* Profile.m */; };
 		B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B7534FA41EA0A72A00C94516 /* AccessToken.m */; };
@@ -99,6 +100,8 @@
 		B708A34B1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractivePopDelegateProxy.m; sourceTree = "<group>"; };
 		B708A34D1E8CB4CA00D1AA57 /* UINavigationController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Base.h"; sourceTree = "<group>"; };
 		B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Base.m"; sourceTree = "<group>"; };
+		B7160DC21EAF64FE00A55702 /* WebsiteDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebsiteDataStore.h; sourceTree = "<group>"; };
+		B7160DC31EAF64FE00A55702 /* WebsiteDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebsiteDataStore.m; sourceTree = "<group>"; };
 		B7429F761EACA451001B1C97 /* RACSignal+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+Util.h"; sourceTree = "<group>"; };
 		B7429F771EACA451001B1C97 /* RACSignal+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+Util.m"; sourceTree = "<group>"; };
 		B7511E261EA9E5F200A5A972 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
@@ -378,6 +381,8 @@
 			isa = PBXGroup;
 			children = (
 				B7BC60ED1E827CC000859FE6 /* base.h */,
+				B7160DC21EAF64FE00A55702 /* WebsiteDataStore.h */,
+				B7160DC31EAF64FE00A55702 /* WebsiteDataStore.m */,
 				B7511E251EA9E5D600A5A972 /* Profile */,
 				B76BB4151EA071B900F1EC6A /* AccessToken */,
 				B76BB4051E9F59C800F1EC6A /* router */,
@@ -843,6 +848,7 @@
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */,
 				B7BC60F31E835CCA00859FE6 /* UIView+LoadingIndicator.m in Sources */,
+				B7160DC41EAF64FE00A55702 /* WebsiteDataStore.m in Sources */,
 				B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */,
 				B7BC61221E84CB9600859FE6 /* UIView+SeparatorLine.m in Sources */,
 				B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */,
