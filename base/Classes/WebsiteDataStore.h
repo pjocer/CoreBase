@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXTERN const NSNotificationName CookiesDidDeleteNotification;
+
 @interface WebsiteDataStore : NSObject
 
 + (void)removeAllCookies;
