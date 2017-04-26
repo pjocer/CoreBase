@@ -11,6 +11,7 @@
 #import <pthread/pthread.h>
 #import "Profile.h"
 #import "WebsiteDataStore.h"
+#import "util.h"
 
 NSString *const AccessTokenDidChangeNotification = @"AccessTokenDidChangeNotification";
 NSString *const AccessTokenDidChangeUserIDKey = @"AccessTokenDidChangeUserIDKey";
@@ -104,8 +105,12 @@ static BOOL loadedFromDisk = NO;
             return;
         }
         
-        /// remove cookies.
-        if (!newToken)
+        
+        if (newToken)
+        {
+            [WebsiteDataStore setCookieName:@"login_token" value:newToken.tokenString];
+        }
+        else /// remove cookies.
         {
             [WebsiteDataStore removeAllCookies];
         }
@@ -145,16 +150,9 @@ static BOOL loadedFromDisk = NO;
     }
     pthread_mutex_unlock(&mutex);
     
-    if (NSThread.isMainThread || NSOperationQueue.mainQueue == NSOperationQueue.currentQueue)
-    {
+    main_thread_safe(^{
         [[NSNotificationCenter defaultCenter] postNotificationName:AccessTokenDidChangeNotification object:nil userInfo:userInfo];
-    }
-    else
-    {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:AccessTokenDidChangeNotification object:nil userInfo:userInfo];
-        });
-    }
+    });
     
     [Profile setCurrentProfile:nil];
 }

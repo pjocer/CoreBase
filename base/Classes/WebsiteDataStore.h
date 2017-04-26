@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXTERN const NSNotificationName CookiesWillDeleteNotification;
 FOUNDATION_EXTERN const NSNotificationName CookiesDidDeleteNotification;
 
 @interface WebsiteDataStore : NSObject
+
+/// domain: *.azazie.com expires: 1 week
++ (void)setCookieName:(NSString *)name value:(NSString *)value;
 
 + (void)removeAllCookies;
 
