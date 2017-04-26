@@ -10,6 +10,7 @@
 #import <WebKit/WebKit.h>
 #import <TXFire/TXFire.h>
 #import "util.h"
+#import <libkern/OSAtomic.h>
 
 const NSNotificationName CookiesWillDeleteNotification = @"CookiesWillDeleteNotification";
 const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotification";
@@ -42,21 +43,41 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
         });
     };
     
+    start();
+    
+    NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
+    NSError *errors;
+    [[NSFileManager defaultManager] removeItemAtPath:cookiesFolderPath error:&errors];
+    [NSFileManager.defaultManager removeItemAtPath:[libraryPath stringByAppendingPathComponent:@"WebKit"] error:NULL];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] removeCookiesSinceDate:[NSDate dateWithTimeIntervalSince1970:0]];
+    for (NSHTTPCookie *cookie in NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies)
+    {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
     if ([WKWebsiteDataStore class])
     {
-        start();
+        __block volatile int32_t flag = 2;
+        
+        void(^completionHandler)(void) = ^{
+            int32_t result = OSAtomicDecrement32(&flag);
+            if (result == 0)
+            {
+                completed();
+            }
+        };
+        
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:[NSSet setWithObject:WKWebsiteDataTypeCookies]
                                                    modifiedSince:[NSDate dateWithTimeIntervalSince1970:0]
-                                               completionHandler:completed];
+                                               completionHandler:completionHandler];
+        [[WKWebsiteDataStore nonPersistentDataStore] removeDataOfTypes:[NSSet setWithObject:WKWebsiteDataTypeCookies]
+                                                         modifiedSince:[NSDate dateWithTimeIntervalSince1970:0]
+                                                     completionHandler:completionHandler];
     }
     else
     {
-        start();
-        NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
-        NSError *errors;
-        [[NSFileManager defaultManager] removeItemAtPath:cookiesFolderPath error:&errors];
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] removeCookiesSinceDate:[NSDate dateWithTimeIntervalSince1970:0]];
         completed();
     }
 }
