@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol RouterHandler <NSObject>
 
-- (BOOL)canRoute:(RouterRequest *)request;
 - (nullable id)request:(RouterRequest *)request;
 
 @end
