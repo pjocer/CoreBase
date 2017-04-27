@@ -16,6 +16,8 @@
 #import "Profile.h"
 #import "AccessToken.h"
 
+#import "RouterManager.h"
+
 #import "UIView+NetworkFailed.h"
 #import "UIViewController+NetworkFailed.h"
 #import "UIView+NetworkLoading.h"

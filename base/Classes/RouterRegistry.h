@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RouterResponse.h"
 #import "RouterRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol RouterHandler <NSObject>
 
 - (BOOL)canRoute:(RouterRequest *)request;
-- (nullable RouterResponse *)request:(RouterRequest *)request error:(NSError *_Nullable __autoreleasing* _Nullable)error;
+- (nullable id)request:(RouterRequest *)request;
 
 @end
 

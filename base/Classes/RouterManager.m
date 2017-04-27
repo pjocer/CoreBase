@@ -30,8 +30,17 @@
     return self;
 }
 
-- (RouterResponse *)request:(RouterRequest *)request error:(NSError *__autoreleasing  _Nullable *)error
+- (id)request:(RouterRequest *)request
 {
+    NSArray<id<RouterHandler>> *handlers = self.routerRegistry.handlers;
+    for (id<RouterHandler> handler in handlers)
+    {
+        id resp = [handler request:request];
+        if (resp)
+        {
+            return resp;
+        }
+    }
     return nil;
 }
 

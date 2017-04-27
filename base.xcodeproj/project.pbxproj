@@ -23,7 +23,6 @@
 		B7534FB21EA0B57900C94516 /* CoreTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = B7534FB11EA0B57900C94516 /* CoreTextField.m */; };
 		B757C91E1E7280F30081C4CF /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = B757C91D1E7280F30081C4CF /* Network.m */; };
 		B76BB4081E9F59E000F1EC6A /* RouterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB4071E9F59E000F1EC6A /* RouterRequest.m */; };
-		B76BB4111E9F59E700F1EC6A /* RouterResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */; };
 		B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */; };
 		B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B76BB4101E9F59E700F1EC6A /* RouterManager.m */; };
 		B775BEBA1EAB5DF1003EBABC /* ProfileAutoLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B775BEB91EAB5DF1003EBABC /* ProfileAutoLoader.m */; };
@@ -119,8 +118,6 @@
 		B757C91D1E7280F30081C4CF /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
 		B76BB4061E9F59E000F1EC6A /* RouterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterRequest.h; sourceTree = "<group>"; };
 		B76BB4071E9F59E000F1EC6A /* RouterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterRequest.m; sourceTree = "<group>"; };
-		B76BB4091E9F59E700F1EC6A /* RouterResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterResponse.h; sourceTree = "<group>"; };
-		B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterResponse.m; sourceTree = "<group>"; };
 		B76BB40B1E9F59E700F1EC6A /* RouterRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterRegistry.h; sourceTree = "<group>"; };
 		B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterRegistry.m; sourceTree = "<group>"; };
 		B76BB40F1E9F59E700F1EC6A /* RouterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouterManager.h; sourceTree = "<group>"; };
@@ -280,8 +277,6 @@
 			children = (
 				B76BB4061E9F59E000F1EC6A /* RouterRequest.h */,
 				B76BB4071E9F59E000F1EC6A /* RouterRequest.m */,
-				B76BB4091E9F59E700F1EC6A /* RouterResponse.h */,
-				B76BB40A1E9F59E700F1EC6A /* RouterResponse.m */,
 				B76BB40B1E9F59E700F1EC6A /* RouterRegistry.h */,
 				B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */,
 				B76BB40F1E9F59E700F1EC6A /* RouterManager.h */,
@@ -863,7 +858,6 @@
 				B78FC4C81E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m in Sources */,
 				B7BC61031E837A8800859FE6 /* UITableViewHeaderFooterView+LoadingIndicator.m in Sources */,
 				B708A34F1E8CB4CA00D1AA57 /* UINavigationController+Base.m in Sources */,
-				B76BB4111E9F59E700F1EC6A /* RouterResponse.m in Sources */,
 				B7A89CFC1E7B765F0020F186 /* GIFViewController.m in Sources */,
 				B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */,
 				B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */,

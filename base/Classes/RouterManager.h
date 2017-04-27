@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "RouterRegistry.h"
 #import "RouterRequest.h"
-#import "RouterResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) RouterRegistry *routerRegistry;
 
-- (nullable RouterResponse *)request:(RouterRequest *)request error:(NSError *_Nullable __autoreleasing * _Nullable)error;
+- (nullable id)request:(RouterRequest *)request;
 
 @end
 

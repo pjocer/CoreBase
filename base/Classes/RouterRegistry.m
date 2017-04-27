@@ -35,7 +35,7 @@
 
 - (NSArray<id<RouterHandler>> *)handlers
 {
-    return _internalHandlers ? _internalHandlers.copy : nil;
+    return _internalHandlers;
 }
 
 @end
