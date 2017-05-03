@@ -127,7 +127,16 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
     [button setImage:item.selectedImage forState:UIControlStateSelected];
     
     @weakify(item, self, button);
-    RAC(button, selected) = [item rac_valuesForKeyPath:@keypath(item, selected) observer:button];
+    [[item rac_valuesForKeyPath:@keypath(item, selected) observer:button] subscribeNext:^(id  _Nullable x) {
+        if ([x boolValue]) {
+            [button setImage:item.selectedImage forState:UIControlStateNormal];
+            [button setImage:item.selectedImage forState:UIControlStateSelected];
+        } else {
+            [button setImage:item.image forState:UIControlStateNormal];
+            [button setImage:item.image forState:UIControlStateSelected];
+        }
+    }];
+    
     [[[[[item rac_valuesForKeyPath:@keypath(item, selectedOptionIndex) observer:button] skip:1] filter:^BOOL(id  _Nullable value) {
         @strongify(item);
         return item.usingOptionAsTitle;
