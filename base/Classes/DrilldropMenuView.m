@@ -310,7 +310,7 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
-            [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+            [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentItem.selectedOptionIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
             _tableView = tableView;
         }
         _tableView.frame = initialFrame;
