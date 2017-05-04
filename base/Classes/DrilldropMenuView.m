@@ -169,8 +169,9 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
             @strongify(self);
             if (self.currentItem.options.count > 0)
             {
+                [self.tableView beginUpdates];
                 [self.tableView reloadData];
-                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentItem.selectedOptionIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+                [self.tableView endUpdates];
                 [self showDrilldropWithAnimated:YES completion:NULL];
             }
         };
@@ -310,13 +311,25 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
-            [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentItem.selectedOptionIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
             _tableView = tableView;
         }
         _tableView.frame = initialFrame;
         if (!_tableView.superview)
         {
             [self.window addSubview:_tableView];
+        }
+    }
+    
+    NSUInteger idx = self.currentItem.selectedOptionIndex;
+    if (idx != NSNotFound)
+    {
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+    else
+    {
+        if (self.tableView.indexPathForSelectedRow)
+        {
+            [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
         }
     }
     
