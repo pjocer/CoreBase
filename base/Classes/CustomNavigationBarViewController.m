@@ -41,6 +41,10 @@
 {
     self.tx_interactiveNavigationBarHidden = YES;
     
+    /// 因为可能在viewDidLoad之前设置左上角的back按钮，所以先初始化navigationBar和pushNavigationItem.
+    _navigationBar = [[UINavigationBar alloc] init];
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
+    [_navigationBar pushNavigationItem:navigationItem animated:NO];
 }
 
 - (void)viewDidLoad
@@ -48,11 +52,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    _navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 20.f, self.view.bounds.size.width, 44.f)];
+    _navigationBar.frame = CGRectMake(0, 20.f, self.view.bounds.size.width, 44.f);
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _navigationBar.delegate = self;
-    UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
-    [_navigationBar pushNavigationItem:navigationItem animated:NO];
     [self.view addSubview:_navigationBar];
 }
 
