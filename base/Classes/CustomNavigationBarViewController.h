@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CustomNavigationBarViewController : UIViewController
+@interface CustomNavigationBarViewController : UIViewController <UINavigationBarDelegate>
 
 /// A navigationItem pushed yet.
 @property (nonatomic, readonly, strong) UINavigationBar *navigationBar;
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar;
 
 - (void)backlizeLeftBarButtonItem;
 

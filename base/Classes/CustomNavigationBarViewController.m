@@ -11,7 +11,7 @@
 #import "util.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 
-@interface CustomNavigationBarViewController ()
+@interface CustomNavigationBarViewController () <UINavigationBarDelegate>
 
 @end
 
@@ -40,9 +40,7 @@
 - (void)cnb_commonInit
 {
     self.tx_interactiveNavigationBarHidden = YES;
-    _navigationBar = [[UINavigationBar alloc] init];
-    UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
-    [_navigationBar pushNavigationItem:navigationItem animated:NO];
+    
 }
 
 - (void)viewDidLoad
@@ -50,9 +48,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    [self.view addSubview:_navigationBar];
-    _navigationBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 64.f);
+    _navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 20.f, self.view.bounds.size.width, 44.f)];
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _navigationBar.delegate = self;
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
+    [_navigationBar pushNavigationItem:navigationItem animated:NO];
+    [self.view addSubview:_navigationBar];
 }
 
 - (void)backlizeLeftBarButtonItem
@@ -65,6 +66,11 @@
         return RACSignal.empty;
     }];
     self.navigationBar.topItem.leftBarButtonItem = item;
+}
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    return UIBarPositionTopAttached;
 }
 
 @end
