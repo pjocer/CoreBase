@@ -56,12 +56,13 @@
         Dlogvars(x.title);
         x.selected = !x.selected;
     }];
-    
+#ifdef DEBUG
     @weakify(item1);
     [[RACObserve(item1, selectedOptionIndex) skip:1] subscribeNext:^(id  _Nullable x) {
         @strongify(item1);
         Dlogvars(item1.options[[x integerValue]]);
     }];
+#endif
 }
 
 @end
