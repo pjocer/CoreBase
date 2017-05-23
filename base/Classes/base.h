@@ -12,6 +12,7 @@
 #import "util.h"
 
 #import "WebsiteDataStore.h"
+#import "AppIdentifier.h"
 
 #import "Profile.h"
 #import "AccessToken.h"

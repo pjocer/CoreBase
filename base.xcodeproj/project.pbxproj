@@ -64,6 +64,7 @@
 		B7C738FD1ED4091F00FCC28A /* UserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738FC1ED4091F00FCC28A /* UserAgent.m */; };
 		B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738FF1ED426D100FCC28A /* BaseLauncher.m */; };
 		B7C739031ED42B7000FCC28A /* RACSignal+NSURLError.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */; };
+		B7C739061ED4313A00FCC28A /* AppIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739051ED4313A00FCC28A /* AppIdentifier.m */; };
 		B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */; };
 		B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */; };
 		B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */; };
@@ -204,6 +205,8 @@
 		B7C738FF1ED426D100FCC28A /* BaseLauncher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseLauncher.m; sourceTree = "<group>"; };
 		B7C739011ED42B7000FCC28A /* RACSignal+NSURLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+NSURLError.h"; sourceTree = "<group>"; };
 		B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+NSURLError.m"; sourceTree = "<group>"; };
+		B7C739041ED4313A00FCC28A /* AppIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppIdentifier.h; sourceTree = "<group>"; };
+		B7C739051ED4313A00FCC28A /* AppIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppIdentifier.m; sourceTree = "<group>"; };
 		B7F15EF71EA5AA1900C18CD4 /* BaseHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseHTTPSessionManager.h; sourceTree = "<group>"; };
 		B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseHTTPSessionManager.m; sourceTree = "<group>"; };
 		B7F15EFA1EA5B5ED00C18CD4 /* NSError+Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Networking.h"; sourceTree = "<group>"; };
@@ -395,6 +398,8 @@
 				B7160DC31EAF64FE00A55702 /* WebsiteDataStore.m */,
 				B7C738FE1ED426D100FCC28A /* BaseLauncher.h */,
 				B7C738FF1ED426D100FCC28A /* BaseLauncher.m */,
+				B7C739041ED4313A00FCC28A /* AppIdentifier.h */,
+				B7C739051ED4313A00FCC28A /* AppIdentifier.m */,
 				B7511E251EA9E5D600A5A972 /* Profile */,
 				B76BB4151EA071B900F1EC6A /* AccessToken */,
 				B76BB4051E9F59C800F1EC6A /* router */,
@@ -890,6 +895,7 @@
 				B708A3491E8BC4EF00D1AA57 /* CNBViewController.m in Sources */,
 				B7C738CC1ECBF6C800FCC28A /* CustomAlertViewController.m in Sources */,
 				B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */,
+				B7C739061ED4313A00FCC28A /* AppIdentifier.m in Sources */,
 				B76BB4081E9F59E000F1EC6A /* RouterRequest.m in Sources */,
 				B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */,
 				B7534FB21EA0B57900C94516 /* CoreTextField.m in Sources */,
