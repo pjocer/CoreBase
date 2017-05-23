@@ -46,6 +46,8 @@
 #import "NSError+Networking.h"
 #import "BaseHTTPSessionManager.h"
 #import "RACSignal+Util.h"
+#import "RACSignal+NSURLError.h"
+#import "UserAgent.h"
 
 #import "UIButton+BaseCreation.h"
 #import "BasePagingView.h"

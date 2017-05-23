@@ -63,6 +63,7 @@
 		B7C738CF1ECBF77300FCC28A /* MarginLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738CE1ECBF77300FCC28A /* MarginLabel.m */; };
 		B7C738FD1ED4091F00FCC28A /* UserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738FC1ED4091F00FCC28A /* UserAgent.m */; };
 		B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738FF1ED426D100FCC28A /* BaseLauncher.m */; };
+		B7C739031ED42B7000FCC28A /* RACSignal+NSURLError.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */; };
 		B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */; };
 		B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */; };
 		B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */; };
@@ -105,8 +106,8 @@
 		B708A34E1E8CB4CA00D1AA57 /* UINavigationController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Base.m"; sourceTree = "<group>"; };
 		B7160DC21EAF64FE00A55702 /* WebsiteDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebsiteDataStore.h; sourceTree = "<group>"; };
 		B7160DC31EAF64FE00A55702 /* WebsiteDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebsiteDataStore.m; sourceTree = "<group>"; };
-		B7429F761EACA451001B1C97 /* RACSignal+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+Util.h"; sourceTree = "<group>"; };
-		B7429F771EACA451001B1C97 /* RACSignal+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+Util.m"; sourceTree = "<group>"; };
+		B7429F761EACA451001B1C97 /* RACSignal+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Util.h"; path = "net/RACSignal+Util.h"; sourceTree = "<group>"; };
+		B7429F771EACA451001B1C97 /* RACSignal+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Util.m"; path = "net/RACSignal+Util.m"; sourceTree = "<group>"; };
 		B7511E261EA9E5F200A5A972 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
 		B7511E271EA9E5F200A5A972 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		B7534FA31EA0A72A00C94516 /* AccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessToken.h; sourceTree = "<group>"; };
@@ -201,6 +202,8 @@
 		B7C738FC1ED4091F00FCC28A /* UserAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAgent.m; sourceTree = "<group>"; };
 		B7C738FE1ED426D100FCC28A /* BaseLauncher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseLauncher.h; sourceTree = "<group>"; };
 		B7C738FF1ED426D100FCC28A /* BaseLauncher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseLauncher.m; sourceTree = "<group>"; };
+		B7C739011ED42B7000FCC28A /* RACSignal+NSURLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+NSURLError.h"; sourceTree = "<group>"; };
+		B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+NSURLError.m"; sourceTree = "<group>"; };
 		B7F15EF71EA5AA1900C18CD4 /* BaseHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseHTTPSessionManager.h; sourceTree = "<group>"; };
 		B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseHTTPSessionManager.m; sourceTree = "<group>"; };
 		B7F15EFA1EA5B5ED00C18CD4 /* NSError+Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Networking.h"; sourceTree = "<group>"; };
@@ -451,8 +454,8 @@
 				B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */,
 				B757C91C1E7280F30081C4CF /* Network.h */,
 				B757C91D1E7280F30081C4CF /* Network.m */,
-				B7429F761EACA451001B1C97 /* RACSignal+Util.h */,
-				B7429F771EACA451001B1C97 /* RACSignal+Util.m */,
+				B7C739011ED42B7000FCC28A /* RACSignal+NSURLError.h */,
+				B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */,
 				B7C738FB1ED4091F00FCC28A /* UserAgent.h */,
 				B7C738FC1ED4091F00FCC28A /* UserAgent.m */,
 			);
@@ -507,6 +510,8 @@
 				B7BC61181E84BE6C00859FE6 /* NSString+Base.m */,
 				B7534FA81EA0B25800C94516 /* NSString+Validation.h */,
 				B7534FA91EA0B25800C94516 /* NSString+Validation.m */,
+				B7429F761EACA451001B1C97 /* RACSignal+Util.h */,
+				B7429F771EACA451001B1C97 /* RACSignal+Util.m */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -895,6 +900,7 @@
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,
 				B7534FAA1EA0B25800C94516 /* NSString+Validation.m in Sources */,
 				B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */,
+				B7C739031ED42B7000FCC28A /* RACSignal+NSURLError.m in Sources */,
 				B7FFA9DB1E8E66E90070C6A2 /* DrilldropMenuItem.m in Sources */,
 				B7A89CE11E7AC4150020F186 /* UIApplication+Base.m in Sources */,
 				B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */,

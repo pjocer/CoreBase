@@ -9,35 +9,7 @@
 #import "RACSignal+Util.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <TXFire/TXFire.h>
-
-static void notifyDataNotAllowed(UIViewController *vc)
-{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"DataNotAllowed" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *settingAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSURL *URL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
-        {
-            [[UIApplication sharedApplication] openURL:URL options:@{} completionHandler:NULL];
-        }
-        else
-        {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-            [[UIApplication sharedApplication] openURL:URL];
-#pragma clang diagnostic pop
-        }
-    }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [alertController addAction:settingAction];
-    [alertController addAction:cancelAction];
-    
-    [vc presentViewController:alertController animated:YES completion:NULL];
-}
+#import <libkern/OSAtomic.h>
 
 @implementation RACSignal (Util)
 
@@ -60,49 +32,31 @@ static void notifyDataNotAllowed(UIViewController *vc)
     return [self hudWithView:viewController.view];
 }
 
-- (RACSignal *)catchURLErrorWithViewController:(__weak UIViewController *)viewController
+- (RACSignal *)beforeDispose:(void(^)(void))block
 {
-    @weakify(viewController);
-    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        @strongify(viewController);
-        if ([error.domain isEqualToString:NSURLErrorDomain])
-        {
-            Dlog(@"error domain: %@, code: %zd, localizedDescription: %@", error.domain, error.code, error.localizedDescription);
-            
-            NSInteger code = error.code;
-            if (code == NSURLErrorCancelled)
+    return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+        __block volatile int32_t flag = 2;
+        RACDisposable *disposable = [self subscribeNext:^(id  _Nullable x) {
+            [subscriber sendNext:x];
+        } error:^(NSError * _Nullable error) {
+            OSAtomicDecrement32(&flag);
+            [subscriber sendError:error];
+        } completed:^{
+            OSAtomicDecrement32(&flag);
+            [subscriber sendCompleted];
+        }];
+        
+        return [RACDisposable disposableWithBlock:^{
+            int32_t x = OSAtomicDecrement32(&flag);
+            if (x != 0)
             {
-                return RACSignal.empty;
+                block();
             }
-            if (code == NSURLErrorDataNotAllowed)
-            {
-                notifyDataNotAllowed(viewController);
-                return RACSignal.empty;
-            }
-            NSString *msg = nil;
-            if (code == NSURLErrorNotConnectedToInternet)
-            {
-                msg = @"Oops! No internet connection.";
-            }
-            else if (code == NSURLErrorTimedOut)
-            {
-                msg = @"Oops! Request timeout.";
-            }
-            else
-            {
-                msg = @"Oops! Unable to connect to server.";
-            }
-            
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
-            hud.removeFromSuperViewOnHide = YES;
-            hud.label.text = msg;
-            hud.mode = MBProgressHUDModeText;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hideAnimated:YES afterDelay:3.f];
-            return RACSignal.empty;
-        }
-        return [RACSignal error:error];
+            [disposable dispose];
+        }];
     }];
 }
+
+
 
 @end
