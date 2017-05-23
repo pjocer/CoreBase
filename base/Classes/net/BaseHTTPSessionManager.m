@@ -11,6 +11,7 @@
 #import "Network.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "UserAgent.h"
+#import "AppIdentifier.h"
 
 @implementation BaseHTTPSessionManager
 
@@ -20,6 +21,10 @@
     if (self)
     {
         [self.requestSerializer setValue:UserAgent.customUserAgent forHTTPHeaderField:@"User-Agent"];
+        
+        [self.requestSerializer setValue:[AppIdentifier IDFA] forHTTPHeaderField:@"idfa"];
+        [self.requestSerializer setValue:[AppIdentifier IDFV] forHTTPHeaderField:@"idfv"];
+        
         AFJSONResponseSerializer *jsonResponseSerializer = (AFJSONResponseSerializer *)self.responseSerializer;
         jsonResponseSerializer.removesKeysWithNullValues = YES;
         

@@ -39,6 +39,9 @@ static NSURL *APIRelativeURL = nil;
     dispatch_once(&onceToken, ^{
         NSCAssert(APIRelativeURL, @"you must setAPIRelativeURL before.");
         session = [[BaseHTTPSessionManager alloc] initWithBaseURL:APIRelativeURL];
+        AFHTTPRequestSerializer *requestSerializer = session.requestSerializer;
+        [requestSerializer setAuthorizationHeaderFieldWithUsername:@"lebbay" password:@"passw0rd"];
+        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     });
     return session;
 }
