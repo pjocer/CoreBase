@@ -23,6 +23,8 @@
 + (void)didFinishLaunching:(NSNotification *)note
 {
     [ProfileAutoLoader sharedLoader]; // start profile auto loader.
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
