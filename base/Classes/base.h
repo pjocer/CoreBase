@@ -9,6 +9,8 @@
 #ifndef base_h
 #define base_h
 
+#import "Constant.h"
+
 #import "util.h"
 
 #import "WebsiteDataStore.h"
