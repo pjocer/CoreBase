@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setAPIRelativeURL:(NSURL *)relativeURL;
 
 @property (class, nonatomic, readonly, strong) BaseHTTPSessionManager *APISession;
+@property (class, nonatomic, readonly, strong) BaseHTTPSessionManager *APIJSONSession;
 
 @end
 

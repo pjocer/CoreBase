@@ -15,11 +15,20 @@
 
 @implementation BaseHTTPSessionManager
 
-- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration
+- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration requestSerializer:(nullable AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer
 {
     self = [super initWithBaseURL:url sessionConfiguration:configuration];
     if (self)
     {
+        if (requestSerializer)
+        {
+            self.requestSerializer = requestSerializer;
+        }
+        
+        
+        [self.requestSerializer setAuthorizationHeaderFieldWithUsername:@"lebbay" password:@"passw0rd"];
+        [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        
         [self.requestSerializer setValue:UserAgent.customUserAgent forHTTPHeaderField:@"User-Agent"];
         
         [self.requestSerializer setValue:[AppIdentifier IDFA] forHTTPHeaderField:@"idfa"];
@@ -37,6 +46,11 @@
         }];
     }
     return self;
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration
+{
+    return [self initWithBaseURL:url sessionConfiguration:configuration requestSerializer:nil];
 }
 
 - (void)updateHeaderForToken:(AccessToken *)token
