@@ -66,6 +66,7 @@
 		B7C739031ED42B7000FCC28A /* RACSignal+NSURLError.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */; };
 		B7C739061ED4313A00FCC28A /* AppIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739051ED4313A00FCC28A /* AppIdentifier.m */; };
 		B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m */; };
+		B7C7393B1ED8125700FCC28A /* UIScrollView+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C7393A1ED8125700FCC28A /* UIScrollView+Loading.m */; };
 		B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */; };
 		B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */; };
 		B7FFA9D31E8DEE310070C6A2 /* UIView+NetworkLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */; };
@@ -211,6 +212,8 @@
 		B7C7392C1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+ResponseToJSONModel.h"; sourceTree = "<group>"; };
 		B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+ResponseToJSONModel.m"; sourceTree = "<group>"; };
 		B7C7392F1ED68A5A00FCC28A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		B7C739391ED8125700FCC28A /* UIScrollView+Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Loading.h"; sourceTree = "<group>"; };
+		B7C7393A1ED8125700FCC28A /* UIScrollView+Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Loading.m"; sourceTree = "<group>"; };
 		B7F15EF71EA5AA1900C18CD4 /* BaseHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseHTTPSessionManager.h; sourceTree = "<group>"; };
 		B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseHTTPSessionManager.m; sourceTree = "<group>"; };
 		B7F15EFA1EA5B5ED00C18CD4 /* NSError+Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Networking.h"; sourceTree = "<group>"; };
@@ -449,6 +452,8 @@
 				B7BC61211E84CB9600859FE6 /* UIView+SeparatorLine.m */,
 				B7C738CD1ECBF77300FCC28A /* MarginLabel.h */,
 				B7C738CE1ECBF77300FCC28A /* MarginLabel.m */,
+				B7C739391ED8125700FCC28A /* UIScrollView+Loading.h */,
+				B7C7393A1ED8125700FCC28A /* UIScrollView+Loading.m */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -757,7 +762,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		4CD1F1DE21F618C7BA4B8C29 /* [CP] Check Pods Manifest.lock */ = {
@@ -772,7 +777,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		730175A48C2190B29876AB67 /* [CP] Embed Pods Frameworks */ = {
@@ -862,7 +867,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -922,6 +927,7 @@
 				B7A89C841E76A4E20020F186 /* CustomNavigationBarViewController.m in Sources */,
 				B7C738FD1ED4091F00FCC28A /* UserAgent.m in Sources */,
 				B7BC61191E84BE6C00859FE6 /* NSString+Base.m in Sources */,
+				B7C7393B1ED8125700FCC28A /* UIScrollView+Loading.m in Sources */,
 				B7BC60EC1E827C4600859FE6 /* UIViewController+NetworkFailed.m in Sources */,
 				B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */,
 				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,

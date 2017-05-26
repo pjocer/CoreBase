@@ -38,7 +38,26 @@
 //    LoadingIndicatorTableViewController *vc = [[LoadingIndicatorTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 //    UIViewController *vc = [[DrilldropViewController alloc] initWithNibName:nil bundle:nil];
 //    UIViewController *vc = [[CNBViewController alloc] initWithNibName:nil bundle:nil];
-    UIViewController *vc = [[NetworkLoadingViewController alloc] initWithNibName:nil bundle:nil];
+//    UIViewController *vc = [[NetworkLoadingViewController alloc] initWithNibName:nil bundle:nil];
+    UITableViewController *vc = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    vc.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Refreshing" style:UIBarButtonItemStylePlain target:nil action:nil];
+    @weakify(vc);
+    vc.navigationItem.rightBarButtonItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        [vc.tableView beginHeaderRefreshing];
+        return RACSignal.empty;
+    }];
+    [vc.tableView addRefreshHeaderWithBlock:^{
+        static NSInteger take = 3;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            @strongify(vc);
+            take -= 1;
+            [vc.tableView endHeaderRefreshing];
+            if (take == 0)
+            {
+                [vc.tableView removeRefreshHeader];
+            }
+        });
+    }];
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
