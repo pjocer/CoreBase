@@ -52,6 +52,7 @@
 #import "RACSignal+Util.h"
 #import "RACSignal+NSURLError.h"
 #import "UserAgent.h"
+#import "URLManager.h"
 
 #import "UIButton+BaseCreation.h"
 #import "BasePagingView.h"

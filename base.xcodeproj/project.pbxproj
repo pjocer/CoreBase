@@ -59,6 +59,7 @@
 		B7BC61271E84D25100859FE6 /* filter_category@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC61261E84D25100859FE6 /* filter_category@2x.png */; };
 		B7BC61291E850EA300859FE6 /* filter_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC61281E850EA300859FE6 /* filter_normal@2x.png */; };
 		B7BC612B1E850EAE00859FE6 /* filter_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BC612A1E850EAE00859FE6 /* filter_selected@2x.png */; };
+		B7BE351E1EE568F500FD1296 /* URLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE351D1EE568F500FD1296 /* URLManager.m */; };
 		B7C738CC1ECBF6C800FCC28A /* CustomAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738CB1ECBF6C800FCC28A /* CustomAlertViewController.m */; };
 		B7C738CF1ECBF77300FCC28A /* MarginLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738CE1ECBF77300FCC28A /* MarginLabel.m */; };
 		B7C738FD1ED4091F00FCC28A /* UserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738FC1ED4091F00FCC28A /* UserAgent.m */; };
@@ -197,6 +198,8 @@
 		B7BC61261E84D25100859FE6 /* filter_category@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_category@2x.png"; sourceTree = "<group>"; };
 		B7BC61281E850EA300859FE6 /* filter_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_normal@2x.png"; sourceTree = "<group>"; };
 		B7BC612A1E850EAE00859FE6 /* filter_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_selected@2x.png"; sourceTree = "<group>"; };
+		B7BE351C1EE568F500FD1296 /* URLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLManager.h; sourceTree = "<group>"; };
+		B7BE351D1EE568F500FD1296 /* URLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLManager.m; sourceTree = "<group>"; };
 		B7C738CA1ECBF6C800FCC28A /* CustomAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertViewController.h; sourceTree = "<group>"; };
 		B7C738CB1ECBF6C800FCC28A /* CustomAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlertViewController.m; sourceTree = "<group>"; };
 		B7C738CD1ECBF77300FCC28A /* MarginLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarginLabel.h; sourceTree = "<group>"; };
@@ -475,6 +478,8 @@
 				B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */,
 				B7C738FB1ED4091F00FCC28A /* UserAgent.h */,
 				B7C738FC1ED4091F00FCC28A /* UserAgent.m */,
+				B7BE351C1EE568F500FD1296 /* URLManager.h */,
+				B7BE351D1EE568F500FD1296 /* URLManager.m */,
 			);
 			name = Networking;
 			path = net;
@@ -892,6 +897,7 @@
 				B7160DC41EAF64FE00A55702 /* WebsiteDataStore.m in Sources */,
 				B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */,
 				B7BC61221E84CB9600859FE6 /* UIView+SeparatorLine.m in Sources */,
+				B7BE351E1EE568F500FD1296 /* URLManager.m in Sources */,
 				B76BB4141E9F59E700F1EC6A /* RouterManager.m in Sources */,
 				B7A89CF91E7B74170020F186 /* util.m in Sources */,
 				B7BC61251E84D1F000859FE6 /* DrilldropViewController.m in Sources */,
