@@ -38,6 +38,17 @@
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated
 {
+    [viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx >= 1)
+        {
+            obj.hidesBottomBarWhenPushed = YES;
+        }
+        else
+        {
+            obj.hidesBottomBarWhenPushed = NO;
+        }
+    }];
+    
     [super setViewControllers:viewControllers animated:animated];
     if (viewControllers.count > 1)
     {
