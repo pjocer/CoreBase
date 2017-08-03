@@ -8,15 +8,15 @@ target 'base' do
   # Pods for base
   
   pod 'ReactiveObjC'
-	pod 'AFNetworking'
+  pod 'AFNetworking'
   pod 'Masonry'
   pod 'JSONModel'
-	pod 'SMPageControl'
-	pod 'TXFire'
-	pod 'Reveal-iOS-SDK', :configurations => ['Debug']
-	pod 'SDWebImage'
-	pod 'MBProgressHUD'
-	pod 'MJRefresh'
+  pod 'SMPageControl'
+  pod 'TXFire'
+#  pod 'Reveal-iOS-SDK', :configurations => ['Debug']
+  pod 'SDWebImage'
+  pod 'MBProgressHUD'
+  pod 'MJRefresh'
 
   target 'baseTests' do
     inherit! :search_paths
