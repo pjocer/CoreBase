@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.5.0"
+  s.version      = "1.5.1"
   s.summary      = "Azazie Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 

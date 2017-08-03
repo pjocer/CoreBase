@@ -7,8 +7,8 @@
 //
 
 #import "NoMoreProductsView.h"
-#import <Masonry.h>
-#import <TXFire.h>
+#import <Masonry/Masonry.h>
+#import <TXFire/TXFire.h>
 
 const CGFloat NoMoreProductsViewExpectedHeight = 65.f;
 

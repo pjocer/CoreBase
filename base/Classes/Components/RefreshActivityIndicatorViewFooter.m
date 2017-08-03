@@ -8,8 +8,8 @@
 
 #import "RefreshActivityIndicatorViewFooter.h"
 #import "NoMoreProductsView.h"
-#import <Masonry.h>
-#import <ReactiveObjC.h>
+#import <Masonry/Masonry.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 
 @interface RefreshActivityIndicatorViewFooter ()
 
