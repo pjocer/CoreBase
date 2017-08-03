@@ -11,6 +11,7 @@
 #import <TXFire/TXFire.h>
 #import <TXFire/UIImage+TXGIF.h>
 #import "util.h"
+#import "RefreshActivityIndicatorViewFooter.h"
 
 static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
 {
@@ -50,6 +51,11 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
     self.mj_header = refreshHeader;
 }
 
+- (void)addRefreshFooterWithBlock:(void (^)(void))block {
+    RefreshActivityIndicatorViewFooter *refreshFooter = [RefreshActivityIndicatorViewFooter footerWithRefreshingBlock:block];
+    self.mj_footer = refreshFooter;
+}
+
 - (void)beginHeaderRefreshing
 {
     [self.mj_header beginRefreshing];
@@ -60,9 +66,17 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
     [self.mj_header endRefreshing];
 }
 
+- (void)endFooterRefreshing:(BOOL)isNoMoreData {
+    isNoMoreData?[self.mj_footer endRefreshingWithNoMoreData]:[self.mj_footer endRefreshing];
+}
+
 - (void)removeRefreshHeader
 {
     self.mj_header = nil;
+}
+
+- (void)removeRefreshFooter {
+    self.mj_footer = nil;
 }
 
 @end

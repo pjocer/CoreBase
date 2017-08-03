@@ -58,6 +58,14 @@
             }
         });
     }];
+    [vc.tableView addRefreshFooterWithBlock:^{
+        static NSInteger take = 3;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            @strongify(vc);
+            take -= 1;
+            [vc.tableView endFooterRefreshing:take == 0];
+        });
+    }];
     vc.navigationItem.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];

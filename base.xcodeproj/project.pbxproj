@@ -76,6 +76,8 @@
 		B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DA1E8E66E90070C6A2 /* DrilldropMenuView.m */; };
 		B7FFA9DF1E8E67CF0070C6A2 /* NetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DE1E8E67CF0070C6A2 /* NetworkFailedView.m */; };
 		B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */; };
+		D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */; };
+		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +236,10 @@
 		B7FFA9E01E8E6A860070C6A2 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshActivityIndicatorViewFooter.h; sourceTree = "<group>"; };
+		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
+		D39D72491F330E0500C240EE /* NoMoreProductsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoMoreProductsView.h; sourceTree = "<group>"; };
+		D39D724A1F330E0500C240EE /* NoMoreProductsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoMoreProductsView.m; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -457,6 +463,10 @@
 				B7C738CE1ECBF77300FCC28A /* MarginLabel.m */,
 				B7C739391ED8125700FCC28A /* UIScrollView+Loading.h */,
 				B7C7393A1ED8125700FCC28A /* UIScrollView+Loading.m */,
+				D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */,
+				D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */,
+				D39D72491F330E0500C240EE /* NoMoreProductsView.h */,
+				D39D724A1F330E0500C240EE /* NoMoreProductsView.m */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -900,6 +910,7 @@
 				B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m in Sources */,
 				B7BC61091E83A21800859FE6 /* LoadingIndicatorTableViewController.m in Sources */,
 				B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */,
+				D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */,
 				B7C738CF1ECBF77300FCC28A /* MarginLabel.m in Sources */,
 				B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
@@ -914,6 +925,7 @@
 				B7A89CF91E7B74170020F186 /* util.m in Sources */,
 				B7BC61251E84D1F000859FE6 /* DrilldropViewController.m in Sources */,
 				B7BC61001E8379B800859FE6 /* UICollectionReusableView+LoadingIndicator.m in Sources */,
+				D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */,
 				B78FC4CF1E715464007F33CA /* BaseStorage.m in Sources */,
 				B7A89C851E76A4E20020F186 /* CustomNavigationBarTableViewController.m in Sources */,
 				B7FFA9DF1E8E67CF0070C6A2 /* NetworkFailedView.m in Sources */,
