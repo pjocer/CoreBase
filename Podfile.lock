@@ -18,12 +18,12 @@ PODS:
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
-  - ReactiveObjC (2.1.2)
-  - SDWebImage (4.0.0):
-    - SDWebImage/Core (= 4.0.0)
-  - SDWebImage/Core (4.0.0)
+  - ReactiveObjC (3.0.0)
+  - SDWebImage (4.1.0):
+    - SDWebImage/Core (= 4.1.0)
+  - SDWebImage/Core (4.1.0)
   - SMPageControl (1.2)
-  - TXFire (1.0.4):
+  - TXFire (1.0.5):
     - Masonry
     - ReactiveObjC
 
@@ -44,10 +44,10 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  ReactiveObjC: 7b6782ae39f9ac0f57205c3b0c0b69b9dd7048c0
-  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  ReactiveObjC: ce79989e8684b9086b5f8d0c74bc7b81a8729c9e
+  SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
-  TXFire: c60c59a5f5c2f73b4b8bb707d2bd493ec97d9774
+  TXFire: c3be4958b97aca42cf67b3404f8b9a1650a92379
 
 PODFILE CHECKSUM: a16348d00c23483cdbe2bc52275f1cdcc81f4c67
 
