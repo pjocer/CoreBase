@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.5.1"
+  s.version      = "1.5.2"
   s.summary      = "Azazie Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
 
   s.dependency "ReactiveObjC"
   s.dependency "Masonry"
-  s.dependency "JSONModel"
   s.dependency "SMPageControl"
   s.dependency "TXFire"
   s.dependency "AFNetworking"
