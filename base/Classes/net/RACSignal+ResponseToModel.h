@@ -8,7 +8,7 @@
 
 #import <ReactiveObjC/ReactiveObjC.h>
 
-FOUNDATION_EXTERN NSError * ResponseToJSONModelError(void);
+FOUNDATION_EXTERN NSError * ResponseToModelError(void);
 
 @interface RACSignal (ResponseToModel)
 
