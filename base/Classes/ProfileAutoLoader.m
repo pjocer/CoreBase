@@ -11,7 +11,7 @@
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "Profile.h"
 #import "Network.h"
-#import <YYModel.h>
+#import <YYModel/YYModel.h>
 
 @interface ProfileAutoLoader ()
 

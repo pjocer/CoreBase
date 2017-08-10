@@ -7,7 +7,7 @@
 //
 
 #import "RACSignal+ResponseToModel.h"
-#import <YYModel.h>
+#import <YYModel/YYModel.h>
 
 NSError * ResponseToJSONModelError(void) {
     return [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:nil];
