@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <ReactiveObjC/ReactiveObjC.h>
-#import <YYModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

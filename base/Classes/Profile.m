@@ -9,6 +9,7 @@
 #import "Profile.h"
 #import <pthread/pthread.h>
 #import "Network.h"
+#import <YYModel.h>
 
 NSString *const ProfileDidChangeNotification = @"ProfileDidChangeNotification";
 NSString *const ProfileChangeOldKey = @"ProfileChangeOldKey";
