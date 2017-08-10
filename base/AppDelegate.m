@@ -32,7 +32,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    
+    [Profile currentProfile];
 //    PagingViewController *vc = [[PagingViewController alloc] initWithNibName:nil bundle:nil];
 //    GIFViewController *vc = [[GIFViewController alloc] initWithNibName:nil bundle:nil];
 //    LoadingIndicatorTableViewController *vc = [[LoadingIndicatorTableViewController alloc] initWithStyle:UITableViewStyleGrouped];

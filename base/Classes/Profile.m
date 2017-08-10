@@ -2,7 +2,7 @@
 //  Profile.m
 //  base
 //
-//  Created by Demi on 21/04/2017.
+//  Created by Jocer on 21/04/2017.
 //  Copyright © 2017 Azazie. All rights reserved.
 //
 
@@ -21,7 +21,7 @@ static Profile *globalProfile = nil;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static BOOL loadedFromDisk = NO;
 
-@interface Profile ()
+@interface Profile () <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *user_id;
 @property (nonatomic, copy, nullable) NSString *user_name;
@@ -34,6 +34,44 @@ static BOOL loadedFromDisk = NO;
 @end
 
 @implementation Profile
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.user_id = [aDecoder decodeObjectForKey:@"user_id"];
+        self.user_name = [aDecoder decodeObjectForKey:@"user_name"];
+        self.email = [aDecoder decodeObjectForKey:@"email"];
+        self.language_id = [aDecoder decodeIntegerForKey:@"language_id"];
+        self.currency_id = [aDecoder decodeIntegerForKey:@"currency_id"];
+        self.lang_code = [aDecoder decodeObjectForKey:@"lang_code"];
+        self.shoppingCartGoodsTotal = [aDecoder decodeIntegerForKey:@"shoppingCartGoodsTotal"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_user_id forKey:@"user_id"];
+    [aCoder encodeObject:_user_name forKey:@"user_name"];
+    [aCoder encodeObject:_email forKey:@"email"];
+    [aCoder encodeInteger:_language_id forKey:@"language_id"];
+    [aCoder encodeInteger:_currency_id forKey:@"currency_id"];
+    [aCoder encodeObject:_lang_code forKey:@"lang_code"];
+    [aCoder encodeInteger:_shoppingCartGoodsTotal forKey:@"shoppingCartGoodsTotal"];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    Profile *copy = [Profile new];
+    if (copy) {
+        [copy setUser_id:[self.user_id copyWithZone:zone]];
+        [copy setUser_name:[self.user_name copyWithZone:zone]];
+        [copy setEmail:[self.email copyWithZone:zone]];
+        [copy setLanguage_id:self.language_id];
+        [copy setCurrency_id:self.currency_id];
+        [copy setLang_code:[self.lang_code copyWithZone:zone]];
+        [copy setShoppingCartGoodsTotal:self.shoppingCartGoodsTotal];
+    }
+    return copy;
+}
 
 + (nullable Profile *)currentProfile
 {
@@ -72,13 +110,13 @@ static BOOL loadedFromDisk = NO;
         }
         
         if (newProfile) {
-            if (oldProfile && ![oldProfile yy_modelIsEqual:newProfile]) {
+            if (![oldProfile yy_modelIsEqual:newProfile]) {
                 globalProfile = newProfile.copy;
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:newProfile];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:encodedObject forKey:key];
                 [defaults synchronize];
-            }  
+            }
         } else {
             globalProfile = nil;
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];

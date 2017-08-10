@@ -2,7 +2,7 @@
 //  Profile.h
 //  base
 //
-//  Created by Demi on 21/04/2017.
+//  Created by Jocer on 21/04/2017.
 //  Copyright © 2017 Azazie. All rights reserved.
 //
 
