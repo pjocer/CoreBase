@@ -52,53 +52,42 @@ static BOOL loadedFromDisk = NO;
     return globalProfile;
 }
 
-+ (void)setCurrentProfile:(Profile *)profile
-{
++ (void)setCurrentProfile:(Profile *)profile {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    
-    pthread_mutex_lock(&mutex);
-    {
+    pthread_mutex_lock(&mutex); {
         Profile *oldProfile = globalProfile;
         Profile *newProfile = profile;
         
-        if (!oldProfile && !newProfile)
-        {
+        if (!oldProfile && !newProfile) {
             pthread_mutex_unlock(&mutex);
             return;
         }
         
-        if (oldProfile)
-        {
+        if (oldProfile) {
             userInfo[ProfileChangeOldKey] = oldProfile;
         }
-        if (newProfile)
-        {
+        if (newProfile) {
             userInfo[ProfileChangeNewKey] = newProfile;
         }
         
-        if (newProfile)
-        {
-            globalProfile = newProfile.copy;
-            NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:newProfile];
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:encodedObject forKey:key];
-            [defaults synchronize];
-        }
-        else
-        {
+        if (newProfile) {
+            if (oldProfile && ![oldProfile yy_modelIsEqual:newProfile]) {
+                globalProfile = newProfile.copy;
+                NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:newProfile];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:encodedObject forKey:key];
+                [defaults synchronize];
+            }  
+        } else {
             globalProfile = nil;
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }
     pthread_mutex_unlock(&mutex);
-    
-    if (NSThread.isMainThread || NSOperationQueue.mainQueue == NSOperationQueue.currentQueue)
-    {
+    if (NSThread.isMainThread || NSOperationQueue.mainQueue == NSOperationQueue.currentQueue) {
         [[NSNotificationCenter defaultCenter] postNotificationName:ProfileDidChangeNotification object:nil userInfo:userInfo];
-    }
-    else
-    {
+    } else {
         dispatch_sync(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:ProfileDidChangeNotification object:nil userInfo:userInfo];
         });

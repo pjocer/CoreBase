@@ -10,10 +10,9 @@ target 'base' do
   pod 'ReactiveObjC'
   pod 'AFNetworking'
   pod 'Masonry'
-  pod 'JSONModel'
+  pod 'YYModel'
   pod 'SMPageControl'
   pod 'TXFire'
-#  pod 'Reveal-iOS-SDK', :configurations => ['Debug']
   pod 'SDWebImage'
   pod 'MBProgressHUD'
   pod 'MJRefresh'

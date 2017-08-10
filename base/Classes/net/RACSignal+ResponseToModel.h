@@ -10,11 +10,10 @@
 
 FOUNDATION_EXTERN NSError * ResponseToJSONModelError(void);
 
-@interface RACSignal (ResponseToJSONModel)
+@interface RACSignal (ResponseToModel)
 
-/// must be subclass of JSONModel
-- (RACSignal *)tryMapResponseToJSONModel:(Class)model;
-/// must be subclass of JSONModel
-- (RACSignal *)tryMapResponseToJSONModelArray:(Class)model;
+- (RACSignal *)tryMapResponseToModel:(Class)model;
+
+- (RACSignal *)tryMapResponseToModelArray:(Class)model;
 
 @end

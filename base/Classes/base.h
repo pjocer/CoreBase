@@ -45,7 +45,7 @@
 #import "BaseTmpNetworkStorage.h"
 
 #import "AFHTTPSessionManager+BaseRACSupports.h"
-#import "RACSignal+ResponseToJSONModel.h"
+#import "RACSignal+ResponseToModel.h"
 #import "Network.h"
 #import "NSError+Networking.h"
 #import "BaseHTTPSessionManager.h"

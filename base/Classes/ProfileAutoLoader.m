@@ -67,7 +67,7 @@
     @weakify(self);
     self.disposable = [[[[Network.APISession rac_GET:@"me" parameters:nil] tryMap:^id _Nonnull(RACTuple * _Nullable value, NSError * _Nullable __autoreleasing * _Nullable errorPtr) {
         NSDictionary *responseObject = value.second;
-        Profile *profile = [[Profile alloc] initWithDictionary:responseObject error:nil];
+        Profile *profile = [Profile yy_modelWithDictionary:responseObject];
         if (!profile && errorPtr)
         {
             *errorPtr = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotParseResponse userInfo:@{NSLocalizedDescriptionKey: @"cann't parse response"}];

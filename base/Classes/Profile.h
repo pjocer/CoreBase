@@ -6,8 +6,9 @@
 //  Copyright © 2017 Azazie. All rights reserved.
 //
 
-#import <JSONModel/JSONModel.h>
+#import <Foundation/Foundation.h>
 #import <ReactiveObjC/ReactiveObjC.h>
+#import <YYModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,7 @@ FOUNDATION_EXTERN NSString *const ProfileDidChangeNotification;
 FOUNDATION_EXTERN NSString *const ProfileChangeOldKey;
 FOUNDATION_EXTERN NSString *const ProfileChangeNewKey;
 
-@interface Profile : JSONModel
+@interface Profile : NSObject
 
 @property (nonatomic, readonly, copy) NSString *user_id;
 @property (nonatomic, readonly, copy, nullable) NSString *user_name;

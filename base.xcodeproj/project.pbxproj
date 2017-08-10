@@ -66,7 +66,7 @@
 		B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C738FF1ED426D100FCC28A /* BaseLauncher.m */; };
 		B7C739031ED42B7000FCC28A /* RACSignal+NSURLError.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */; };
 		B7C739061ED4313A00FCC28A /* AppIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C739051ED4313A00FCC28A /* AppIdentifier.m */; };
-		B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m */; };
+		B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToModel.m */; };
 		B7C7393B1ED8125700FCC28A /* UIScrollView+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C7393A1ED8125700FCC28A /* UIScrollView+Loading.m */; };
 		B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EF81EA5AA1900C18CD4 /* BaseHTTPSessionManager.m */; };
 		B7F15EFC1EA5B5ED00C18CD4 /* NSError+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */; };
@@ -214,8 +214,8 @@
 		B7C739021ED42B7000FCC28A /* RACSignal+NSURLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+NSURLError.m"; sourceTree = "<group>"; };
 		B7C739041ED4313A00FCC28A /* AppIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppIdentifier.h; sourceTree = "<group>"; };
 		B7C739051ED4313A00FCC28A /* AppIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppIdentifier.m; sourceTree = "<group>"; };
-		B7C7392C1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+ResponseToJSONModel.h"; sourceTree = "<group>"; };
-		B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+ResponseToJSONModel.m"; sourceTree = "<group>"; };
+		B7C7392C1ED6867800FCC28A /* RACSignal+ResponseToModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RACSignal+ResponseToModel.h"; sourceTree = "<group>"; };
+		B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RACSignal+ResponseToModel.m"; sourceTree = "<group>"; };
 		B7C7392F1ED68A5A00FCC28A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		B7C739391ED8125700FCC28A /* UIScrollView+Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Loading.h"; sourceTree = "<group>"; };
 		B7C7393A1ED8125700FCC28A /* UIScrollView+Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Loading.m"; sourceTree = "<group>"; };
@@ -476,8 +476,8 @@
 			children = (
 				B78FC4C61E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.h */,
 				B78FC4C71E70F8F7007F33CA /* AFHTTPSessionManager+BaseRACSupports.m */,
-				B7C7392C1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.h */,
-				B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m */,
+				B7C7392C1ED6867800FCC28A /* RACSignal+ResponseToModel.h */,
+				B7C7392D1ED6867800FCC28A /* RACSignal+ResponseToModel.m */,
 				B7F15EFA1EA5B5ED00C18CD4 /* NSError+Networking.h */,
 				B7F15EFB1EA5B5ED00C18CD4 /* NSError+Networking.m */,
 				B7F15EF71EA5AA1900C18CD4 /* BaseHTTPSessionManager.h */,
@@ -907,7 +907,7 @@
 				B757C91E1E7280F30081C4CF /* Network.m in Sources */,
 				B78FC4D21E715949007F33CA /* BaseTmpNetworkStorage.m in Sources */,
 				B708A34C1E8BC69D00D1AA57 /* InteractivePopDelegateProxy.m in Sources */,
-				B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToJSONModel.m in Sources */,
+				B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToModel.m in Sources */,
 				B7BC61091E83A21800859FE6 /* LoadingIndicatorTableViewController.m in Sources */,
 				B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */,
 				D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */,
