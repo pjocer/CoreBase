@@ -76,7 +76,7 @@
 		B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DA1E8E66E90070C6A2 /* DrilldropMenuView.m */; };
 		B7FFA9DF1E8E67CF0070C6A2 /* NetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DE1E8E67CF0070C6A2 /* NetworkFailedView.m */; };
 		B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */; };
-		D347F4C31F3D41B000878AE4 /* UIView+ReloadAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D347F4C21F3D41B000878AE4 /* UIView+ReloadAnimation.m */; };
+		D347F4C61F3D43F100878AE4 /* UIView+ReloadAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */; };
 		D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */; };
 		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
 /* End PBXBuildFile section */
@@ -237,8 +237,8 @@
 		B7FFA9E01E8E6A860070C6A2 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D347F4C11F3D41B000878AE4 /* UIView+ReloadAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ReloadAnimation.h"; sourceTree = "<group>"; };
-		D347F4C21F3D41B000878AE4 /* UIView+ReloadAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ReloadAnimation.m"; sourceTree = "<group>"; };
+		D347F4C41F3D43F100878AE4 /* UIView+ReloadAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+ReloadAnimation.h"; path = "../UIView+ReloadAnimation.h"; sourceTree = "<group>"; };
+		D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+ReloadAnimation.m"; path = "../UIView+ReloadAnimation.m"; sourceTree = "<group>"; };
 		D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshActivityIndicatorViewFooter.h; sourceTree = "<group>"; };
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
 		D39D72491F330E0500C240EE /* NoMoreProductsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoMoreProductsView.h; sourceTree = "<group>"; };
@@ -372,8 +372,6 @@
 				B7A89CFB1E7B765E0020F186 /* GIFViewController.m */,
 				B78FC48B1E6E93F5007F33CA /* PagingViewController.h */,
 				B78FC48C1E6E93F5007F33CA /* PagingViewController.m */,
-				D347F4C11F3D41B000878AE4 /* UIView+ReloadAnimation.h */,
-				D347F4C21F3D41B000878AE4 /* UIView+ReloadAnimation.m */,
 				B78FC4641E6E8BCE007F33CA /* Info.plist */,
 				B78FC45A1E6E8BCE007F33CA /* Assets.xcassets */,
 				B78FC45B1E6E8BCE007F33CA /* Supporting Files */,
@@ -454,6 +452,8 @@
 		B78FC4A91E6FA651007F33CA /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D347F4C41F3D43F100878AE4 /* UIView+ReloadAnimation.h */,
+				D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */,
 				B7534FAD1EA0B55800C94516 /* SeparatorTextView.h */,
 				B7534FAE1EA0B55800C94516 /* SeparatorTextView.m */,
 				B7534FB01EA0B57900C94516 /* CoreTextField.h */,
@@ -919,7 +919,7 @@
 				B7C738CF1ECBF77300FCC28A /* MarginLabel.m in Sources */,
 				B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
-				D347F4C31F3D41B000878AE4 /* UIView+ReloadAnimation.m in Sources */,
+				D347F4C61F3D43F100878AE4 /* UIView+ReloadAnimation.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */,
 				B7BC60F31E835CCA00859FE6 /* UIView+LoadingIndicator.m in Sources */,
