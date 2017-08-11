@@ -1,5 +1,5 @@
 //
-//  RACSignal+ResponseToJSONModel.h
+//  RACSignal+ResponseToModel.h
 //  base
 //
 //  Created by Demi on 25/05/2017.

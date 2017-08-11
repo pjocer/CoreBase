@@ -1,5 +1,5 @@
 //
-//  RACSignal+ResponseToJSONModel.m
+//  RACSignal+ResponseToModel.m
 //  base
 //
 //  Created by Demi on 25/05/2017.
