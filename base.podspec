@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.5.5"
+  s.version      = "1.5.6"
   s.summary      = "Azazie Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
-  s.author       = { "Taylor" => "com.taylortang@gmail.com" }
+  s.author       = { "Jocer" => "com.pjocer@outlook.com" }
 
   s.platform     = :ios, "8.0"
 	s.license      = "Copyright (c) 2017-present Azazie, Inc. All rights reserved."

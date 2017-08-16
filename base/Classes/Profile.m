@@ -50,13 +50,13 @@ static BOOL loadedFromDisk = NO;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_user_id forKey:@"user_id"];
-    [aCoder encodeObject:_user_name forKey:@"user_name"];
-    [aCoder encodeObject:_email forKey:@"email"];
-    [aCoder encodeInteger:_language_id forKey:@"language_id"];
-    [aCoder encodeInteger:_currency_id forKey:@"currency_id"];
-    [aCoder encodeObject:_lang_code forKey:@"lang_code"];
-    [aCoder encodeInteger:_shoppingCartGoodsTotal forKey:@"shoppingCartGoodsTotal"];
+    [aCoder encodeObject:self.user_id forKey:@"user_id"];
+    [aCoder encodeObject:self.user_name forKey:@"user_name"];
+    [aCoder encodeObject:self.email forKey:@"email"];
+    [aCoder encodeInteger:self.language_id forKey:@"language_id"];
+    [aCoder encodeInteger:self.currency_id forKey:@"currency_id"];
+    [aCoder encodeObject:self.lang_code forKey:@"lang_code"];
+    [aCoder encodeInteger:self.shoppingCartGoodsTotal forKey:@"shoppingCartGoodsTotal"];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -84,6 +84,7 @@ static BOOL loadedFromDisk = NO;
             if (encodedObject)
             {
                 globalProfile = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                if ([globalProfile yy_modelIsEqual:[Profile new]]) globalProfile = nil; //Fix nil properties in Profile error.
             }
         }
     }
@@ -112,7 +113,7 @@ static BOOL loadedFromDisk = NO;
         if (newProfile) {
             if (![oldProfile yy_modelIsEqual:newProfile]) {
                 globalProfile = newProfile.copy;
-                NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:newProfile];
+                NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:globalProfile];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:encodedObject forKey:key];
                 [defaults synchronize];
