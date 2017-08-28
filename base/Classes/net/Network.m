@@ -29,6 +29,7 @@ static NSURL *APIRelativeURL = nil;
 + (void)setAPIRelativeURL:(NSURL *)relativeURL
 {
     APIRelativeURL = [relativeURL copy];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KApiBaseURLDidChangedNotification object:relativeURL];
 }
 
 + (AFHTTPSessionManager *)APISession

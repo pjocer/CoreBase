@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSNotificationName const KApiBaseURLDidChangedNotification;
+
 @interface BaseHTTPSessionManager : AFHTTPSessionManager
 
 // @see initWithBaseURL:sessionConfiguration:

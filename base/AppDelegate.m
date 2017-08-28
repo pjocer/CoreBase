@@ -76,7 +76,14 @@
     [self.window makeKeyAndVisible];
     
     [Network setAPIRelativeURL:[NSURL URLWithString:@"https://api.azazie.com/1.0"]];
+    [Network.APISession rac_GET:@"home" parameters:nil];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [Network setAPIRelativeURL:[NSURL URLWithString:@"https://api.azazie.com/2.0"]];
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [Network setAPIRelativeURL:[NSURL URLWithString:@"https://api.azazie.com/3.0"]];
+    });
     return YES;
 }
 
