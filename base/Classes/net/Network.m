@@ -33,7 +33,7 @@
     static AFHTTPSessionManager *session = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        session = [[BaseHTTPSessionManager alloc] initWithBaseURL:nil];
+        session = [[BaseHTTPSessionManager alloc] init];
     });
     return session;
 }

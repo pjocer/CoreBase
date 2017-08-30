@@ -82,7 +82,7 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [Network setAPIRelativeURL:[NSURL URLWithString:@"https://api-t.azazie.com/1.0/"]];
-        [[Network.APISession rac_GET:@"home/sdaw/aefgsdg/egsrg" parameters:nil] subscribeNext:^(RACTuple * _Nullable x) {
+        [[Network.APISession rac_GET:@"home" parameters:nil] subscribeNext:^(RACTuple * _Nullable x) {
             NSLog(@"%@",x.second);
         }];
     });

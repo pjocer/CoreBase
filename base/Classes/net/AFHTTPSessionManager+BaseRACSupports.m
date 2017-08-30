@@ -27,6 +27,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                                          failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
 {
     NSError *serializationError = nil;
+    NSCAssert(self.baseURL, @"you must setAPIRelativeURL before.");
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
     if (serializationError) {
         if (failure) {
