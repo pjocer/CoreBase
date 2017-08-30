@@ -12,6 +12,7 @@
 #import <TXFire/TXFire.h>
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "ProfileAutoLoader.h"
+#import <ReactiveObjC/RACEXTKeyPathCoding.h>
 
 @implementation Network
 
@@ -29,7 +30,8 @@ static NSURL *APIRelativeURL = nil;
 + (void)setAPIRelativeURL:(NSURL *)relativeURL
 {
     APIRelativeURL = [relativeURL copy];
-    [[NSNotificationCenter defaultCenter] postNotificationName:KApiBaseURLDidChangedNotification object:relativeURL];
+    [self.APISession setValue:relativeURL forKeyPath:@keypath(self.APISession, baseURL)];
+    [self.APIJSONSession setValue:relativeURL forKeyPath:@keypath(self.APIJSONSession, baseURL)];
 }
 
 + (AFHTTPSessionManager *)APISession

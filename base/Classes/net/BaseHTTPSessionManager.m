@@ -13,8 +13,6 @@
 #import "UserAgent.h"
 #import "AppIdentifier.h"
 
-NSNotificationName const KApiBaseURLDidChangedNotification = @"KApiBaseURLDidChangedNotification";
-
 @implementation BaseHTTPSessionManager
 
 - (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration requestSerializer:(nullable AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer
@@ -45,10 +43,6 @@ NSNotificationName const KApiBaseURLDidChangedNotification = @"KApiBaseURLDidCha
         }] startWith:[AccessToken currentAccessToken]] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             [self updateHeaderForToken:x];
-        }];
-        [[[[[NSNotificationCenter defaultCenter]rac_addObserverForName:KApiBaseURLDidChangedNotification object:nil] distinctUntilChanged] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification * _Nullable x) {
-            @strongify(self);
-            [self setValue:x.object forKey:@"baseURL"];
         }];
     }
     return self;
