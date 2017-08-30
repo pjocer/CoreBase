@@ -16,8 +16,7 @@
 
 @implementation Network
 
-+ (void)startService
-{
++ (void)startService {
     [ProfileAutoLoader sharedLoader];
 }
 
@@ -25,35 +24,25 @@
 
 @implementation Network (AFHTTPSessionManager)
 
-static NSURL *APIRelativeURL = nil;
-
-+ (void)setAPIRelativeURL:(NSURL *)relativeURL
-{
-    APIRelativeURL = [relativeURL copy];
++ (void)setAPIRelativeURL:(NSURL *)relativeURL {
     [self.APISession setValue:relativeURL forKeyPath:@keypath(self.APISession, baseURL)];
     [self.APIJSONSession setValue:relativeURL forKeyPath:@keypath(self.APIJSONSession, baseURL)];
 }
 
-+ (AFHTTPSessionManager *)APISession
-{
++ (AFHTTPSessionManager *)APISession {
     static AFHTTPSessionManager *session = nil;
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSCAssert(APIRelativeURL, @"you must setAPIRelativeURL before.");
-        session = [[BaseHTTPSessionManager alloc] initWithBaseURL:APIRelativeURL];
+        session = [[BaseHTTPSessionManager alloc] initWithBaseURL:nil];
     });
     return session;
 }
 
-+ (AFHTTPSessionManager *)APIJSONSession
-{
++ (AFHTTPSessionManager *)APIJSONSession {
     static AFHTTPSessionManager *session = nil;
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSCAssert(APIRelativeURL, @"you must setAPIRelativeURL before.");
-        session = [[BaseHTTPSessionManager alloc] initWithBaseURL:APIRelativeURL sessionConfiguration:nil requestSerializer:[AFJSONRequestSerializer serializer]];
+        session = [[BaseHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:nil requestSerializer:[AFJSONRequestSerializer serializer]];
     });
     return session;
 }
