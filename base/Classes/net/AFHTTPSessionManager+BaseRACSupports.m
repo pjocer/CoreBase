@@ -9,7 +9,7 @@
 #import "AFHTTPSessionManager+BaseRACSupports.h"
 #import <TXFire/TXFire.h>
 #import "UIApplication+Base.h"
-#import <DebugManager.h>
+#import <DebugBall/DebugManager.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";

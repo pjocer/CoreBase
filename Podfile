@@ -16,6 +16,7 @@ target 'base' do
   pod 'SDWebImage'
   pod 'MBProgressHUD'
   pod 'MJRefresh'
+  pod 'DebugBall'
 
   target 'baseTests' do
     inherit! :search_paths

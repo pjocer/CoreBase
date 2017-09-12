@@ -14,9 +14,12 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - DebugBall (0.5.4):
+    - QMUIKit (~> 1.7.6)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
+  - QMUIKit (1.7.6)
   - ReactiveObjC (3.0.0)
   - SDWebImage (4.1.0):
     - SDWebImage/Core (= 4.1.0)
@@ -29,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - DebugBall
   - Masonry
   - MBProgressHUD
   - MJRefresh
@@ -40,15 +44,17 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  DebugBall: ca2d4d2fb47517338269aff3b76a5239ad3c3e35
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  QMUIKit: f3eac3811073962da4dbcf6173aeef8f34e91c1c
   ReactiveObjC: ce79989e8684b9086b5f8d0c74bc7b81a8729c9e
   SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
   TXFire: c3be4958b97aca42cf67b3404f8b9a1650a92379
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 07ea622a80d56df405f2409b0538f346c6f273a7
+PODFILE CHECKSUM: ca584798ff25058a8329686f8df1eb5edf5e0f58
 
-COCOAPODS: 1.3.0
+COCOAPODS: 1.3.1
