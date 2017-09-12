@@ -9,6 +9,7 @@
 #import "AFHTTPSessionManager+BaseRACSupports.h"
 #import <TXFire/TXFire.h>
 #import "UIApplication+Base.h"
+#import <DebugManager.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
@@ -29,6 +30,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     NSError *serializationError = nil;
     NSCAssert(self.baseURL, @"you must setAPIRelativeURL before.");
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+    [DebugManager registerNetworkRequest:request type:APIDomainTypeDefault];
     if (serializationError) {
         if (failure) {
 #pragma clang diagnostic push

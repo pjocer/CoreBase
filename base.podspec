@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.5.8"
+  s.version      = "1.5.9"
   s.summary      = "Azazie Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
@@ -26,5 +26,5 @@ Pod::Spec.new do |s|
 	s.dependency "SDWebImage"
 	s.dependency "MBProgressHUD"
 	s.dependency "MJRefresh"
-
+	s.dependency "DebugBall"
 end
