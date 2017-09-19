@@ -9,6 +9,7 @@
 #import "RACSignal+NSURLError.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <TXFire/TXFire.h>
+#import <AFNetworking.h>
 
 static void notifyDataNotAllowed(UIViewController *vc)
 {
@@ -113,10 +114,20 @@ static void notifyDataNotAllowed(UIViewController *vc)
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled)
         {
-            return [RACSignal empty];
+            return [RACSignal return:nil];
         }
         else
         {
+            return [RACSignal error:error];
+        }
+    }];
+}
+
+- (RACSignal *)catchNSURLErrorNoResponse {
+    return [[self catchNSURLErrorCancelled] catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        if ([error.domain isEqualToString:AFURLResponseSerializationErrorDomain] && error.code == NSURLErrorBadServerResponse && [(NSHTTPURLResponse *)error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] statusCode] == 404) {
+            return [RACSignal return:nil];
+        } else {
             return [RACSignal error:error];
         }
     }];

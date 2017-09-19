@@ -43,8 +43,7 @@ static const void *kNetworkFailedComponent = &kNetworkFailedComponent;
     return view;
 }
 
-- (UIView *)addSubviewForNetworkFailed
-{
+- (UIView *)addSubviewForNetworkFailed {
     return [self addSubviewForNetworkFailedWithOffsetY:0];
 }
 

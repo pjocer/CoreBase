@@ -14,6 +14,8 @@
 - (RACSignal<ValueType> *)catchNSURLError;
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
 
+- (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
+
 - (RACSignal<ValueType> *)doNSURLErrorWithViewController:(__weak UIViewController *)viewController;
 
 
