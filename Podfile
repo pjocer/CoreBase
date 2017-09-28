@@ -10,6 +10,7 @@ target 'base' do
   pod 'ReactiveObjC'
   pod 'AFNetworking'
   pod 'Masonry'
+  pod 'QMUIKit'
   pod 'YYModel'
   pod 'SMPageControl'
   pod 'TXFire'

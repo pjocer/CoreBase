@@ -17,7 +17,7 @@
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
 
 - (RACSignal<ValueType> *)doNSURLErrorWithViewController:(__weak UIViewController *)viewController;
-
+- (RACSignal<ValueType> *)doNSURLErrorAlert;
 
 - (RACSignal<ValueType> *)catchURLErrorWithViewController:(__weak UIViewController *)viewController DEPRECATED_ATTRIBUTE;
 

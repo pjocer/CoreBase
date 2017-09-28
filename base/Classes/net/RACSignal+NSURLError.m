@@ -75,6 +75,10 @@ static void notifyDataNotAllowed(UIViewController *vc)
     [hud hideAnimated:YES afterDelay:3.f];
 }
 
++ (void)__doNSURLErrorWithCode:(NSInteger)code {
+    
+}
+
 - (RACSignal *)catchURLErrorWithViewController:(__weak UIViewController *)viewController
 {
     return [self catchNSURLErrorWithViewController:viewController];
@@ -139,6 +143,12 @@ static void notifyDataNotAllowed(UIViewController *vc)
     return [self doError:^(NSError * _Nonnull error) {
         @strongify(viewController);
         [RACSignal __doNSURLErrorWithCode:error.code forViewController:viewController];
+    }];
+}
+
+- (RACSignal *)doNSURLErrorAlert {
+    return [self doError:^(NSError * _Nonnull error) {
+        [RACSignal __doNSURLErrorWithCode:error.code];
     }];
 }
 

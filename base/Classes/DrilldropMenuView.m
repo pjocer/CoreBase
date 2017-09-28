@@ -301,6 +301,9 @@ const CGFloat DrilldropMenuViewExpectedHeight = 40.f;
         if (!_tableView)
         {
             UITableView *tableView = [[UITableView alloc] initWithFrame:initialFrame style:UITableViewStyleGrouped];
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
             tableView.contentInset = UIEdgeInsetsMake(-1, 0, 0, 0); // -1 for hides the UITableView separator
             tableView.scrollsToTop = NO;
             tableView.alwaysBounceVertical = NO;
