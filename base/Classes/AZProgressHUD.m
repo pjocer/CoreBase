@@ -25,7 +25,7 @@
     hud.mode = MBProgressHUDModeCustomView;
     hud.animationType = MBProgressHUDAnimationFade;
     hud.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
-    hud.backgroundView.color = UIColorMakeWithRGBA(0, 0, 0, 0.3);
+    hud.backgroundView.color = UIColorClear;
     hud.backgroundView.userInteractionEnabled = isBlocked;
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.color = UIColorClear;
@@ -37,7 +37,7 @@
 }
 
 + (void)hiddenAnimated:(BOOL)isAnimated {
-    [AZProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+    [AZProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:isAnimated];
 }
 
 @end

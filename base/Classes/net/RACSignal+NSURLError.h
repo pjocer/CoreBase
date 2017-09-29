@@ -10,15 +10,10 @@
 
 @interface RACSignal<__covariant ValueType> (NSURLError)
 
-- (RACSignal<ValueType> *)catchNSURLErrorWithViewController:(__weak UIViewController *)viewController;
+- (RACSignal<ValueType> *)catchURLError;
 - (RACSignal<ValueType> *)catchNSURLError;
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
-
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
-
-- (RACSignal<ValueType> *)doNSURLErrorWithViewController:(__weak UIViewController *)viewController;
 - (RACSignal<ValueType> *)doNSURLErrorAlert;
-
-- (RACSignal<ValueType> *)catchURLErrorWithViewController:(__weak UIViewController *)viewController DEPRECATED_ATTRIBUTE;
 
 @end

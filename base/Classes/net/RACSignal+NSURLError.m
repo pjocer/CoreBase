@@ -7,121 +7,73 @@
 //
 
 #import "RACSignal+NSURLError.h"
-#import <MBProgressHUD/MBProgressHUD.h>
+#import "AZAlert.h"
 #import <TXFire/TXFire.h>
 #import <AFNetworking.h>
 
-static void notifyDataNotAllowed(UIViewController *vc)
+static void notifyDataNotAllowed(void)
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"DataNotAllowed" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *settingAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    AZAlert *alert = [AZAlert alertWithTitle:@"DataNotAllowed" detailText:nil];
+    [alert addConfirmItemWithTitleAttributes:nil title:@"Settings" action:^{
         NSURL *URL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
-        {
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
             [[UIApplication sharedApplication] openURL:URL options:@{} completionHandler:NULL];
-        }
-        else
-        {
+        } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
             [[UIApplication sharedApplication] openURL:URL];
 #pragma clang diagnostic pop
         }
     }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [alertController addAction:settingAction];
-    [alertController addAction:cancelAction];
-    
-    [vc presentViewController:alertController animated:YES completion:NULL];
+    [alert addCancelItemWithTitleAttributes:nil title:@"Cancel" action:NULL];
+    [alert showWithAnimated:YES completion:NULL];
 }
 
 @implementation RACSignal (NSURLError)
 
-+ (void)__doNSURLErrorWithCode:(NSInteger)code forViewController:(__weak UIViewController *)viewController
-{
-    if (code == NSURLErrorCancelled)
-    {
++ (void)__doNSURLErrorWithCode:(NSInteger)code {
+    if (code == NSURLErrorCancelled) {
         return;
     }
-    if (code == NSURLErrorDataNotAllowed)
-    {
-        notifyDataNotAllowed(viewController);
+    if (code == NSURLErrorDataNotAllowed) {
+        notifyDataNotAllowed();
         return;
     }
     NSString *msg = nil;
-    if (code == NSURLErrorNotConnectedToInternet)
-    {
-        msg = @"Oops! No internet connection.";
-    }
-    else if (code == NSURLErrorTimedOut)
-    {
-        msg = @"Oops! Request timeout.";
-    }
-    else
-    {
-        msg = @"Oops! Unable to connect to server.";
+    if (code == NSURLErrorNotConnectedToInternet) {
+        msg = @"The internet connection appears to be offline.";
+    } else if (code == NSURLErrorTimedOut) {
+        msg = @"The request timeout. Please try again.";
+    } else {
+        msg = @"Unable to connect to server. Please try again.";
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
-    hud.removeFromSuperViewOnHide = YES;
-    hud.label.text = msg;
-    hud.mode = MBProgressHUDModeText;
-    hud.removeFromSuperViewOnHide = YES;
-    [hud hideAnimated:YES afterDelay:3.f];
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg];
+    [alert addConfirmItemWithTitleAttributes:nil title:@"OK" action:NULL];
+    [alert showWithAnimated:YES completion:NULL];
 }
 
-+ (void)__doNSURLErrorWithCode:(NSInteger)code {
-    
+- (RACSignal *)catchURLError {
+    return [self catchNSURLError];
 }
 
-- (RACSignal *)catchURLErrorWithViewController:(__weak UIViewController *)viewController
+- (RACSignal *)catchNSURLError
 {
-    return [self catchNSURLErrorWithViewController:viewController];
-}
-
-- (RACSignal *)catchNSURLErrorWithViewController:(__weak UIViewController *)viewController
-{
-    @weakify(viewController);
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        @strongify(viewController);
-        
         Dlog(@"error domain: %@, code: %zd, localizedDescription: %@", error.domain, error.code, error.localizedDescription);
-        
-        if ([error.domain isEqualToString:NSURLErrorDomain])
-        {
-            [RACSignal __doNSURLErrorWithCode:error.code forViewController:viewController];
-            return RACSignal.empty;
+        if ([error.domain isEqualToString:NSURLErrorDomain]) {
+            [RACSignal __doNSURLErrorWithCode:error.code];
+            return [RACSignal return:nil];
         }
         return [RACSignal error:error];
     }];
 }
-- (RACSignal *)catchNSURLError
-{
-    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if ([error.domain isEqualToString:NSURLErrorDomain])
-        {
-            return [RACSignal empty];
-        }
-        else
-        {
-            return [RACSignal error:error];
-        }
-    }];
-}
-- (RACSignal *)catchNSURLErrorCancelled
-{
-    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled)
-        {
+
+- (RACSignal *)catchNSURLErrorCancelled {
+    return [[self catchNSURLError] catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        if (error.code == NSURLErrorCancelled) {
             return [RACSignal return:nil];
-        }
-        else
-        {
+        } else {
             return [RACSignal error:error];
         }
     }];
@@ -134,15 +86,6 @@ static void notifyDataNotAllowed(UIViewController *vc)
         } else {
             return [RACSignal error:error];
         }
-    }];
-}
-
-- (RACSignal *)doNSURLErrorWithViewController:(__weak UIViewController *)viewController
-{
-    @weakify(viewController);
-    return [self doError:^(NSError * _Nonnull error) {
-        @strongify(viewController);
-        [RACSignal __doNSURLErrorWithCode:error.code forViewController:viewController];
     }];
 }
 

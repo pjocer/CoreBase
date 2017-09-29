@@ -63,13 +63,13 @@
     });
     
     alert.titleLabel = ({
-        UILabel *label = [[UILabel alloc] initWithFont:UIFontBoldMake(18) textColor:UIColorBlack];
+        UILabel *label = [[UILabel alloc] initWithFont:UIFontBoldMake(18) textColor:UIColorMakeWithHex(@"#333333")];
         label.text = title;
         label;
     });
     
     alert.detailLabel = ({
-        UILabel *label = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorBlack];
+        UILabel *label = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorMakeWithHex(@"#333333")];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
         [label setQmui_lineHeight:18];
@@ -143,8 +143,13 @@
 - (void)addItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
     QMUIButton *item = [QMUIButton buttonWithType:UIButtonTypeCustom];
     item.titleLabel.font = UIFontBoldMake(15);
-    [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateHighlighted];
-    [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateNormal];
+    if (attr) {
+        [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateHighlighted];
+        [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateNormal];
+    } else {
+        [item setTitleColor:UIColorMakeWithHex(@"#333333") forState:UIControlStateNormal];
+        [item setTitleColor:UIColorMakeWithHex(@"#333333") forState:UIControlStateHighlighted];
+    }
     [self.items addObject:item];
     [self drawFooterItemsIfNeeded];
     @weakify(self);

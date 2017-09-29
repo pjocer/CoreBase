@@ -7,9 +7,9 @@
 //
 
 #import "RACSignal+Util.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 #import <TXFire/TXFire.h>
 #import <libkern/OSAtomic.h>
+#import <AZProgressHUD.h>
 
 @implementation RACSignal (Util)
 
@@ -18,12 +18,10 @@
     @weakify(view);
     return [[self initially:^{
         @strongify(view);
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-        hud.graceTime = 0.5f;
-        hud.removeFromSuperViewOnHide = YES;
+        [AZProgressHUD showAnimatedCoveredWindow].graceTime = 0.5f;
     }] finally:^{
         @strongify(view);
-        [MBProgressHUD hideHUDForView:view animated:YES];
+        [AZProgressHUD hiddenAnimated:YES];
     }];
 }
 
