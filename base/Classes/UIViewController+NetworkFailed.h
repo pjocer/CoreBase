@@ -13,4 +13,8 @@
 /// Add NetworkFailed component to self.view.
 - (void)setNetworkFailedHidden:(BOOL)hidden;
 
+/// Add NetworkLoading component to self.view.
+- (void)setNetworkLoadingHidden:(BOOL)hidden;
+
+
 @end

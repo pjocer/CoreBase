@@ -8,18 +8,23 @@
 
 #import "UIViewController+NetworkFailed.h"
 #import "UIView+NetworkFailed.h"
+#import "UIView+NetworkLoading.h"
 
 @implementation UIViewController (NetworkFailed)
 
-- (void)setNetworkFailedHidden:(BOOL)hidden
-{
-    if (hidden)
-    {
+- (void)setNetworkFailedHidden:(BOOL)hidden {
+    if (hidden) {
+        [self.view removeSubviewForNetworkFailed];
+    } else {
         [self.view addSubviewForNetworkFailed];
     }
-    else
-    {
-        [self.view removeSubviewForNetworkFailed];
+}
+
+- (void)setNetworkLoadingHidden:(BOOL)hidden {
+    if (hidden) {
+        [self.view removeSubviewForNetworkLoading];
+    } else {
+        [self.view addSubviewForNetworkLoading];
     }
 }
 
