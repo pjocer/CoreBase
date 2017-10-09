@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UIView *detailLabel;
 @property (nonatomic, strong) UIView *footerSeparator;
 @property (nonatomic, strong) NSMutableArray <QMUIButton *>*items;
+@property (nonatomic, assign) BOOL preferred;
 @end
 
 @implementation AZAlert
@@ -35,9 +36,10 @@
     return alert;
 }
 
-+ (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail {
++ (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail preferConfirm:(BOOL)preferred {
     AZAlert *alert = [AZAlert sharedInstance];
     alert.items = [NSMutableArray array];
+    alert.preferred = preferred;
     
     alert.contentView = ({
         UIView *view = [[UIView alloc] init];
@@ -132,12 +134,12 @@
     self.header.image = img;
 }
 
-- (void)addCancelItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
-    [self addItemWithTitleAttributes:attr title:title action:action];
+- (void)addCancelItemWithTitle:(NSString *)title action:(dispatch_block_t)action {
+    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#333333"):UIColorMakeWithHex(@"#E8437B")} title:title action:action];
 }
 
-- (void)addConfirmItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
-    [self addItemWithTitleAttributes:attr title:title action:action];
+- (void)addConfirmItemWithTitle:(NSString *)title action:(dispatch_block_t)action {
+    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#E8437B"):UIColorMakeWithHex(@"#333333")} title:title action:action];
 }
 
 - (void)addItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
@@ -149,6 +151,8 @@
     } else {
         [item setTitleColor:UIColorMakeWithHex(@"#333333") forState:UIControlStateNormal];
         [item setTitleColor:UIColorMakeWithHex(@"#333333") forState:UIControlStateHighlighted];
+        [item setTitle:title forState:UIControlStateNormal];
+        [item setTitle:title forState:UIControlStateHighlighted];
     }
     [self.items addObject:item];
     [self drawFooterItemsIfNeeded];

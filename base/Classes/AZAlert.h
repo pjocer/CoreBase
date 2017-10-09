@@ -10,13 +10,29 @@
 
 @interface AZAlert : NSObject
 
-+ (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail;
+/*
+ @prama title: Alert title,UIBoldFontSize(18) by default
+ @prama detail: Alert detail,UISystemFontSize(12) by default
+ @prama preferred: make item's text color to red,YES to confirm,NO to cancel.
+ */
 
-// will be hidden automatically when cancel/confirm item did clicked.
-// action block will be called after hidden.
-- (void)addCancelItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action;
++ (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail preferConfirm:(BOOL)preferred;
 
-- (void)addConfirmItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action;
+/*
+ @discusstion
+     will be hidden automatically when cancel/confirm item did clicked.
+     action block will be called after hidden.
+ */
+- (void)addCancelItemWithTitle:(NSString *)title action:(dispatch_block_t)action;
+
+- (void)addConfirmItemWithTitle:(NSString *)title action:(dispatch_block_t)action;
+
+
+/*
+ @discusstion
+     Add header image to alert.default by nil.
+ */
+
 
 - (void)addHeaderImage:(UIImage *)img;
 

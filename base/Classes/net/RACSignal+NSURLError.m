@@ -13,8 +13,8 @@
 
 static void notifyDataNotAllowed(void)
 {
-    AZAlert *alert = [AZAlert alertWithTitle:@"DataNotAllowed" detailText:nil];
-    [alert addConfirmItemWithTitleAttributes:nil title:@"Settings" action:^{
+    AZAlert *alert = [AZAlert alertWithTitle:@"DataNotAllowed" detailText:nil preferConfirm:YES];
+    [alert addConfirmItemWithTitle:@"Settings" action:^{
         NSURL *URL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
             [[UIApplication sharedApplication] openURL:URL options:@{} completionHandler:NULL];
@@ -25,7 +25,7 @@ static void notifyDataNotAllowed(void)
 #pragma clang diagnostic pop
         }
     }];
-    [alert addCancelItemWithTitleAttributes:nil title:@"Cancel" action:NULL];
+    [alert addCancelItemWithTitle:@"Cancel" action:NULL];
     [alert showWithAnimated:YES completion:NULL];
 }
 
@@ -48,8 +48,8 @@ static void notifyDataNotAllowed(void)
         msg = @"Unable to connect to server. Please try again.";
     }
     
-    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg];
-    [alert addConfirmItemWithTitleAttributes:nil title:@"OK" action:NULL];
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg preferConfirm:NO];
+    [alert addConfirmItemWithTitle:@"OK" action:NULL];
     [alert showWithAnimated:YES completion:NULL];
 }
 
