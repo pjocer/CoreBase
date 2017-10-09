@@ -22,7 +22,7 @@
 #import "RouterManager.h"
 
 #import "UIView+NetworkFailed.h"
-#import "UIViewController+NetworkFailed.h"
+#import "UIViewController+NetworkView.h"
 #import "UIView+NetworkLoading.h"
 
 #import "UIImageView+Loading.h"

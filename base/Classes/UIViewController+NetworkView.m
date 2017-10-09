@@ -6,11 +6,11 @@
 //  Copyright © 2017 Azazie. All rights reserved.
 //
 
-#import "UIViewController+NetworkFailed.h"
+#import "UIViewController+NetworkView.h"
 #import "UIView+NetworkFailed.h"
 #import "UIView+NetworkLoading.h"
 
-@implementation UIViewController (NetworkFailed)
+@implementation UIViewController (NetworkView)
 
 - (void)setNetworkFailedHidden:(BOOL)hidden {
     if (hidden) {

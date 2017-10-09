@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIViewController (NetworkFailed)
+@interface UIViewController (NetworkView)
 
 /// Add NetworkFailed component to self.view.
 - (void)setNetworkFailedHidden:(BOOL)hidden;
