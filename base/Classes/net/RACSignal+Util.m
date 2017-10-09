@@ -18,7 +18,7 @@
     @weakify(view);
     return [[self initially:^{
         @strongify(view);
-        [AZProgressHUD showAnimatedCoveredWindow].graceTime = 0.5f;
+        AZProgressHUD.showAzazieHUD.grace(0.5f);
     }] finally:^{
         @strongify(view);
         [AZProgressHUD hiddenAnimated:YES];

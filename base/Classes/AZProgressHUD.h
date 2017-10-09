@@ -11,9 +11,14 @@
 
 @interface AZProgressHUD : MBProgressHUD
 
-+ (instancetype)showAnimatedCoveredWindow;
-+ (instancetype)showAnimatedCoveredWindowWithBlocked:(BOOL)isBlocked;
+- (AZProgressHUD *(^)(BOOL isCoverredWindow))coverredWindow;
+- (AZProgressHUD *(^)(BOOL isBlocked))blocked;
+- (AZProgressHUD *(^)(BOOL autoremoveOnHidden))autoremoveOnHidden;
+- (AZProgressHUD *(^)(CGFloat graceTime))grace;
+- (AZProgressHUD *(^)(NSString *text))text;
+- (AZProgressHUD *(^)(NSString *detailText))detailText;
 
++ (instancetype)showAzazieHUD;
 + (void)hiddenAnimated:(BOOL)isAnimated;
 
 @end

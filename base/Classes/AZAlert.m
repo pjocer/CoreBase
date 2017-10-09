@@ -176,7 +176,7 @@
             self.header.alpha = 0;
         }
         [UIView animateWithDuration:animate_duration delay:0 usingSpringWithDamping:0.9f initialSpringVelocity:20.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.maskView.alpha = 0.3;
+            self.maskView.alpha = 0.7;
             self.contentView.transform = CGAffineTransformIdentity;
             self.contentView.alpha = 1;
             if (self.header.image) {
@@ -189,7 +189,7 @@
     } else {
         self.contentView.hidden = NO;
         self.header.hidden = NO;
-        self.maskView.alpha = 0.3;
+        self.maskView.alpha = 0.7;
         if (complete) complete();
     }
 }
