@@ -37,7 +37,7 @@
         }];
         [customView addSubview:hud.gifView];
         [hud.gifView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.top.equalTo(customView);
+            make.center.equalTo(customView);
         }];
         [customView addSubview:hud.textLabel];
         [hud.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -83,12 +83,18 @@
 - (AZProgressHUD *(^)(NSString *text))text {
     return ^(NSString *text) {
         self.textLabel.text = text;
+        [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.top.equalTo(self.customView);
+        }];
         return self;
     };
 }
 - (AZProgressHUD *(^)(NSString *detailText))detailText {
     return ^(NSString *detailText) {
         self.detailTextLabel.text = detailText;
+        [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.top.equalTo(self.customView);
+        }];
         return self;
     };
 }
