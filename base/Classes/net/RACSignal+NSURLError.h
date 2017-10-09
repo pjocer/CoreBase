@@ -10,10 +10,13 @@
 
 @interface RACSignal<__covariant ValueType> (NSURLError)
 
+// catch URLError and then send nil to next
 - (RACSignal<ValueType> *)catchURLError;
 - (RACSignal<ValueType> *)catchNSURLError;
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
+
+// do URLError with customize alert, and then send an error.
 - (RACSignal<ValueType> *)doNSURLErrorAlert;
 
 @end

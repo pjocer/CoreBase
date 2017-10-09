@@ -12,7 +12,7 @@
 
 + (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail;
 
-// will be hidden automatically when cancel/confirm did clicked.
+// will be hidden automatically when cancel/confirm item did clicked.
 // action block will be called after hidden.
 - (void)addCancelItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action;
 
