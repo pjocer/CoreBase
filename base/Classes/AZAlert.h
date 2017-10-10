@@ -18,6 +18,8 @@
 
 + (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail preferConfirm:(BOOL)preferred;
 
++ (instancetype)alertWithTitle:(NSString *)title detailTexts:(NSArray <NSString *>*)details preferConfirm:(BOOL)preferred;
+
 /*
  @discusstion
      will be hidden automatically when cancel/confirm item did clicked.
@@ -36,6 +38,7 @@
 
 - (void)addHeaderImage:(UIImage *)img;
 
+- (void)show;
 - (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete;
 
 @end

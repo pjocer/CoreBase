@@ -26,7 +26,7 @@ static void notifyDataNotAllowed(void)
         }
     }];
     [alert addCancelItemWithTitle:@"Cancel" action:NULL];
-    [alert showWithAnimated:YES completion:NULL];
+    [alert show];
 }
 
 @implementation RACSignal (NSURLError)
@@ -50,7 +50,7 @@ static void notifyDataNotAllowed(void)
     
     AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg preferConfirm:NO];
     [alert addConfirmItemWithTitle:@"OK" action:NULL];
-    [alert showWithAnimated:YES completion:NULL];
+    [alert show];
 }
 
 - (RACSignal *)catchURLError {
