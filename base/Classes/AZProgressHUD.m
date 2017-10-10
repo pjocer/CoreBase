@@ -16,15 +16,20 @@
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UILabel *detailTextLabel;
 @property (nonatomic, strong) UIImageView *gifView;
+@property (nonatomic, weak) UIView *parentView;
 @end
 
 @implementation AZProgressHUD
 
 + (instancetype)showAzazieHUD {
-    AZProgressHUD *hud = [AZProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    return [[self configurInstanceInView:[UIApplication sharedApplication].keyWindow] coverredWindow](YES);
+}
+
++ (instancetype)configurInstanceInView:(UIView *)view {
+    AZProgressHUD *hud = [AZProgressHUD showHUDAddedTo:view animated:YES];
+    hud.parentView = view;
     hud.animationType = MBProgressHUDAnimationFade;
     hud.mode = MBProgressHUDModeCustomView;
-    hud.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.color = UIColorClear;
     hud.margin = 0;
@@ -51,15 +56,13 @@
         }];
     }];
     hud.customView = customView;
-    hud.coverredWindow(YES).blocked(YES).autoremoveOnHidden(YES);
+    hud.blocked(YES).autoremoveOnHidden(YES).grace(0.5f);
     return hud;
 }
 
 - (AZProgressHUD *(^)(BOOL isCoverredWindow))coverredWindow {
     return ^(BOOL isCoverredWindow) {
-        self.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
-        self.backgroundView.color = isCoverredWindow?UIColorMakeWithRGBA(0, 0, 0, 0.7):UIColorClear;
-        return self;
+        return self.maskColor(isCoverredWindow?UIColorMakeWithRGBA(0, 0, 0, 0.8):UIColorClear);
     };
 }
 - (AZProgressHUD *(^)(BOOL isBlocked))blocked {
@@ -79,23 +82,47 @@
         self.graceTime = graceTime;
         return self;
     };
-};
+}
+- (AZProgressHUD *(^)(UIColor *color))maskColor {
+    return ^(UIColor *color) {
+        self.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+        self.backgroundView.color = color;
+        return self;
+    };
+}
 - (AZProgressHUD *(^)(NSString *text))text {
     return ^(NSString *text) {
-        self.textLabel.text = text;
-        [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.top.equalTo(self.customView);
-        }];
+        if (text) {
+            self.textLabel.text = text;
+            [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.top.equalTo(self.customView);
+            }];
+        }
         return self;
     };
 }
 - (AZProgressHUD *(^)(NSString *detailText))detailText {
     return ^(NSString *detailText) {
-        self.detailTextLabel.text = detailText;
-        [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.top.equalTo(self.customView);
-        }];
+        if (detailText) {
+            self.detailTextLabel.text = detailText;
+            [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.top.equalTo(self.customView);
+            }];
+        }
         return self;
+    };
+}
+
+- (AZProgressHUD *(^)(UIView *view))inView {
+    return ^(UIView *view) {
+        if (view) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideAnimated:NO];
+            });
+            return [[AZProgressHUD configurInstanceInView:view] maskColor](UIColorMakeWithRGBA(255, 255, 255, 0.8));
+        } else {
+            return self;
+        }
     };
 }
 
