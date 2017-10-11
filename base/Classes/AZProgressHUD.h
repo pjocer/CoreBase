@@ -9,26 +9,36 @@
 #import <Foundation/Foundation.h>
 #import <MBProgressHUD.h>
 
+typedef NS_ENUM(NSInteger, AZProgressHUDAnimationType) {
+    AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationZoomOut,
+    AZProgressHUDAnimationTypeSpring = MBProgressHUDAnimationFade,
+};
+
 @interface AZProgressHUD : MBProgressHUD
 NS_ASSUME_NONNULL_BEGIN
-// default by yes. will coverred an black mask view below hud.
 - (AZProgressHUD *(^)(BOOL isCoverredWindow))coverredWindow;
-// default by yes.
+
 - (AZProgressHUD *(^)(BOOL isBlocked))blocked;
-// default by yes.
+
 - (AZProgressHUD *(^)(BOOL autoremoveOnHidden))autoremoveOnHidden;
-// default by 0.5s
+
 - (AZProgressHUD *(^)(CGFloat graceTime))grace;
-// default by forever.
+
 - (AZProgressHUD *(^)(CGFloat delay))hideAfterDelay;
-// will show  text-label under the hud if the input-text not null
+
 - (AZProgressHUD *(^)(NSString *text))text;
-// will show  detail-label under the text-label if the input-detailText not null
+
 - (AZProgressHUD *(^)(NSString *detailText))detailText;
-// will display in specific view and the color of mask view will be UIColorWhite alpha 0.7.
+
 - (AZProgressHUD *(^)(UIView  *view))inView;
-// default by UIColorRGBA(0,0,0,0.8)
+
+- (AZProgressHUD *(^)(UIView  *view))contentView;
+
 - (AZProgressHUD *(^)(UIColor *color))maskColor;
+
+- (AZProgressHUD *(^)(CGSize size))minContentSize;
+
+- (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))animateType;
 
 // display or hidden the normal Azazia-HUD in App's key window with default configuration.
 + (void)showAzazieHUD;
