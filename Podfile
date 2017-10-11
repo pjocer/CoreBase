@@ -18,7 +18,9 @@ target 'base' do
   pod 'MBProgressHUD'
   pod 'MJRefresh'
   pod 'DebugBall'
-
+  pod 'SDWebImage/GIF'
+  pod 'FLAnimatedImage', '~> 1.0'
+  
   target 'baseTests' do
     inherit! :search_paths
     # Pods for testing

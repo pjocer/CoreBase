@@ -11,52 +11,34 @@
 #import <QMUIKit.h>
 #import <ReactiveObjC.h>
 #import <Masonry.h>
+#import <FLAnimatedImageView+WebCache.h>
 
 @interface AZProgressHUD ()
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UILabel *detailTextLabel;
-@property (nonatomic, strong) UIImageView *gifView;
-@property (nonatomic, weak) UIView *parentView;
+@property (nonatomic, assign) CGFloat delayHidden;
+@property (nonatomic, strong) FLAnimatedImageView *gifView;
 @end
 
 @implementation AZProgressHUD
 
-+ (instancetype)showAzazieHUD {
-    return [[self configurInstanceInView:[UIApplication sharedApplication].keyWindow] coverredWindow](YES);
++ (void)showAzazieHUD {
+    AZProgressHUD.hud.inView(UIApplication.sharedApplication.keyWindow).show;
 }
 
-+ (instancetype)configurInstanceInView:(UIView *)view {
-    AZProgressHUD *hud = [AZProgressHUD showHUDAddedTo:view animated:YES];
-    hud.parentView = view;
++ (instancetype)hud {
+    return AZProgressHUD.configureInstance;
+}
+
++ (instancetype)configureInstance {
+    AZProgressHUD *hud = [[AZProgressHUD alloc] init];
     hud.animationType = MBProgressHUDAnimationFade;
     hud.mode = MBProgressHUDModeCustomView;
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.color = UIColorClear;
     hud.margin = 0;
-    UIView *customView = [[UIView alloc] initWithFrame:CGRectZero];
-    @weakify(customView);
-    [[[customView rac_signalForSelector:@selector(didMoveToSuperview)] take:1] subscribeNext:^(RACTuple * _Nullable x) {
-        @strongify(customView)
-        [customView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(SCREEN_WIDTH*2/3.f);
-        }];
-        [customView addSubview:hud.gifView];
-        [hud.gifView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(customView);
-        }];
-        [customView addSubview:hud.textLabel];
-        [hud.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(hud.gifView.mas_bottom).offset(24);
-            make.centerX.equalTo(hud.gifView);
-        }];
-        [customView addSubview:hud.detailTextLabel];
-        [hud.detailTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(hud.textLabel.mas_bottom).offset(24);
-            make.bottom.left.right.equalTo(customView);
-        }];
-    }];
-    hud.customView = customView;
-    hud.blocked(YES).autoremoveOnHidden(YES).grace(0.5f);
+    hud.delayHidden = DISPATCH_TIME_NOW;
+    hud.blocked(YES).autoremoveOnHidden(YES).grace(0.5f).coverredWindow(YES);
     return hud;
 }
 
@@ -68,6 +50,12 @@
 - (AZProgressHUD *(^)(BOOL isBlocked))blocked {
     return ^(BOOL isBlocked) {
         self.backgroundView.userInteractionEnabled = isBlocked;
+        return self;
+    };
+}
+- (AZProgressHUD * _Nonnull (^)(CGFloat))hideAfterDelay {
+    return ^(CGFloat time) {
+        self.delayHidden = time;
         return self;
     };
 }
@@ -94,7 +82,7 @@
     return ^(NSString *text) {
         if (text) {
             self.textLabel.text = text;
-            [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            [self.gifView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.centerX.top.equalTo(self.customView);
             }];
         }
@@ -105,7 +93,7 @@
     return ^(NSString *detailText) {
         if (detailText) {
             self.detailTextLabel.text = detailText;
-            [self.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            [self.gifView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.centerX.top.equalTo(self.customView);
             }];
         }
@@ -116,18 +104,49 @@
 - (AZProgressHUD *(^)(UIView *view))inView {
     return ^(UIView *view) {
         if (view) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self hideAnimated:NO];
-            });
-            return [[AZProgressHUD configurInstanceInView:view] maskColor](UIColorMakeWithRGBA(255, 255, 255, 0.8));
+            self.frame = view.bounds;
+            [view addSubview:self];
+            UIView *customView = [[UIView alloc] initWithFrame:CGRectZero];
+            @weakify(customView);
+            [[[customView rac_signalForSelector:@selector(didMoveToSuperview)] take:1] subscribeNext:^(RACTuple * _Nullable x) {
+                @strongify(customView)
+                [customView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.width.mas_equalTo(SCREEN_WIDTH*2/3.f);
+                }];
+                [customView addSubview:self.gifView];
+                [self.gifView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.center.equalTo(customView);
+                    make.width.height.mas_equalTo(40);
+                }];
+                [customView addSubview:self.textLabel];
+                [self.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.gifView.mas_bottom).offset(24);
+                    make.centerX.equalTo(self.gifView);
+                }];
+                [customView addSubview:self.detailTextLabel];
+                [self.detailTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.textLabel.mas_bottom).offset(24);
+                    make.bottom.left.right.equalTo(customView);
+                }];
+            }];
+            self.customView = customView;
+            return self;
         } else {
             return self;
         }
     };
 }
 
+- (void)show {
+    [self showAnimated:YES];
+}
+
+- (void)hide {
+    [self hideAnimated:YES afterDelay:self.delayHidden];
+}
+
 + (void)hiddenAnimated:(BOOL)isAnimated {
-    [AZProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:isAnimated];
+    [(AZProgressHUD *)[AZProgressHUD HUDForView:[UIApplication sharedApplication].keyWindow] hide];
 }
 
 - (UILabel *)textLabel {
@@ -148,10 +167,12 @@
     return _detailTextLabel;
 }
 
-- (UIImageView *)gifView {
+- (FLAnimatedImageView *)gifView {
     if (!_gifView) {
-        UIImage *animateImage = [UIImage tx_gifAnimatedImageWithFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]];
-        _gifView = [[UIImageView alloc] initWithImage:animateImage];
+        FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]]];
+        _gifView = imageView;
     }
     return _gifView;
 }

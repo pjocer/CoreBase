@@ -18,7 +18,7 @@
     @weakify(view);
     return [[self initially:^{
         @strongify(view);
-        AZProgressHUD.showAzazieHUD.grace(0.5f);
+        [AZProgressHUD showAzazieHUD];
     }] finally:^{
         @strongify(view);
         [AZProgressHUD hiddenAnimated:YES];

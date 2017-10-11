@@ -91,71 +91,74 @@
         label.backgroundColor = UIColorMakeWithHex(@"#dcdcdc");
         label;
     });
-    
-    [alert.contentView addSubview:alert.titleLabel];
-    [alert.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [alert handleConstraintsForSubViews];
+    return alert;
+}
+
+- (void)handleConstraintsForSubViews {
+    [self.contentView addSubview:self.titleLabel];
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(48);
-        make.centerX.equalTo(alert.contentView);
+        make.centerX.equalTo(self.contentView);
     }];
     
-    NSUInteger count = alert.detailLabels.count;
+    NSUInteger count = self.detailLabels.count;
     __block UIView *last = nil;
-    [alert.detailLabels enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.detailLabels enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (!obj.superview) {
-            [alert.contentView addSubview:obj];
+            [self.contentView addSubview:obj];
         }
         if (last) {
-            [obj mas_remakeConstraints:^(MASConstraintMaker *make) {
+            [obj mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(last.mas_bottom);
                 make.left.right.equalTo(last);
             }];
         } else {
-            [obj mas_remakeConstraints:^(MASConstraintMaker *make) {
+            UILabel *subtitle = [self generateNormalLabelWithText:[NSString stringWithFormat:@"We find %ld problems below:",count]];
+            [self.contentView addSubview:subtitle];
+            [subtitle mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.leading.mas_equalTo(40);
                 make.trailing.mas_equalTo(-40);
-                make.top.equalTo(alert.titleLabel.mas_bottom);
+                make.top.equalTo(self.titleLabel.mas_bottom);
+            }];
+            [obj mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.leading.trailing.equalTo(subtitle);
+                make.top.equalTo(subtitle.mas_bottom);
             }];
         }
         last = obj;
     }];
-
-    [alert.contentView addSubview:alert.footerSeparator];
-    [alert.footerSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo([alert.detailLabels lastObject].mas_bottom).offset(32);
-        make.left.right.equalTo(alert.contentView);
+    
+    [self.contentView addSubview:self.footerSeparator];
+    [self.footerSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo([self.detailLabels lastObject].mas_bottom).offset(32);
+        make.left.right.equalTo(self.contentView);
         make.height.mas_equalTo(1);
     }];
     
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:alert.maskView];
-    [window addSubview:alert.contentView];
-    [window addSubview:alert.header];
+    [window addSubview:self.maskView];
+    [window addSubview:self.contentView];
+    [window addSubview:self.header];
     
-    [alert.header mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.mas_equalTo(60);
-        make.top.equalTo(alert.contentView).offset(-30);
+        make.top.equalTo(self.contentView).offset(-30);
         make.centerX.equalTo(window);
     }];
-    [alert.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero);
     }];
-    [alert.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(window);
         make.width.mas_equalTo(295);
     }];
-    return alert;
 }
 
 - (UIView *)generateDetailTextViewWithPoint:(BOOL)needPoint text:(NSString *)text {
     UIView *detailView = nil;
     if (!needPoint) {
-        UILabel *label = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorMakeWithHex(@"#333333")];
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.numberOfLines = 0;
-        [label setQmui_lineHeight:18];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = text;
-        detailView = label;
+        detailView = [self generateNormalLabelWithText:text];
     } else {
         detailView = [UIView new];
         UILabel *point = [UILabel new];
@@ -168,11 +171,7 @@
             make.top.equalTo(detailView).offset(9);
             make.width.height.mas_equalTo(4);
         }];
-        UILabel *label = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorMakeWithHex(@"#333333")];
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.numberOfLines = 0;
-        [label setQmui_lineHeight:18];
-        label.textAlignment = NSTextAlignmentCenter;
+        UILabel *label = [self generateNormalLabelWithText:text];
         label.text = text;
         [detailView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,6 +180,16 @@
         }];
     }
     return detailView;
+}
+
+- (UILabel *)generateNormalLabelWithText:(NSString *)text {
+    UILabel *label = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorMakeWithHex(@"#333333")];
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 0;
+    [label setQmui_lineHeight:18];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = text;
+    return label;
 }
 
 - (void)addHeaderImage:(UIImage *)img {

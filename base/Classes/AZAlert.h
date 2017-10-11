@@ -18,6 +18,12 @@
 
 + (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail preferConfirm:(BOOL)preferred;
 
+/*
+ @prama title: Alert title,UIBoldFontSize(18) by default
+ @prama details: Multiple detail texts,UISystemFontSize(12) by default
+ @prama preferred: make item's text color to red,YES to confirm,NO to cancel.
+ */
+
 + (instancetype)alertWithTitle:(NSString *)title detailTexts:(NSArray <NSString *>*)details preferConfirm:(BOOL)preferred;
 
 /*

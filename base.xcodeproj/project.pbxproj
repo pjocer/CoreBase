@@ -239,6 +239,7 @@
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D347F4C41F3D43F100878AE4 /* UIView+ReloadAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+ReloadAnimation.h"; path = "../UIView+ReloadAnimation.h"; sourceTree = "<group>"; };
 		D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+ReloadAnimation.m"; path = "../UIView+ReloadAnimation.m"; sourceTree = "<group>"; };
+		D3668A8E1F8DEB110060C99B /* base.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = base.podspec; sourceTree = SOURCE_ROOT; };
 		D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshActivityIndicatorViewFooter.h; sourceTree = "<group>"; };
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
 		D39D72491F330E0500C240EE /* NoMoreProductsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoMoreProductsView.h; sourceTree = "<group>"; };
@@ -356,6 +357,7 @@
 		B78FC4591E6E8BCE007F33CA /* base */ = {
 			isa = PBXGroup;
 			children = (
+				D3668A8E1F8DEB110060C99B /* base.podspec */,
 				B7A89CDB1E7AC0100020F186 /* Resources */,
 				B78FC4861E6E8C2D007F33CA /* Classes */,
 				B78FC45E1E6E8BCE007F33CA /* AppDelegate.h */,
@@ -873,7 +875,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-base/Pods-base-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/DebugBall/DebugBall.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/DebugBall/DebugBall.bundle,
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/QMUIKit/QMUIKit/UIResources/QMUIResources.bundle",
 				"${PODS_ROOT}/QMUIKit/QMUIKit/UIResources/QMUI_QQEmotion.bundle",

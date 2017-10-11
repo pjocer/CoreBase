@@ -27,4 +27,6 @@ Pod::Spec.new do |s|
 	s.dependency "MBProgressHUD"
 	s.dependency "MJRefresh"
 	s.dependency "DebugBall"
+    s.dependency "SDWebImage/GIF"
+    s.dependency "FLAnimatedImage"
 end
