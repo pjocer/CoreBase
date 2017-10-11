@@ -20,6 +20,7 @@ target 'base' do
   pod 'DebugBall'
   pod 'SDWebImage/GIF'
   pod 'FLAnimatedImage', '~> 1.0'
+  pod 'PayPal-iOS-SDK'
   
   target 'baseTests' do
     inherit! :search_paths

@@ -29,4 +29,5 @@ Pod::Spec.new do |s|
 	s.dependency "DebugBall"
     s.dependency "SDWebImage/GIF"
     s.dependency "FLAnimatedImage"
+    s.dependency "PayPal-iOS-SDK"
 end
