@@ -10,8 +10,8 @@
 #import <MBProgressHUD.h>
 
 typedef NS_ENUM(NSInteger, AZProgressHUDAnimationType) {
-    AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationZoomOut,
-    AZProgressHUDAnimationTypeSpring = MBProgressHUDAnimationFade,
+    AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationFade,
+    AZProgressHUDAnimationTypeSpring = MBProgressHUDAnimationZoomOut,
 };
 
 @interface AZProgressHUD : MBProgressHUD
@@ -38,10 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (AZProgressHUD *(^)(CGSize size))minContentSize;
 
-- (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))animateType;
+- (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))displayAnimationType;
+
+- (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))hiddenAnimationType;
 
 // display or hidden the normal Azazia-HUD in App's key window with default configuration.
 + (void)showAzazieHUD;
++ (void)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText;
 + (void)hiddenAnimated:(BOOL)isAnimated;
 
 // create an instance by default configuration.
