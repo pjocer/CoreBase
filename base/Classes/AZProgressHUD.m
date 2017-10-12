@@ -148,7 +148,7 @@
 - (AZProgressHUD *(^)(NSString *text))text {
     return ^(NSString *text) {
         if (text) {
-            NSCAssert(self.customView == self.defaultContentView, @"the content view must be defaultContentView while setting text");
+            NSCAssert(self.customView == self.defaultContentView, @"Do not use the 'text' attribute after custom content view set up");
             self.defaultContentView.textLabel.text = text;
             [self.defaultContentView.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerX.top.equalTo(self.customView);
@@ -161,7 +161,7 @@
 - (AZProgressHUD *(^)(NSString *detailText))detailText {
     return ^(NSString *detailText) {
         if (detailText) {
-            NSCAssert(self.customView == self.defaultContentView, @"the content view must be defaultContentView while setting detailText");
+            NSCAssert(self.customView == self.defaultContentView, @"Do not use the 'detailText' attribute after custom content view set up");
             self.defaultContentView.detailTextLabel.text = detailText;
             [self.defaultContentView.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerX.top.equalTo(self.customView);
@@ -215,7 +215,7 @@
     if (!self.superview) {
         self.inView(UIApplication.sharedApplication.keyWindow);
     }
-    NSCAssert(!(self.customView!=self.defaultContentView&&CGSizeEqualToSize(CGSizeZero, self.minSize)), @"set 'minContentSize' with custom content view before showing");
+    NSCAssert(!(self.customView!=self.defaultContentView&&CGSizeEqualToSize(CGSizeZero, self.minSize)), @"set 'minContentSize' with custom content view before displaying");
     self.animationType = self.displayType;
     [self showAnimated:YES];
 }
@@ -233,16 +233,14 @@
     if (view!=self.defaultContentView && !CGSizeEqualToSize(self.minSize, CGSizeZero)) {
         if (view.superview) {
             [view mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.width.greaterThanOrEqualTo(@(self.minSize.width)).priorityHigh;
-                make.height.greaterThanOrEqualTo(@(self.minSize.height)).priorityHigh;
+                make.size.greaterThanOrEqualTo([NSValue valueWithCGSize:self.minSize]).priorityHigh;
             }];
         } else {
             @weakify(view);
             [[[view rac_signalForSelector:@selector(didMoveToSuperview)] take:1] subscribeNext:^(RACTuple * _Nullable x) {
                 @strongify(view);
                 [view mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.width.greaterThanOrEqualTo(@(self.minSize.width)).priorityHigh;
-                    make.height.greaterThanOrEqualTo(@(self.minSize.height)).priorityHigh;
+                    make.size.greaterThanOrEqualTo([NSValue valueWithCGSize:self.minSize]).priorityHigh;
                 }];
             }];
         }
