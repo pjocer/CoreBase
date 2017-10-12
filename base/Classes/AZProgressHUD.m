@@ -93,7 +93,6 @@
 + (void)showAzazieHUDWithText:(NSString *)text detailText:(NSString *)detail {
     AZProgressHUD *hud = AZProgressHUD.hud;
     hud.coverredWindow(YES).contentView(hud.defaultContentView);
-    hud.animationType = hud.displayType;
     [hud show];
 }
 

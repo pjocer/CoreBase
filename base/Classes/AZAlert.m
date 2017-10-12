@@ -11,18 +11,19 @@
 #import <QMUIKit.h>
 #import <Masonry.h>
 #import <ReactiveObjC.h>
+#import "AZProgressHUD.h"
 
 #define animate_duration 0.3
 
 @interface AZAlert ()
 @property (nonatomic, strong) UIView *contentView;
-@property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIImageView *header;
 @property (nonatomic, strong) UIView *titleLabel;
 @property (nonatomic, strong) NSMutableArray <UIView *>*detailLabels;
 @property (nonatomic, strong) UIView *footerSeparator;
 @property (nonatomic, strong) NSMutableArray <QMUIButton *>*items;
 @property (nonatomic, assign) BOOL preferred;
+@property (nonatomic, weak) AZProgressHUD *hud;
 @end
 
 @implementation AZAlert
@@ -50,14 +51,6 @@
         view.backgroundColor = UIColorWhite;
         view.layer.cornerRadius = 5;
         view.layer.masksToBounds = YES;
-        view.hidden = YES;
-        view;
-    });
-    
-    alert.maskView = ({
-        UIView *view = [[UIView alloc] init];
-        view.backgroundColor = UIColorBlack;
-        view.alpha = 0;
         view;
     });
     
@@ -116,14 +109,16 @@
         } else {
             UILabel *subtitle = [self generateNormalLabelWithText:[NSString stringWithFormat:@"We find %ld problems below:",count]];
             [self.contentView addSubview:subtitle];
+            
             [subtitle mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.leading.mas_equalTo(40);
                 make.trailing.mas_equalTo(-40);
                 make.top.equalTo(self.titleLabel.mas_bottom);
             }];
+            subtitle.hidden = count==1;
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.leading.trailing.equalTo(subtitle);
-                make.top.equalTo(subtitle.mas_bottom);
+                make.top.equalTo(subtitle.hidden?self.titleLabel.mas_bottom:subtitle.mas_bottom);
             }];
         }
         last = obj;
@@ -134,24 +129,6 @@
         make.top.equalTo([self.detailLabels lastObject].mas_bottom).offset(32);
         make.left.right.equalTo(self.contentView);
         make.height.mas_equalTo(1);
-    }];
-    
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:self.maskView];
-    [window addSubview:self.contentView];
-    [window addSubview:self.header];
-    
-    [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(60);
-        make.top.equalTo(self.contentView).offset(-30);
-        make.centerX.equalTo(window);
-    }];
-    [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsZero);
-    }];
-    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(window);
-        make.width.mas_equalTo(295);
     }];
 }
 
@@ -196,6 +173,7 @@
     if (!img) {
         return;
     }
+    self.header.hidden = NO;
     self.header.image = img;
 }
 
@@ -235,52 +213,20 @@
 }
 
 - (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete {
-    if (animated) {
-        self.contentView.hidden = NO;
-        self.contentView.transform = CGAffineTransformMakeScale(1.2, 1.2);
-        self.contentView.alpha = 0;
-        if (self.header.image) {
-            self.header.hidden = NO;
-            self.header.transform = CGAffineTransformMakeScale(1.2, 1.2);
-            self.header.alpha = 0;
-        }
-        [UIView animateWithDuration:animate_duration delay:0 usingSpringWithDamping:0.9f initialSpringVelocity:20.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.maskView.alpha = 0.7;
-            self.contentView.transform = CGAffineTransformIdentity;
-            self.contentView.alpha = 1;
-            if (self.header.image) {
-                self.header.transform = CGAffineTransformIdentity;
-                self.header.alpha = 1;
-            }
-        } completion:^(BOOL finished) {
-            if (complete) complete();
-        }];
-    } else {
-        self.contentView.hidden = NO;
-        self.header.hidden = NO;
-        self.maskView.alpha = 0.7;
-        if (complete) complete();
+    self.hud = AZProgressHUD.hud.contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 100));
+    if (!animated) {
+        self.hud.displayAnimationType(AZProgressHUDAnimationTypeDefault);
     }
+    [self.hud show];
+    if (complete) complete();
 }
 
 - (void)dissmissWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete {
-    if (animated) {
-        [UIView animateWithDuration:animate_duration animations:^{
-            self.maskView.alpha = 0;
-            self.contentView.alpha = 0;
-            self.header.alpha = 0;
-        } completion:^(BOOL finished) {
-            [self.maskView removeFromSuperview];
-            [self.contentView removeFromSuperview];
-            [self.header removeFromSuperview];
-            if (complete) complete();
-        }];
-    } else {
-        [self.maskView removeFromSuperview];
-        [self.contentView removeFromSuperview];
-        [self.header removeFromSuperview];
-        if (complete) complete();
+    if (!animated) {
+        self.hud.hiddenAnimationType(AZProgressHUDAnimationTypeDefault);
     }
+    [self.hud hide];
+    if (complete) complete();
 }
 
 - (void)drawFooterItemsIfNeeded {
