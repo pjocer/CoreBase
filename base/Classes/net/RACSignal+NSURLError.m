@@ -48,7 +48,7 @@ static void notifyDataNotAllowed(void)
         msg = @"Unable to connect to server. Please try again.";
     }
     
-    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg preferConfirm:NO];
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg preferConfirm:YES];
     [alert addConfirmItemWithTitle:@"OK" action:NULL];
     [alert show];
 }

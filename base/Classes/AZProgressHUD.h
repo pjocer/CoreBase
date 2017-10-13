@@ -11,7 +11,8 @@
 
 typedef NS_ENUM(NSInteger, AZProgressHUDAnimationType) {
     AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationFade,
-    AZProgressHUDAnimationTypeSpring = MBProgressHUDAnimationZoomOut,
+    AZProgressHUDAnimationTypeSpringOut = MBProgressHUDAnimationZoomOut,
+    AZProgressHUDAnimationTypeSpringIn = MBProgressHUDAnimationZoomIn,
 };
 
 @interface AZProgressHUD : MBProgressHUD
@@ -38,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (AZProgressHUD *(^)(CGSize size))minContentSize;
 
+- (AZProgressHUD *(^)(CGSize size))maxContentSize;
+
 - (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))displayAnimationType;
 
 - (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))hiddenAnimationType;
@@ -46,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)showAzazieHUD;
 + (void)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText;
 + (void)hiddenAnimated:(BOOL)isAnimated;
+
+
 + (void)hiddenAnimated:(BOOL)isAnimated inView:(UIView *)view;
 
 // create an instance by default configuration.

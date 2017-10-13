@@ -70,10 +70,10 @@
     alert.detailLabels = ({
         NSMutableArray *labels = [NSMutableArray arrayWithCapacity:details.count];
         if (details.count == 1) {
-            [labels addObject:[alert generateDetailTextViewWithPoint:NO text:details.firstObject]];
+            [labels addObject:[alert generateNormalLabelWithText:details.firstObject]];
         } else {
             [details enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [labels addObject:[alert generateDetailTextViewWithPoint:YES text:obj]];
+                [labels addObject:[alert generateNormalLabelWithText:[NSString stringWithFormat:@"•  %@",obj]]];
             }];
         }
         labels;
@@ -113,7 +113,7 @@
             [subtitle mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.leading.mas_equalTo(40);
                 make.trailing.mas_equalTo(-40);
-                make.top.equalTo(self.titleLabel.mas_bottom);
+                make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
             }];
             subtitle.hidden = count==1;
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,33 +130,6 @@
         make.left.right.equalTo(self.contentView);
         make.height.mas_equalTo(1);
     }];
-}
-
-- (UIView *)generateDetailTextViewWithPoint:(BOOL)needPoint text:(NSString *)text {
-    UIView *detailView = nil;
-    if (!needPoint) {
-        detailView = [self generateNormalLabelWithText:text];
-    } else {
-        detailView = [UIView new];
-        UILabel *point = [UILabel new];
-        point.backgroundColor = UIColorBlack;
-        point.layer.masksToBounds = YES;
-        point.layer.cornerRadius = 2;
-        [detailView addSubview:point];
-        [point mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(detailView);
-            make.top.equalTo(detailView).offset(9);
-            make.width.height.mas_equalTo(4);
-        }];
-        UILabel *label = [self generateNormalLabelWithText:text];
-        label.text = text;
-        [detailView addSubview:label];
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(point.mas_right);
-            make.top.right.bottom.equalTo(detailView);
-        }];
-    }
-    return detailView;
 }
 
 - (UILabel *)generateNormalLabelWithText:(NSString *)text {

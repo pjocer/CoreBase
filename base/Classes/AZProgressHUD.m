@@ -22,13 +22,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        @weakify(self);
-        [[[self rac_signalForSelector:@selector(didMoveToSuperview)] take:1] subscribeNext:^(RACTuple * _Nullable x) {
-            @strongify(self);
-            [self mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.width.lessThanOrEqualTo(@295).priorityHigh;
-            }];
-        }];
         [self addSubview:self.gifView];
         [self.gifView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self);
@@ -78,9 +71,11 @@
 @end
 
 @interface AZProgressHUD ()
-@property (nonatomic, assign) CGFloat delayHidden;
-@property (nonatomic, assign) AZProgressHUDAnimationType displayType;
-@property (nonatomic, assign) AZProgressHUDAnimationType hiddenType;
+@property (nonatomic, assign) CGFloat _hideAfterDelay;
+@property (nonatomic, assign) CGSize _minContentSize;
+@property (nonatomic, assign) CGSize _maxContentSize;
+@property (nonatomic, assign) AZProgressHUDAnimationType _displayAnimationType;
+@property (nonatomic, assign) AZProgressHUDAnimationType _hiddenAnimationType;
 @property (nonatomic, strong) AZProgressHUDDefaultContentView *defaultContentView;
 @end
 
@@ -91,8 +86,7 @@
 }
 
 + (void)showAzazieHUDWithText:(NSString *)text detailText:(NSString *)detail {
-    AZProgressHUD *hud = AZProgressHUD.hud;
-    hud.coverredWindow(YES);
+    AZProgressHUD *hud = AZProgressHUD.hud.text(text).detailText(detail);
     [hud show];
 }
 
@@ -102,10 +96,11 @@
 
 + (instancetype)configureInstance {
     AZProgressHUD *hud = [[AZProgressHUD alloc] init];
+    hud.displayAnimationType(AZProgressHUDAnimationTypeSpringOut).hiddenAnimationType(AZProgressHUDAnimationTypeDefault);
+    hud.blocked(YES).autoremoveOnHidden(YES).hideAfterDelay(DISPATCH_TIME_NOW);
+    hud.contentView(hud.defaultContentView).minContentSize(CGSizeMake(40, 40)).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.color = UIColorClear;
-    hud.delayHidden = DISPATCH_TIME_NOW;
-    hud.displayAnimationType(AZProgressHUDAnimationTypeSpring).hiddenAnimationType(AZProgressHUDAnimationTypeDefault).blocked(YES).autoremoveOnHidden(YES);
     return hud;
 }
 
@@ -122,7 +117,7 @@
 }
 - (AZProgressHUD * _Nonnull (^)(CGFloat))hideAfterDelay {
     return ^(CGFloat time) {
-        self.delayHidden = time;
+        self._hideAfterDelay = time;
         return self;
     };
 }
@@ -175,27 +170,33 @@
     return ^(UIView *view) {
         self.mode = MBProgressHUDModeCustomView;
         self.customView = view;
-        [self handleConstraintsFor:view];
         return self;
     };
 }
 - (AZProgressHUD *(^)(CGSize size))minContentSize {
     return ^(CGSize size) {
-        self.minSize = size;
-        [self handleConstraintsFor:self.customView];
+        self._minContentSize = size;
+        [self handleConstraintsFor:self.customView size:size isMax:NO];
+        return self;
+    };
+}
+- (AZProgressHUD *(^)(CGSize size))maxContentSize {
+    return ^(CGSize size) {
+        self._maxContentSize = size;
+        [self handleConstraintsFor:self.customView size:size isMax:YES];
         return self;
     };
 }
 - (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))displayAnimationType {
     return ^(AZProgressHUDAnimationType animationType) {
-        self.displayType = animationType;
+        self._displayAnimationType = animationType;
         return self;
     };
 }
 
 - (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))hiddenAnimationType {
     return ^(AZProgressHUDAnimationType animationType) {
-        self.hiddenType = animationType;
+        self._hiddenAnimationType = animationType;
         return self;
     };
 }
@@ -213,19 +214,19 @@
 
 - (void)show {
     if (!self.superview) {
-        self.inView(UIApplication.sharedApplication.keyWindow);
+        self.coverredWindow(YES);
     }
     if (!self.customView) {
-        self.contentView(self.defaultContentView);
+        self.contentView(self.defaultContentView).minContentSize(CGSizeMake(295, 1));
     }
-    NSCAssert(!(self.customView!=self.defaultContentView&&CGSizeEqualToSize(CGSizeZero, self.minSize)), @"set 'minContentSize' with custom content view before displaying");
-    self.animationType = self.displayType;
+    NSCAssert(self.canShow, @"set 'minContentSize' or 'maxContentSize' with custom content view before displaying");
+    self.animationType = self._displayAnimationType;
     [self showAnimated:YES];
 }
 
 - (void)hide {
-    self.animationType = self.hiddenType;
-    [self hideAnimated:YES afterDelay:self.delayHidden];
+    self.animationType = self._hiddenAnimationType;
+    [self hideAnimated:YES afterDelay:self._hideAfterDelay];
 }
 
 + (void)hiddenAnimated:(BOOL)isAnimated {
@@ -234,22 +235,29 @@
 + (void)hiddenAnimated:(BOOL)isAnimated inView:(nonnull UIView *)view {
     [(AZProgressHUD *)[AZProgressHUD HUDForView:view] hide];
 }
-- (void)handleConstraintsFor:(UIView *)view {
-    if (view!=self.defaultContentView && !CGSizeEqualToSize(self.minSize, CGSizeZero)) {
+- (void)handleConstraintsFor:(UIView *)view size:(CGSize)size isMax:(BOOL)isMax {
+    if (self.canShow) {
+        void(^block)(MASConstraintMaker *) = ^(MASConstraintMaker *make) {
+            if (isMax) {
+                make.size.mas_lessThanOrEqualTo(size);
+            } else {
+                make.size.mas_greaterThanOrEqualTo(size);
+            }
+        };
         if (view.superview) {
-            [view mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.size.greaterThanOrEqualTo([NSValue valueWithCGSize:self.minSize]).priorityHigh;
-            }];
+            [view mas_updateConstraints:block];
         } else {
             @weakify(view);
             [[[view rac_signalForSelector:@selector(didMoveToSuperview)] take:1] subscribeNext:^(RACTuple * _Nullable x) {
                 @strongify(view);
-                [view mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.size.greaterThanOrEqualTo([NSValue valueWithCGSize:self.minSize]).priorityHigh;
-                }];
+                [view mas_updateConstraints:block];
             }];
         }
     }
+}
+
+- (BOOL)canShow {
+    return !(CGSizeEqualToSize(CGSizeZero, self._minContentSize)&&CGSizeEqualToSize(CGSizeZero, self._maxContentSize));
 }
 
 - (AZProgressHUDDefaultContentView *)defaultContentView {
