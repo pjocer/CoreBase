@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)showAzazieHUD;
 + (void)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText;
 + (void)hiddenAnimated:(BOOL)isAnimated;
++ (void)hiddenAnimated:(BOOL)isAnimated inView:(UIView *)view;
 
 // create an instance by default configuration.
 + (instancetype)hud;

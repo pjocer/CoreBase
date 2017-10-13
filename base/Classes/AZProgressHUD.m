@@ -92,7 +92,7 @@
 
 + (void)showAzazieHUDWithText:(NSString *)text detailText:(NSString *)detail {
     AZProgressHUD *hud = AZProgressHUD.hud;
-    hud.coverredWindow(YES).contentView(hud.defaultContentView);
+    hud.coverredWindow(YES);
     [hud show];
 }
 
@@ -215,6 +215,9 @@
     if (!self.superview) {
         self.inView(UIApplication.sharedApplication.keyWindow);
     }
+    if (!self.customView) {
+        self.contentView(self.defaultContentView);
+    }
     NSCAssert(!(self.customView!=self.defaultContentView&&CGSizeEqualToSize(CGSizeZero, self.minSize)), @"set 'minContentSize' with custom content view before displaying");
     self.animationType = self.displayType;
     [self showAnimated:YES];
@@ -226,9 +229,11 @@
 }
 
 + (void)hiddenAnimated:(BOOL)isAnimated {
-    [(AZProgressHUD *)[AZProgressHUD HUDForView:[UIApplication sharedApplication].keyWindow] hide];
+    [self hiddenAnimated:isAnimated inView:UIApplication.sharedApplication.keyWindow];
 }
-
++ (void)hiddenAnimated:(BOOL)isAnimated inView:(nonnull UIView *)view {
+    [(AZProgressHUD *)[AZProgressHUD HUDForView:view] hide];
+}
 - (void)handleConstraintsFor:(UIView *)view {
     if (view!=self.defaultContentView && !CGSizeEqualToSize(self.minSize, CGSizeZero)) {
         if (view.superview) {

@@ -10,28 +10,34 @@
 #import <TXFire/TXFire.h>
 #import <libkern/OSAtomic.h>
 #import <AZProgressHUD.h>
+#import <QMUICommonDefines.h>
 
 @implementation RACSignal (Util)
 
-- (RACSignal *)hudWithView:(__weak UIView *)view
-{
-    @weakify(view);
+- (RACSignal *)hud {
     return [[self initially:^{
-        @strongify(view);
         [AZProgressHUD showAzazieHUD];
     }] finally:^{
-        @strongify(view);
         [AZProgressHUD hiddenAnimated:YES];
     }];
 }
 
-- (RACSignal *)hudWithViewController:(__weak UIViewController *)viewController
-{
+- (RACSignal *)hudWithView:(__weak UIView *)view {
+    @weakify(view);
+    return [[self initially:^{
+        @strongify(view);
+        AZProgressHUD.hud.inView(view).maskColor(UIColorMakeWithRGBA(0, 0, 0, 0.8)).show;
+    }] finally:^{
+        @strongify(view);
+        [AZProgressHUD hiddenAnimated:YES inView:view];
+    }];
+}
+
+- (RACSignal *)hudWithViewController:(__weak UIViewController *)viewController {
     return [self hudWithView:viewController.view];
 }
 
-- (RACSignal *)beforeDispose:(void(^)(void))block
-{
+- (RACSignal *)beforeDispose:(void(^)(void))block {
     return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         __block volatile int32_t flag = 2;
         RACDisposable *disposable = [self subscribeNext:^(id  _Nullable x) {

@@ -10,6 +10,7 @@
 
 @interface RACSignal<__covariant ValueType> (Util)
 
+- (RACSignal<ValueType> *)hud;
 - (RACSignal<ValueType> *)hudWithView:(__weak UIView *)view;
 - (RACSignal<ValueType> *)hudWithViewController:(__weak UIViewController *)viewController;
 
