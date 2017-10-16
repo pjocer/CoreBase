@@ -48,9 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 // display or hidden the normal Azazia-HUD in App's key window with default configuration.
 + (void)showAzazieHUD;
 + (void)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText;
+
 + (void)hiddenAnimated:(BOOL)isAnimated;
-
-
 + (void)hiddenAnimated:(BOOL)isAnimated inView:(UIView *)view;
 
 // create an instance by default configuration.

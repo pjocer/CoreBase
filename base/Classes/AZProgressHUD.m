@@ -98,7 +98,6 @@
     AZProgressHUD *hud = [[AZProgressHUD alloc] init];
     hud.displayAnimationType(AZProgressHUDAnimationTypeSpringOut).hiddenAnimationType(AZProgressHUDAnimationTypeDefault);
     hud.blocked(YES).autoremoveOnHidden(YES).hideAfterDelay(DISPATCH_TIME_NOW);
-    hud.contentView(hud.defaultContentView).minContentSize(CGSizeMake(40, 40)).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.color = UIColorClear;
     return hud;
@@ -217,7 +216,7 @@
         self.coverredWindow(YES);
     }
     if (!self.customView) {
-        self.contentView(self.defaultContentView).minContentSize(CGSizeMake(295, 1));
+         self.contentView(self.defaultContentView).minContentSize(CGSizeMake(40, 40)).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
     }
     NSCAssert(self.canShow, @"set 'minContentSize' or 'maxContentSize' with custom content view before displaying");
     self.animationType = self._displayAnimationType;
