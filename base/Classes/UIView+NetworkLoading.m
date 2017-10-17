@@ -18,14 +18,30 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
 
 @implementation UIView (NetworkLoading)
 
-- (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY
-{
+- (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY {
+    return [self addSubviewForNetworkLoadingWithOffsetY:offsetY tapHandler:nil];
+}
+
+- (UIView *)addSubviewForNetworkLoading {
+    return [self addSubviewForNetworkLoadingWithOffsetY:0];
+}
+
+- (UIView *)addSubviewForNetworkLoadingWithTapHandler:(NetworkViewTapHandler)handler {
+    return [self addSubviewForNetworkLoadingWithOffsetY:0 tapHandler:handler];
+}
+
+- (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY tapHandler:(NetworkViewTapHandler)handler {
     UIView *networkLoadingView = objc_getAssociatedObject(self, kNetworkLoadingView);
     const NSInteger tag = 10;
     if (!networkLoadingView)
     {
         networkLoadingView = [[UIView alloc] init].tx_backgroundColor([UIColor tx_colorWithHex:0xf8f8f8]);
         objc_setAssociatedObject(self, kNetworkLoadingView, networkLoadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        @weakify(networkLoadingView);
+        [networkLoadingView.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
+            @strongify(networkLoadingView);
+            if (handler) handler(networkLoadingView);
+        }];
         
         [self addSubview:networkLoadingView];
         [networkLoadingView mas_makeConstraints:^(MASConstraintMaker *maker){
@@ -44,6 +60,7 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
         }];
         gifImageView.animationDuration = duration;
         [gifImageView startAnimating];
+        
     }
     
     [[networkLoadingView viewWithTag:tag] mas_remakeConstraints:^(MASConstraintMaker *maker){
@@ -52,11 +69,6 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
     }];
     
     return networkLoadingView;
-}
-
-- (UIView *)addSubviewForNetworkLoading
-{
-    return [self addSubviewForNetworkLoadingWithOffsetY:0];
 }
 
 - (void)removeSubviewForNetworkLoading

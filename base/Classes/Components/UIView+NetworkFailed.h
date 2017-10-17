@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIView+NetworkLoading.h"
 
 @interface UIView (NetworkFailed)
 
-/// Filling sender with white background.
 - (UIView *)addSubviewForNetworkFailed;
-- (void)removeSubviewForNetworkFailed;
+- (UIView *)addSubviewForNetworkFailedWithTapHandler:(NetworkViewTapHandler)handler;
 
 - (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY;
+- (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY tapHandler:(NetworkViewTapHandler)handler;
+
+- (void)removeSubviewForNetworkFailed;
 
 @end

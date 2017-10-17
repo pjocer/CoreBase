@@ -16,7 +16,8 @@
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
 
+
+
 // do URLError with customize alert, and then send an error.
 - (RACSignal<ValueType> *)doNSURLErrorAlert;
-
 @end

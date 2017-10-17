@@ -11,13 +11,25 @@
 #import <Masonry/Masonry.h>
 #import <objc/runtime.h>
 #import "NetworkFailedView.h"
+#import <ReactiveObjC.h>
 
 static const void *kNetworkFailedComponent = &kNetworkFailedComponent;
 
 @implementation UIView (NetworkFailed)
 
-- (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY
-{
+- (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY {
+    return [self addSubviewForNetworkFailedWithOffsetY:offsetY tapHandler:nil];
+}
+
+- (UIView *)addSubviewForNetworkFailed {
+    return [self addSubviewForNetworkFailedWithOffsetY:0];
+}
+
+- (UIView *)addSubviewForNetworkFailedWithTapHandler:(NetworkViewTapHandler)handler {
+    return [self addSubviewForNetworkFailedWithOffsetY:0 tapHandler:handler];
+}
+
+- (UIView *)addSubviewForNetworkFailedWithOffsetY:(CGFloat)offsetY tapHandler:(NetworkViewTapHandler)handler {
     UIView *view = objc_getAssociatedObject(self, kNetworkFailedComponent);
     const NSInteger tag = 10;
     if (!view)
@@ -27,7 +39,11 @@ static const void *kNetworkFailedComponent = &kNetworkFailedComponent;
         [view mas_makeConstraints:^(MASConstraintMaker *maker){
             maker.edges.mas_equalTo(UIEdgeInsetsZero);
         }];
-        
+        @weakify(view);
+        [view.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
+            @strongify(view);
+            if (handler) handler(view);
+        }];
         objc_setAssociatedObject(self, kNetworkFailedComponent, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         view.backgroundColor = [UIColor tx_colorWithHex:0xf8f8f8];
         
@@ -41,10 +57,6 @@ static const void *kNetworkFailedComponent = &kNetworkFailedComponent;
     }];
     
     return view;
-}
-
-- (UIView *)addSubviewForNetworkFailed {
-    return [self addSubviewForNetworkFailedWithOffsetY:0];
 }
 
 - (void)removeSubviewForNetworkFailed

@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^NetworkViewTapHandler)(UIView *networkView);
+
 @interface UIView (NetworkLoading)
 
 - (UIView *)addSubviewForNetworkLoading;
-- (void)removeSubviewForNetworkLoading;
+- (UIView *)addSubviewForNetworkLoadingWithTapHandler:(NetworkViewTapHandler)handler;
 
 - (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY;
+- (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY tapHandler:(NetworkViewTapHandler)handler;
+
+- (void)removeSubviewForNetworkLoading;
 
 @end

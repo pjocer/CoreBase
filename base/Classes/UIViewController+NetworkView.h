@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+
+
 @interface UIViewController (NetworkView)
 
 /// Add NetworkFailed component to self.view.
 - (void)setNetworkFailedHidden:(BOOL)hidden;
+- (void)setNetworkFailedHidden:(BOOL)hidden tapHandler:(NetworkViewTapHandler)handler;
 
 /// Add NetworkLoading component to self.view.
 - (void)setNetworkLoadingHidden:(BOOL)hidden;
+- (void)setNetworkLoadingHidden:(BOOL)hidden tapHandler:(NetworkViewTapHandler)handler;;
 
 
 @end

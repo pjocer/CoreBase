@@ -9,22 +9,32 @@
 #import "UIViewController+NetworkView.h"
 #import "UIView+NetworkFailed.h"
 #import "UIView+NetworkLoading.h"
+#import <UIView+TXFire.h>
+#import <ReactiveObjC.h>
 
 @implementation UIViewController (NetworkView)
 
 - (void)setNetworkFailedHidden:(BOOL)hidden {
+    [self setNetworkFailedHidden:hidden tapHandler:nil];
+}
+
+- (void)setNetworkFailedHidden:(BOOL)hidden tapHandler:(NetworkViewTapHandler)handler {
     if (hidden) {
         [self.view removeSubviewForNetworkFailed];
     } else {
-        [self.view addSubviewForNetworkFailed];
+        [self.view addSubviewForNetworkFailedWithTapHandler:handler];
     }
 }
 
 - (void)setNetworkLoadingHidden:(BOOL)hidden {
+    [self setNetworkLoadingHidden:hidden tapHandler:nil];
+}
+
+- (void)setNetworkLoadingHidden:(BOOL)hidden tapHandler:(NetworkViewTapHandler)handler {
     if (hidden) {
         [self.view removeSubviewForNetworkLoading];
     } else {
-        [self.view addSubviewForNetworkLoading];
+        [self.view addSubviewForNetworkLoadingWithTapHandler:handler];
     }
 }
 
