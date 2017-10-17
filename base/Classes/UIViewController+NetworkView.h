@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-
+#import "UIView+NetworkLoading.h"
 
 @interface UIViewController (NetworkView)
 
