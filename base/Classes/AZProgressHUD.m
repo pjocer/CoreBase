@@ -11,6 +11,7 @@
 #import <ReactiveObjC.h>
 #import <Masonry.h>
 #import <FLAnimatedImageView+WebCache.h>
+#import <TXFire.h>
 
 @interface AZProgressHUDDefaultContentView : UIView
 @property (nonatomic, strong) UILabel *textLabel;
@@ -220,6 +221,7 @@
     }
     NSCAssert(self.canShow, @"set 'minContentSize' or 'maxContentSize' with custom content view before displaying");
     self.animationType = self._displayAnimationType;
+    [self subscribeKeyboardIfNeeded];
     [self showAnimated:YES];
 }
 
@@ -254,7 +256,38 @@
         }
     }
 }
-
+- (void)subscribeKeyboardIfNeeded {
+    __block BOOL needSubscribe = NO;
+    [self.customView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj canBecomeFirstResponder]) {
+            *stop = YES;
+            needSubscribe = YES;
+        }
+    }];
+    if (needSubscribe) {
+        @weakify(self);
+        [[RACObserve(self, customView) combineLatestWith:[NSNotificationCenter.defaultCenter rac_addObserverForName:UIKeyboardWillChangeFrameNotification    object:nil]] subscribeNext:^(RACTuple * _Nullable x) {
+            @strongify(self);
+            RACTupleUnpack(UIView *view, NSNotification *notification) = x;
+            NSDictionary *info = notification.userInfo;
+            NSTimeInterval duration = [info[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+            UIViewAnimationOptions option = [info[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue]|UIViewAnimationOptionCurveEaseOut;
+            CGFloat keyboardMinY = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
+            [UIView animateWithDuration:duration delay:0 options:option animations:^{
+                [self.bezelView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.mas_lessThanOrEqualTo(-(SCREEN_HEIGHT-keyboardMinY+20));
+                }];
+                [self layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                
+            }];
+        }];
+        [self.backgroundView.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
+            @strongify(self);
+            [self endEditing:YES];
+        }];
+    }
+}
 - (BOOL)canShow {
     return !(CGSizeEqualToSize(CGSizeZero, self._minContentSize)&&CGSizeEqualToSize(CGSizeZero, self._maxContentSize));
 }
