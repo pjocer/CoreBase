@@ -12,6 +12,7 @@
 #import "Profile.h"
 #import "Network.h"
 #import <YYModel/YYModel.h>
+#import "RACSignal+ResponseToModel.h"
 
 @interface ProfileAutoLoader ()
 
@@ -66,15 +67,7 @@
 - (void)requestProfileUntilSuccess
 {
     @weakify(self);
-    self.disposable = [[[[Network.APISession rac_GET:@"me" parameters:nil] tryMap:^id _Nonnull(RACTuple * _Nullable value, NSError * _Nullable __autoreleasing * _Nullable errorPtr) {
-        NSDictionary *responseObject = value.second;
-        Profile *profile = [Profile yy_modelWithDictionary:responseObject];
-        if (!profile && errorPtr)
-        {
-            *errorPtr = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotParseResponse userInfo:@{NSLocalizedDescriptionKey: @"cann't parse response"}];
-        }
-        return profile;
-    }] doNext:^(Profile * _Nullable x) {
+    self.disposable = [[[[Network.APISession rac_GET:@"me" parameters:nil] tryMapResponseToModel:Profile.class] doNext:^(Profile * _Nullable x) {
         [Profile setCurrentProfile:x];
     }] subscribeError:^(NSError * _Nullable error) {
         if ([AccessToken currentAccessToken])

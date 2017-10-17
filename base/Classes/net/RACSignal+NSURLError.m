@@ -10,6 +10,7 @@
 #import "AZAlert.h"
 #import <TXFire/TXFire.h>
 #import <AFNetworking.h>
+#import "NSError+Networking.h"
 
 static void notifyDataNotAllowed(void)
 {
@@ -70,8 +71,9 @@ static void notifyDataNotAllowed(void)
 }
 
 - (RACSignal *)catchNSURLErrorCancelled {
-    return [[self catchNSURLError] catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if (error.code == NSURLErrorCancelled) {
+    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+            [RACSignal __doNSURLErrorWithCode:error.code];
             return [RACSignal return:nil];
         } else {
             return [RACSignal error:error];
@@ -81,11 +83,15 @@ static void notifyDataNotAllowed(void)
 
 - (RACSignal *)catchNSURLErrorNoResponse {
     return [[self catchNSURLErrorCancelled] catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if ([error.domain isEqualToString:AFURLResponseSerializationErrorDomain] && error.code == NSURLErrorBadServerResponse && [(NSHTTPURLResponse *)error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] statusCode] == 404) {
-            return [RACSignal return:nil];
-        } else {
-            return [RACSignal error:error];
+        NSHTTPURLResponse *response = error.HTTPResponse;
+        if (!response) {
+            NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+            response = underlyingError.HTTPResponse;
         }
+        if ((response && response.statusCode == 404)||(error.isResponseSerializationError && error.code == NSURLErrorBadServerResponse)) {
+            return [RACSignal return:nil];
+        }
+        return [RACSignal error:error];
     }];
 }
 

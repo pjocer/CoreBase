@@ -14,6 +14,10 @@
 #import "UIColor+BaseStyle.h"
 
 @interface CoreTextField () <UITextFieldDelegate>
+@property (nonatomic, readwrite) RACSubject *didClickedReturn;
+@property (nonatomic, assign) BOOL hidesCaret;
+@property (nonatomic, assign) BOOL disablesActionMenu;
+@property (nonatomic, assign) BOOL disableChangeCharacters;
 @property (nonatomic, strong) UIColor *originalTextColor;
 @property (nonatomic, weak) UILabel *customPlaceholderLabel;
 @property (nonatomic, assign) CGFloat animationTranslation;
@@ -99,16 +103,16 @@
 
 - (instancetype)subscribe {
     @weakify(self);
-    RACSignal *customPlaceholderSignal = [[RACObserve(self, customPlaceholder) skip:1] filter:^BOOL(id  _Nullable value) {
+    RACSignal *customPlaceholderSignal = [[[RACObserve(self, customPlaceholder) skip:1] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
         @strongify(self);
         return !self.isInvalid;
     }];
-    RACSignal *invalidPlaceholderSignal = [[RACObserve(self, invalidPlaceholder) skip:1] filter:^BOOL(id  _Nullable value) {
+    RACSignal *invalidPlaceholderSignal = [[[RACObserve(self, invalidPlaceholder) skip:1] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
         @strongify(self);
         return self.isInvalid;
     }];
     
-    RACSignal *invalidSignal = [[[RACObserve(self, invalid) skip:1] doNext:^(id  _Nullable x) {
+    RACSignal *invalidSignal = [[[[RACObserve(self, invalid) skip:1] distinctUntilChanged] doNext:^(id  _Nullable x) {
         @strongify(self);
         if ([x boolValue]) {
             [self resignFirstResponder];
@@ -144,7 +148,7 @@
 - (void)setRaised:(BOOL)raised animated:(BOOL)animated {
     if (_raised != raised && animated) {
         _raised = raised;
-        [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAllowAnimatedContent animations:^{
             [self updateStyle];
         } completion:^(BOOL finished) {
             
@@ -160,6 +164,13 @@
     } else {
         [self setRaised:self.text.length > 0 animated:animated];
     }
+}
+
+- (RACSubject *)didClickedReturn {
+    if (!_didClickedReturn) {
+        _didClickedReturn = [RACReplaySubject replaySubjectWithCapacity:1];
+    }
+    return _didClickedReturn;
 }
 
 #pragma mark - override styling methods
@@ -181,15 +192,22 @@
 #pragma mark - UITextFiledDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSString *text = [textField.text stringByAppendingString:string];
-    text = [text substringToIndex:text.length-range.length];
-    [self setText:text animated:text.length == 0 || textField.text.length == 0];
-    return NO;
+    if (_disableChangeCharacters) {
+        NSString *text = [textField.text stringByAppendingString:string];
+        text = [text substringToIndex:text.length-range.length];
+        [self setText:text animated:text.length == 0 || textField.text.length == 0];
+        return NO;
+    }
+    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    [self.didClickedReturn sendNext:textField];
     return YES;
 }
-
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    [self setText:nil];
+    return NO;
+}
 @end
