@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <MBProgressHUD.h>
+#import <QMUIKit.h>
+#import <FLAnimatedImageView+WebCache.h>
 
 typedef NS_ENUM(NSInteger, AZProgressHUDAnimationType) {
     AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationFade,
@@ -45,16 +47,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (AZProgressHUD *(^)(AZProgressHUDAnimationType animationType))hiddenAnimationType;
 
-// display or hidden the normal Azazia-HUD in App's key window with default configuration.
-+ (void)showAzazieHUD;
-+ (void)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText;
-
-+ (void)hiddenAnimated:(BOOL)isAnimated;
-+ (void)hiddenAnimated:(BOOL)isAnimated inView:(UIView *)view;
-
 // create an instance by default configuration.
 + (instancetype)hud;
 - (void)show;
 - (void)hide;
 NS_ASSUME_NONNULL_END
+@end
+
+@interface AZProgressHUD (AzazieDefault)
+// display or hidden the normal Azazia-HUD in App's key window with default configuration.
++ (instancetype)showAzazieHUD;
++ (instancetype)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText;
++ (instancetype)showAzazieHUDWithText:(NSString *)aText detailText:(NSString *)aText inView:(UIView *)aView;
+
++ (void)hiddenAnimated:(BOOL)isAnimated;
++ (void)hiddenAnimated:(BOOL)isAnimated inView:(UIView *)view;
+@end
+
+@interface AZProgressHUDDefaultContentView : UIView
+@property (nonatomic, strong, readonly) UILabel *textLabel;
+@property (nonatomic, strong, readonly) UILabel *detailTextLabel;
+@property (nonatomic, strong, readonly) FLAnimatedImageView *imageView;
+@property (nonatomic, strong, readonly) UILabel *actionLabel;
 @end

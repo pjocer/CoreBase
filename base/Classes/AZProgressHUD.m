@@ -7,44 +7,70 @@
 //
 
 #import "AZProgressHUD.h"
-#import <QMUIKit.h>
 #import <ReactiveObjC.h>
 #import <Masonry.h>
-#import <FLAnimatedImageView+WebCache.h>
 #import <TXFire.h>
 
-@interface AZProgressHUDDefaultContentView : UIView
-@property (nonatomic, strong) UILabel *textLabel;
-@property (nonatomic, strong) UILabel *detailTextLabel;
-@property (nonatomic, strong) FLAnimatedImageView *gifView;
+#define IMAGE_HEADER_SQUARE_SIZE 120/ScreenScale
+#define REFRESH_GIF_IMAGE [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]]]
+
+@interface AZProgressHUDDefaultContentView ()
+@property (nonatomic, strong, readwrite) UILabel *textLabel;
+@property (nonatomic, strong, readwrite) UILabel *detailTextLabel;
+@property (nonatomic, strong, readwrite) FLAnimatedImageView *imageView;
+@property (nonatomic, strong, readwrite) UILabel *actionLabel;
 @end
 
 @implementation AZProgressHUDDefaultContentView
 
 - (instancetype)init {
     if (self = [super init]) {
-        [self addSubview:self.gifView];
-        [self.gifView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-            make.width.height.mas_equalTo(40);
-        }];
-        [self addSubview:self.textLabel];
-        [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.gifView.mas_bottom).offset(24);
-            make.centerX.equalTo(self.gifView);
-        }];
-        [self addSubview:self.detailTextLabel];
-        [self.detailTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.textLabel.mas_bottom).offset(24);
-            make.bottom.left.right.equalTo(self);
-        }];
+        return self.commitSubviews.makeConstraints.subscribe;
     }
+    return self;
+}
+
+- (instancetype)commitSubviews {
+    [self addSubview:self.imageView];
+    [self addSubview:self.textLabel];
+    [self addSubview:self.detailTextLabel];
+    [self addSubview:self.actionLabel];
+    return self;
+}
+
+- (instancetype)makeConstraints {
+    [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+        make.width.height.mas_equalTo(IMAGE_HEADER_SQUARE_SIZE);
+    }];
+    
+    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.imageView.mas_bottom).offset(25);
+        make.left.right.equalTo(self);
+    }];
+    
+    [self.detailTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.textLabel.mas_bottom).offset(25);
+        make.left.right.equalTo(self);
+    }];
+    
+    [self.actionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.detailTextLabel.mas_bottom).offset(18);
+        make.centerX.equalTo(self);
+        make.size.mas_greaterThanOrEqualTo(CGSizeMake(215, 44));
+        make.bottom.equalTo(self);
+    }];
+    return self;
+}
+
+- (instancetype)subscribe {
     return self;
 }
 
 - (UILabel *)textLabel {
     if (!_textLabel) {
         _textLabel = [[UILabel alloc] initWithFont:UIFontBoldMake(18) textColor:UIColorWhite];
+        _textLabel.tx_textAlignment(NSTextAlignmentCenter);
     }
     return _textLabel;
 }
@@ -60,14 +86,23 @@
     return _detailTextLabel;
 }
 
-- (FLAnimatedImageView *)gifView {
-    if (!_gifView) {
+- (FLAnimatedImageView *)imageView {
+    if (!_imageView) {
         FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
-        imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]]];
-        _gifView = imageView;
+        _imageView = imageView;
     }
-    return _gifView;
+    return _imageView;
+}
+
+- (UILabel *)actionLabel {
+    if (!_actionLabel) {
+        _actionLabel = [[UILabel alloc] initWithFont:UIFontBoldMake(15) textColor:UIColorMakeWithHex(@"#ffffff")];
+        _actionLabel.layer.cornerRadius = 3;
+        _actionLabel.layer.masksToBounds = YES;
+        _actionLabel.tx_textAlignment(NSTextAlignmentCenter).tx_backgroundColorHex(0xE8437B);
+    }
+    return _actionLabel;
 }
 @end
 
@@ -82,13 +117,21 @@
 
 @implementation AZProgressHUD
 
-+ (void)showAzazieHUD {
-    [self showAzazieHUDWithText:nil detailText:nil];
++ (instancetype)showAzazieHUD {
+   return [self showAzazieHUDWithText:nil detailText:nil];
 }
 
-+ (void)showAzazieHUDWithText:(NSString *)text detailText:(NSString *)detail {
-    AZProgressHUD *hud = AZProgressHUD.hud.text(text).detailText(detail);
++ (instancetype)showAzazieHUDWithText:(NSString *)text detailText:(NSString *)detail {
+    return [self showAzazieHUDWithText:text detailText:detail inView:nil];
+}
+
++ (instancetype)showAzazieHUDWithText:(NSString *)text detailText:(NSString *)detail inView:(UIView *)aView {
+    AZProgressHUD *hud = AZProgressHUD.hud;
+    hud.contentView(hud.defaultContentView);
+    hud.text(text).detailText(detail);
     [hud show];
+    hud.inView(aView);
+    return hud;
 }
 
 + (instancetype)hud {
@@ -103,7 +146,13 @@
     hud.bezelView.color = UIColorClear;
     return hud;
 }
-
+- (AZProgressHUDDefaultContentView *)defaultContentView {
+    if (!_defaultContentView) {
+        _defaultContentView = [[AZProgressHUDDefaultContentView alloc] init];
+        _defaultContentView.imageView.animatedImage = REFRESH_GIF_IMAGE;
+    }
+    return _defaultContentView;
+}
 - (AZProgressHUD *(^)(BOOL isCoverredWindow))coverredWindow {
     return ^(BOOL isCoverredWindow) {
         return self.inView(UIApplication.sharedApplication.keyWindow).maskColor(isCoverredWindow?UIColorMakeWithRGBA(0, 0, 0, 0.8):UIColorClear);
@@ -143,12 +192,9 @@
 - (AZProgressHUD *(^)(NSString *text))text {
     return ^(NSString *text) {
         if (text) {
-            NSCAssert(self.customView == self.defaultContentView, @"Do not use the 'text' attribute after custom content view set up");
+            NSCAssert(self.canUseProperties, @"Do not use 'text' attribute after custom content view set up");
             self.defaultContentView.textLabel.text = text;
-            [self.defaultContentView.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.top.equalTo(self.customView);
-                make.width.height.mas_equalTo(40);
-            }];
+            [self updateDefaultContentViewImageHeaderConstraints];
         }
         return self;
     };
@@ -156,20 +202,25 @@
 - (AZProgressHUD *(^)(NSString *detailText))detailText {
     return ^(NSString *detailText) {
         if (detailText) {
-            NSCAssert(self.customView == self.defaultContentView, @"Do not use the 'detailText' attribute after custom content view set up");
+            NSCAssert(self.canUseProperties, @"Do not use 'detailText' attribute after custom content view set up");
             self.defaultContentView.detailTextLabel.text = detailText;
-            [self.defaultContentView.gifView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.top.equalTo(self.customView);
-                make.width.height.mas_equalTo(40);
-            }];
+            [self updateDefaultContentViewImageHeaderConstraints];
         }
         return self;
     };
 }
+
 - (AZProgressHUD *(^)(UIView  *view))contentView {
     return ^(UIView *view) {
         self.mode = MBProgressHUDModeCustomView;
         self.customView = view;
+        if ([view isKindOfClass:AZProgressHUDDefaultContentView.class]) {
+            self.minContentSize(CGSizeMake(IMAGE_HEADER_SQUARE_SIZE, IMAGE_HEADER_SQUARE_SIZE)).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
+            AZProgressHUDDefaultContentView *view =self.customView;
+            if (view.textLabel.text.length>0||view.detailTextLabel.text.length>0||view.actionLabel.text.length>0) {
+                [self updateDefaultContentViewImageHeaderConstraints];
+            }
+        }
         return self;
     };
 }
@@ -217,7 +268,7 @@
         self.coverredWindow(YES);
     }
     if (!self.customView) {
-         self.contentView(self.defaultContentView).minContentSize(CGSizeMake(40, 40)).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
+         self.contentView(self.defaultContentView);
     }
     NSCAssert(self.canShow, @"set 'minContentSize' or 'maxContentSize' with custom content view before displaying");
     self.animationType = self._displayAnimationType;
@@ -236,6 +287,17 @@
 + (void)hiddenAnimated:(BOOL)isAnimated inView:(nonnull UIView *)view {
     [(AZProgressHUD *)[AZProgressHUD HUDForView:view] hide];
 }
+
+#pragma mark - private methods
+
+- (void)updateDefaultContentViewImageHeaderConstraints {
+    AZProgressHUDDefaultContentView *contentView = self.customView;
+    [contentView.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.top.equalTo(contentView);
+        make.width.height.mas_equalTo(IMAGE_HEADER_SQUARE_SIZE);
+    }];
+}
+
 - (void)handleConstraintsFor:(UIView *)view size:(CGSize)size isMax:(BOOL)isMax {
     if (self.canShow) {
         void(^block)(MASConstraintMaker *) = ^(MASConstraintMaker *make) {
@@ -291,12 +353,9 @@
 - (BOOL)canShow {
     return !(CGSizeEqualToSize(CGSizeZero, self._minContentSize)&&CGSizeEqualToSize(CGSizeZero, self._maxContentSize));
 }
-
-- (AZProgressHUDDefaultContentView *)defaultContentView {
-    if (!_defaultContentView) {
-        _defaultContentView = [[AZProgressHUDDefaultContentView alloc] init];
-    }
-    return _defaultContentView;
+- (BOOL)canUseProperties {
+    return self.customView == self.defaultContentView || [self.customView isKindOfClass:AZProgressHUDDefaultContentView.class];
 }
+
 
 @end
