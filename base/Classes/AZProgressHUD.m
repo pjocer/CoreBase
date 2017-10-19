@@ -19,6 +19,7 @@
 @property (nonatomic, strong, readwrite) UILabel *detailTextLabel;
 @property (nonatomic, strong, readwrite) FLAnimatedImageView *imageView;
 @property (nonatomic, strong, readwrite) UILabel *actionLabel;
+@property (nonatomic, strong, readwrite) MASConstraint *showActionLabel;
 @end
 
 @implementation AZProgressHUDDefaultContentView
@@ -57,9 +58,10 @@
     [self.actionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.detailTextLabel.mas_bottom).offset(18);
         make.centerX.equalTo(self);
-        make.size.mas_greaterThanOrEqualTo(CGSizeMake(215, 44));
+        self.showActionLabel = make.size.mas_greaterThanOrEqualTo(CGSizeMake(215, 44)).priorityHigh();
         make.bottom.equalTo(self);
     }];
+    [self.showActionLabel deactivate];
     return self;
 }
 
@@ -219,6 +221,9 @@
             AZProgressHUDDefaultContentView *view =self.customView;
             if (view.textLabel.text.length>0||view.detailTextLabel.text.length>0||view.actionLabel.text.length>0) {
                 [self updateDefaultContentViewImageHeaderConstraints];
+            }
+            if (view.actionLabel.text.length>0) {
+                [view.showActionLabel activate];
             }
         }
         return self;
