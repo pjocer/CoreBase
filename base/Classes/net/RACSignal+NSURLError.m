@@ -11,6 +11,11 @@
 #import <TXFire/TXFire.h>
 #import <AFNetworking.h>
 #import "NSError+Networking.h"
+#import <ReactiveObjC/RACStream+Private.h>
+
+static NSErrorDomain AzazieErrorDomain = @"kAzazieErrorDomain";
+
+static NSInteger AzazieErrorMultipleErrors = -5000;
 
 static void notifyDataNotAllowed(void)
 {
@@ -93,6 +98,125 @@ static void notifyDataNotAllowed(void)
         }
         return [RACSignal error:error];
     }];
+}
+
++ (RACSignal<RACTuple *> *)zipErrors:(id<NSFastEnumeration>)signals {
+    return [[self join:signals block:^(RACSignal *left, RACSignal *right) {
+        return [left zipErrorWith:right];
+    }] setNameWithFormat:@"+zipErrors: %@", signals];
+}
+
+- (RACSignal *)zipErrorWith:(RACSignal *)signal {
+    NSCParameterAssert(signal != nil);
+    return [[RACSignal createSignal:^(id<RACSubscriber> subscriber) {
+        __block BOOL selfCompleted = NO;
+        __block NSError *selfError = nil;
+        NSMutableArray *selfValues = [NSMutableArray array];
+        
+        __block BOOL otherCompleted = NO;
+        __block NSError *otherError = nil;
+        NSMutableArray *otherValues = [NSMutableArray array];
+        __block RACTuple *tuple = nil;
+        
+        void (^sendCompletedIfNecessary)(void) = ^{
+            @synchronized (selfValues, otherValues) {
+                BOOL selfEmpty = (selfCompleted && selfValues.count == 0);
+                BOOL otherEmpty = (otherCompleted && otherValues.count == 0);
+                if (selfEmpty || otherEmpty) [subscriber sendCompleted];
+            }
+        };
+        void (^sendErrorIfNecessary)(void) = ^ {
+            @synchronized(selfError, otherError) {
+                BOOL selfErrorAlready = (selfError!=nil || selfCompleted);
+                BOOL otherErrorAlready = (otherError!=nil || otherCompleted);
+                if (!(selfErrorAlready && otherErrorAlready)) return ;
+                
+                NSMutableArray *errors = [NSMutableArray arrayWithCapacity:0];
+                [[RACScheduler immediateScheduler] scheduleRecursiveBlock:^(void (^ _Nonnull reschedule)(void)) {
+                    if (otherError) {
+                        [errors addObject:otherError];
+                    }
+                    if (selfError) {
+                        if (selfError.domain == AzazieErrorDomain) {
+                            NSArray *inErrors = selfError.userInfo[@"errors"];
+                            if (inErrors.count!=0) {
+                                if (inErrors.count == 1) {
+                                    selfError = inErrors[0];
+                                    otherError = nil;
+                                } else if (inErrors.count == 2) {
+                                    selfError = inErrors[0];
+                                    otherError = inErrors[1];
+                                } else {
+                                    otherError = inErrors.lastObject;
+                                    inErrors = [inErrors subarrayWithRange:NSMakeRange(0, inErrors.count-1)];
+                                    NSDictionary *userInfo = @{@"errors":inErrors};
+                                    selfError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorMultipleErrors userInfo:userInfo];
+                                }
+                                reschedule();
+                            }
+                        } else {
+                            [errors addObject:selfError];
+                        }
+                    }
+                }];
+                NSDictionary *userInfo = @{@"errors":errors};
+                NSError *error = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorMultipleErrors userInfo:userInfo];
+                [subscriber sendError:error];
+            }
+        };
+        void (^sendNext)(void) = ^{
+            @synchronized (selfValues, otherValues) {
+                if (selfValues.count == 0 || otherValues.count == 0) return;
+                
+                RACTuple *tuple = RACTuplePack(selfValues[0], otherValues[0]);
+                [selfValues removeObjectAtIndex:0];
+                [otherValues removeObjectAtIndex:0];
+                [subscriber sendNext:tuple];
+                sendCompletedIfNecessary();
+            }
+        };
+        
+        RACDisposable *selfDisposable = [self subscribeNext:^(id x) {
+            @synchronized (selfValues) {
+                [selfValues addObject:x ?: RACTupleNil.tupleNil];
+                sendNext();
+            }
+        } error:^(NSError *error) {
+            @synchronized (selfError) {
+                selfError = error;
+                sendErrorIfNecessary();
+            }
+        } completed:^{
+            @synchronized (selfValues) {
+                selfCompleted = YES;
+                sendCompletedIfNecessary();
+                sendErrorIfNecessary();
+            }
+        }];
+        
+        RACDisposable *otherDisposable = [signal subscribeNext:^(id x) {
+            @synchronized (otherValues) {
+                [otherValues addObject:x ?: RACTupleNil.tupleNil];
+                sendNext();
+            }
+        } error:^(NSError *error) {
+            @synchronized (otherError) {
+                otherError = error;
+                sendErrorIfNecessary();
+            }
+        } completed:^{
+            @synchronized (selfValues) {
+                otherCompleted = YES;
+                sendCompletedIfNecessary();
+                sendErrorIfNecessary();
+            }
+        }];
+        
+        return [RACDisposable disposableWithBlock:^{
+            [selfDisposable dispose];
+            [otherDisposable dispose];
+        }];
+    }] setNameWithFormat:@"[%@] -zipErrorWith: %@", self.name, signal];
 }
 
 - (RACSignal *)doNSURLErrorAlert {

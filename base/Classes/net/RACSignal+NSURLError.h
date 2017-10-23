@@ -16,7 +16,9 @@
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
 
-
+// Zips the errors in the receiver with those of the given signal to create RACTuples or errors to send.
+- (RACSignal *)zipErrorWith:(RACSignal *)signal;
++ (RACSignal<RACTuple *> *)zipErrors:(id<NSFastEnumeration>)signals;
 
 // do URLError with customize alert, and then send an error.
 - (RACSignal<ValueType> *)doNSURLErrorAlert;
