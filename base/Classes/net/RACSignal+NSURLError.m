@@ -104,8 +104,7 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        NSErrorDomain domain = error.domain;
-        if (domain == NSURLErrorDomain || domain == AFURLRequestSerializationErrorDomain || domain == AFURLResponseSerializationErrorDomain) {
+        if (error.domain == NSURLErrorDomain || error.isRequestSerializationError || error.isResponseSerializationError) {
             return [RACSignal return:nil];
         }
         return [RACSignal error:error];
@@ -261,7 +260,7 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)doNSURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
-        if (error.errorMessageByServer || error.HTTPResponse) return ;
+        if (error.responseData) return ;
         [RACSignal __doNSURLErrorWithCode:error.code];
     }];
 }
