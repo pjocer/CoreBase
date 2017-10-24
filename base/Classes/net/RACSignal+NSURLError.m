@@ -13,12 +13,13 @@
 #import "NSError+Networking.h"
 #import <ReactiveObjC/RACStream+Private.h>
 
-static NSErrorDomain AzazieErrorDomain = @"kAzazieErrorDomain";
+NSErrorDomain const AzazieErrorDomain = @"kAzazieErrorDomain";
+NSString *const AzazieErrorDomainErrorsKey = @"AzazieErrorDomainErrorsKey";
 
-static NSInteger AzazieErrorMultipleErrors = -5000;
+NSInteger const AzazieErrorMultipleErrors = -5000;
+NSInteger const AzazieErrorSingleError = -5001;
 
-static void notifyDataNotAllowed(void)
-{
+static void notifyDataNotAllowed(void) {
     AZAlert *alert = [AZAlert alertWithTitle:@"DataNotAllowed" detailText:nil preferConfirm:YES];
     [alert addConfirmItemWithTitle:@"Settings" action:^{
         NSURL *URL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
@@ -37,14 +38,7 @@ static void notifyDataNotAllowed(void)
 
 @implementation RACSignal (NSURLError)
 
-+ (void)__doNSURLErrorWithCode:(NSInteger)code {
-    if (code == NSURLErrorCancelled) {
-        return;
-    }
-    if (code == NSURLErrorDataNotAllowed) {
-        notifyDataNotAllowed();
-        return;
-    }
++ (NSString *)__NSURLErrorMessageWithCode:(NSInteger)code {
     NSString *msg = nil;
     if (code == NSURLErrorNotConnectedToInternet) {
         msg = @"The internet connection appears to be offline.";
@@ -53,22 +47,65 @@ static void notifyDataNotAllowed(void)
     } else {
         msg = @"Unable to connect to server. Please try again.";
     }
-    
-    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:msg preferConfirm:YES];
+    return msg;
+}
+
++ (NSString *)__AzazieURLErrorMessageWithError:(NSError *)error {
+    if (error.HTTPResponse && error.errorMessageByServer) {
+        return error.errorMessageByServer;
+    }
+    return nil;
+}
+
++ (void)__doNSURLErrorWithCode:(NSInteger)code {
+    if (code == NSURLErrorCancelled) {
+        return;
+    }
+    if (code == NSURLErrorDataNotAllowed) {
+        notifyDataNotAllowed();
+        return;
+    }
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:[RACSignal __NSURLErrorMessageWithCode:code] preferConfirm:YES];
     [alert addConfirmItemWithTitle:@"OK" action:NULL];
     [alert show];
 }
 
-- (RACSignal *)catchURLError {
-    return [self catchNSURLError];
++ (void)__doAzazieURLErrorWithError:(NSError *)error {
+    if (error.HTTPResponse && error.errorMessageByServer) {
+        AZAlert *alert = [AZAlert alertWithTitle:nil detailText:error.errorMessageByServer preferConfirm:YES];
+        [alert addConfirmItemWithTitle:@"OK" action:NULL];
+        [alert show];
+    }
+    if (error.domain == AzazieErrorDomain) {
+        if (error.code == AzazieErrorMultipleErrors) {
+            NSArray <NSError *>*errors = error.userInfo[AzazieErrorDomainErrorsKey];
+            NSMutableArray *msgs = [NSMutableArray arrayWithCapacity:errors.count];
+            [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:obj]?:[RACSignal __NSURLErrorMessageWithCode:obj.code];
+                [msgs addObject:msg];
+            }];
+            AZAlert *alert = [AZAlert alertWithTitle:nil detailTexts:msgs preferConfirm:YES];
+            [alert addConfirmItemWithTitle:@"OK" action:NULL];
+            [alert show];
+        }
+        if (error.code == AzazieErrorSingleError) {
+            AZAlert *alert = [AZAlert alertWithTitle:nil detailText:error.userInfo[AzazieErrorDomainErrorsKey] preferConfirm:YES];
+            [alert addConfirmItemWithTitle:@"OK" action:NULL];
+            [alert show];
+        }
+    }
 }
 
-- (RACSignal *)catchNSURLError
-{
+- (RACSignal *)catchURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        Dlog(@"error domain: %@, code: %zd, localizedDescription: %@", error.domain, error.code, error.localizedDescription);
-        if ([error.domain isEqualToString:NSURLErrorDomain]) {
-            [RACSignal __doNSURLErrorWithCode:error.code];
+        return [RACSignal return:nil];
+    }];
+}
+
+- (RACSignal *)catchNSURLError {
+    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        NSErrorDomain domain = error.domain;
+        if (domain == NSURLErrorDomain || domain == AFURLRequestSerializationErrorDomain || domain == AFURLResponseSerializationErrorDomain) {
             return [RACSignal return:nil];
         }
         return [RACSignal error:error];
@@ -78,7 +115,6 @@ static void notifyDataNotAllowed(void)
 - (RACSignal *)catchNSURLErrorCancelled {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
-            [RACSignal __doNSURLErrorWithCode:error.code];
             return [RACSignal return:nil];
         } else {
             return [RACSignal error:error];
@@ -138,7 +174,7 @@ static void notifyDataNotAllowed(void)
                     }
                     if (selfError) {
                         if (selfError.domain == AzazieErrorDomain) {
-                            NSArray *inErrors = selfError.userInfo[@"errors"];
+                            NSArray *inErrors = selfError.userInfo[AzazieErrorDomainErrorsKey];
                             if (inErrors.count!=0) {
                                 if (inErrors.count == 1) {
                                     selfError = inErrors[0];
@@ -149,7 +185,7 @@ static void notifyDataNotAllowed(void)
                                 } else {
                                     otherError = inErrors.lastObject;
                                     inErrors = [inErrors subarrayWithRange:NSMakeRange(0, inErrors.count-1)];
-                                    NSDictionary *userInfo = @{@"errors":inErrors};
+                                    NSDictionary *userInfo = @{AzazieErrorDomainErrorsKey:inErrors};
                                     selfError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorMultipleErrors userInfo:userInfo];
                                 }
                                 reschedule();
@@ -159,7 +195,7 @@ static void notifyDataNotAllowed(void)
                         }
                     }
                 }];
-                NSDictionary *userInfo = @{@"errors":errors};
+                NSDictionary *userInfo = @{AzazieErrorDomainErrorsKey:errors};
                 NSError *error = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorMultipleErrors userInfo:userInfo];
                 [subscriber sendError:error];
             }
@@ -219,9 +255,20 @@ static void notifyDataNotAllowed(void)
     }] setNameWithFormat:@"[%@] -zipErrorWith: %@", self.name, signal];
 }
 
+- (RACSignal *)doURLErrorAlert {
+    return [[self doNSURLErrorAlert] doAzazieURLErrorAlert];
+}
+
 - (RACSignal *)doNSURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
+        if (error.errorMessageByServer || error.HTTPResponse) return ;
         [RACSignal __doNSURLErrorWithCode:error.code];
+    }];
+}
+
+- (RACSignal *)doAzazieURLErrorAlert {
+    return [self doError:^(NSError * _Nonnull error) {
+        [RACSignal __doAzazieURLErrorWithError:error];
     }];
 }
 

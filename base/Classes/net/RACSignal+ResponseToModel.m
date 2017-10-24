@@ -8,9 +8,12 @@
 
 #import "RACSignal+ResponseToModel.h"
 #import <YYModel/YYModel.h>
+#import <AFURLResponseSerialization.h>
+#import "RACSignal+NSURLError.h"
 
 NSError * ResponseToModelError(void) {
-    return [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:nil];
+    NSString *msg = @"Sorry, lovely! Something went wrong, please try again.";
+    return [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorSingleError userInfo:@{AzazieErrorDomainErrorsKey:msg}];
 }
 
 @implementation RACSignal (ResponseToModel)
@@ -25,7 +28,7 @@ NSError * ResponseToModelError(void) {
             *errorPtr = ResponseToModelError();
             return nil;
         }
-    }];
+    }] ;
 }
 
 - (RACSignal *)tryMapResponseToModelArray:(Class)model {

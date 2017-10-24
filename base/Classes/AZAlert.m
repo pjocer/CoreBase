@@ -118,7 +118,7 @@
             subtitle.hidden = count==1;
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.leading.trailing.equalTo(subtitle);
-                make.top.equalTo(subtitle.hidden?self.titleLabel.mas_bottom:subtitle.mas_bottom);
+                make.top.equalTo(subtitle.hidden?self.titleLabel.mas_bottom:subtitle.mas_bottom).offset(subtitle.hidden?10:0);
             }];
         }
         last = obj;
@@ -186,7 +186,7 @@
 }
 
 - (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete {
-    self.hud = AZProgressHUD.hud.contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 100));
+    self.hud = AZProgressHUD.hud.grace(0.5f).contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 165));
     if (!animated) {
         self.hud.displayAnimationType(AZProgressHUDAnimationTypeDefault);
     }
