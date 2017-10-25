@@ -7,6 +7,7 @@
 //
 
 #import <ReactiveObjC/ReactiveObjC.h>
+#import "NSError+Networking.h"
 
 FOUNDATION_EXPORT NSErrorDomain const AzazieErrorDomain;
 FOUNDATION_EXPORT NSString *const AzazieErrorDomainErrorsKey;

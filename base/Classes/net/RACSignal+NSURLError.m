@@ -10,7 +10,6 @@
 #import "AZAlert.h"
 #import <TXFire/TXFire.h>
 #import <AFNetworking.h>
-#import "NSError+Networking.h"
 #import <ReactiveObjC/RACStream+Private.h>
 
 NSErrorDomain const AzazieErrorDomain = @"kAzazieErrorDomain";
@@ -100,7 +99,7 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if (error.domain == NSURLErrorDomain || error.isRequestSerializationError || error.isResponseSerializationError) {
+        if (!error.responseObject) {
             return [RACSignal return:nil];
         }
         return [RACSignal error:error];
