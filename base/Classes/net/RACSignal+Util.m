@@ -24,13 +24,16 @@
 
 - (RACSignal *)hudWithView:(__weak UIView *)view {
     @weakify(view);
-    return [[self initially:^{
+    return [[[self initially:^{
         @strongify(view);
-        AZProgressHUD.hud.inView(view).maskColor(UIColorMakeWithRGBA(0, 0, 0, 0.8)).show;
+        AZProgressHUD.hud.inView(view).maskColor(UIColorMakeWithRGBA(255, 255, 255, 0.8)).show;
     }] finally:^{
         @strongify(view);
         [AZProgressHUD hiddenAnimated:YES inView:view];
-    }];
+    }] beforeDispose:^{
+        @strongify(view);
+        [AZProgressHUD hiddenAnimated:YES inView:view];
+    }] ;
 }
 
 - (RACSignal *)hudWithViewController:(__weak UIViewController *)viewController {

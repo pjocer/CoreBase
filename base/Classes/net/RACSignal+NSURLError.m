@@ -71,29 +71,25 @@ static void notifyDataNotAllowed(void) {
 }
 
 + (void)__doAzazieURLErrorWithError:(NSError *)error {
+    NSMutableArray *detailTexts = [NSMutableArray arrayWithCapacity:0];
     if (error.HTTPResponse && error.errorMessageByServer) {
-        AZAlert *alert = [AZAlert alertWithTitle:nil detailText:error.errorMessageByServer preferConfirm:YES];
-        [alert addConfirmItemWithTitle:@"OK" action:NULL];
-        [alert show];
+        [detailTexts addObject:error.errorMessageByServer];
     }
     if (error.domain == AzazieErrorDomain) {
         if (error.code == AzazieErrorMultipleErrors) {
             NSArray <NSError *>*errors = error.userInfo[AzazieErrorDomainErrorsKey];
-            NSMutableArray *msgs = [NSMutableArray arrayWithCapacity:errors.count];
             [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:obj]?:[RACSignal __NSURLErrorMessageWithCode:obj.code];
-                [msgs addObject:msg];
+                [detailTexts addObject:msg];
             }];
-            AZAlert *alert = [AZAlert alertWithTitle:nil detailTexts:msgs preferConfirm:YES];
-            [alert addConfirmItemWithTitle:@"OK" action:NULL];
-            [alert show];
         }
         if (error.code == AzazieErrorSingleError) {
-            AZAlert *alert = [AZAlert alertWithTitle:nil detailText:error.userInfo[AzazieErrorDomainErrorsKey] preferConfirm:YES];
-            [alert addConfirmItemWithTitle:@"OK" action:NULL];
-            [alert show];
+            [detailTexts addObject:error.userInfo[AzazieErrorDomainErrorsKey]];
         }
     }
+    AZAlert *alert = [AZAlert alertWithTitle:nil detailTexts:detailTexts preferConfirm:YES];
+    [alert addConfirmItemWithTitle:@"OK" action:NULL];
+    [alert show];
 }
 
 - (RACSignal *)catchURLError {
@@ -260,7 +256,7 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)doNSURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
-        if (error.responseData) return ;
+        if (error.responseObject) return ;
         [RACSignal __doNSURLErrorWithCode:error.code];
     }];
 }

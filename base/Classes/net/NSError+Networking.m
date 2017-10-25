@@ -12,65 +12,50 @@
 
 @implementation NSError (Networking)
 
-- (BOOL)isRequestSerializationError
-{
+- (BOOL)isRequestSerializationError {
     return [self.domain isEqualToString:AFURLRequestSerializationErrorDomain];
 }
 
-- (BOOL)isResponseSerializationError
-{
+- (BOOL)isResponseSerializationError {
     return [self.domain isEqualToString:AFURLResponseSerializationErrorDomain];
 }
 
-- (NSData *)responseData
-{
-    if (self.isRequestSerializationError)
-    {
+- (NSData *)responseData {
+    if (self.isRequestSerializationError) {
         return nil;
-    }
-    if (self.isResponseSerializationError)
-    {
+    } if (self.isResponseSerializationError) {
         return self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
     }
     return nil;
 }
 
-- (NSDictionary *)responseObject
-{
+- (NSDictionary *)responseObject {
     NSData *responseData = [self responseData];
-    if (!responseData)
-    {
+    if (!responseData) {
         return nil;
     }
-    
     id object = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:NULL];
-    if ([object isKindOfClass:NSDictionary.class])
-    {
+    if ([object isKindOfClass:NSDictionary.class]) {
         return object;
     }
     return nil;
 }
 
-- (NSHTTPURLResponse *)HTTPResponse
-{
+- (NSHTTPURLResponse *)HTTPResponse {
     return self.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
 }
 
-- (NSString *)errorMessageByServer
-{
+- (NSString *)errorMessageByServer {
     NSDictionary *responseObject = self.responseObject;
-    if (responseObject)
-    {
+    if (responseObject) {
         return [responseObject tx_stringForKey:@"msg"];
     }
     return nil;
 }
 
-- (NSNumber *)errorCodeByServer
-{
+- (NSNumber *)errorCodeByServer {
     NSDictionary *responseObject = self.responseObject;
-    if (responseObject)
-    {
+    if (responseObject) {
         return [responseObject tx_numberForKey:@"code"];
     }
     return nil;
