@@ -18,7 +18,7 @@
 @interface AZAlert ()
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIImageView *header;
-@property (nonatomic, strong) UIView *titleLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSMutableArray <UIView *>*detailLabels;
 @property (nonatomic, strong) UIView *footerSeparator;
 @property (nonatomic, strong) NSMutableArray <QMUIButton *>*items;
@@ -38,7 +38,7 @@
 }
 
 + (instancetype)alertWithTitle:(NSString *)title detailText:(NSString *)detail preferConfirm:(BOOL)preferred {
-    return [self alertWithTitle:title detailTexts:@[detail] preferConfirm:preferred];
+    return [self alertWithTitle:title detailTexts:detail?@[detail]:@[] preferConfirm:preferred];
 }
 
 + (instancetype)alertWithTitle:(NSString *)title detailTexts:(NSArray<NSString *> *)details preferConfirm:(BOOL)preferred {
@@ -68,6 +68,7 @@
     });
     
     alert.detailLabels = ({
+        details = details.count==0?@[@"Unknow details describtion"]:details;
         NSMutableArray *labels = [NSMutableArray arrayWithCapacity:details.count];
         if (details.count == 1) {
             [labels addObject:[alert generateNormalLabelWithText:details.firstObject]];
