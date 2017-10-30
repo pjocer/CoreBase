@@ -10,6 +10,7 @@
 #import <TXFire/TXFire.h>
 #import "util.h"
 #import <ReactiveObjC/ReactiveObjC.h>
+#import "sys/utsname.h"
 
 @interface CustomNavigationBarViewController () <UINavigationBarDelegate>
 
@@ -50,11 +51,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-
-    _navigationBar.frame = CGRectMake(0, 20.f, self.view.bounds.size.width, 44.f);
+    if ([self iPhoneX]) {
+        _navigationBar.frame = CGRectMake(0, 44.f, self.view.bounds.size.width, 44.f);
+    } else {
+        _navigationBar.frame = CGRectMake(0, 20.f, self.view.bounds.size.width, 44.f);
+    }
+    
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _navigationBar.delegate = self;
+
     [self.view addSubview:_navigationBar];
 }
 
@@ -73,6 +78,16 @@
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
     return UIBarPositionTopAttached;
+}
+
+- (BOOL)iPhoneX {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *version = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    if ([version isEqualToString:@"iPhone10,3"]) return YES;
+    if ([version isEqualToString:@"iPhone10,6"]) return YES;
+    if ([version isEqualToString:@"x86_64"]) return YES;
+    return NO;
 }
 
 @end
