@@ -40,8 +40,6 @@
 
 - (void)cnb_commonInit
 {
-    self.tx_interactiveNavigationBarHidden = YES;
-    
     /// 因为可能在viewDidLoad之前设置左上角的back按钮，所以先初始化navigationBar和pushNavigationItem.
     _navigationBar = [[UINavigationBar alloc] init];
     UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
@@ -61,6 +59,10 @@
     _navigationBar.delegate = self;
 
     [self.view addSubview:_navigationBar];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.tx_interactiveNavigationBarHidden = YES;
 }
 
 - (void)backlizeLeftBarButtonItem

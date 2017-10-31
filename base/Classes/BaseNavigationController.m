@@ -23,6 +23,11 @@
     [self makeAlwaysInteractivePopGestureRecognizer];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.navigationController.navigationBar.translucent = NO;
+}
+
 - (void)setNeedBacklizeLeftBarButtonItemForViewController:(UIViewController *)vc
 {
     if ([vc isKindOfClass:[CustomNavigationBarViewController class]])
