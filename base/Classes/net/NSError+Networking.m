@@ -56,7 +56,7 @@
 - (NSNumber *)errorCodeByServer {
     NSDictionary *responseObject = self.responseObject;
     if (responseObject) {
-        return [responseObject tx_numberForKey:@"code"];
+        return @([[responseObject valueForKey:@"code"] integerValue]);
     }
     return nil;
 }
@@ -64,7 +64,7 @@
 - (NSNumber *)errorGlobalCodeByServer {
     NSDictionary *responseObject = self.responseObject;
     if (responseObject) {
-        return [responseObject tx_numberForKey:@"global_code"];
+        return @([[responseObject valueForKey:@"global_code"] integerValue]);
     }
     return nil;
 }
