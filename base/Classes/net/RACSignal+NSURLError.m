@@ -96,7 +96,11 @@ static void notifyDataNotAllowed(void) {
         return [RACSignal return:nil];
     }];
 }
-
+- (RACSignal *)catchAzazieError {
+    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        return [RACSignal if:[RACSignal return:@(error.responseObject!=nil)] then:[RACSignal return:nil] else:[RACSignal error:error]];
+    }];
+}
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (!error.responseObject) {

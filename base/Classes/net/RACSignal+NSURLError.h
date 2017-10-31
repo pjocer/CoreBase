@@ -20,6 +20,8 @@ FOUNDATION_EXPORT NSInteger const AzazieErrorSingleError;
 // catch URLError and then send nil to next
 - (RACSignal<ValueType> *)catchURLError;
 - (RACSignal<ValueType> *)catchNSURLError;
+- (RACSignal<ValueType> *)catchAzazieError;
+
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;
 
