@@ -61,4 +61,12 @@
     return nil;
 }
 
+- (NSNumber *)errorGlobalCodeByServer {
+    NSDictionary *responseObject = self.responseObject;
+    if (responseObject) {
+        return [responseObject tx_numberForKey:@"global_code"];
+    }
+    return nil;
+}
+
 @end

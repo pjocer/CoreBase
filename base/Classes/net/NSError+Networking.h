@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong, nullable) NSString *errorMessageByServer;
 @property (nonatomic, readonly, strong, nullable) NSNumber *errorCodeByServer;
+@property (nonatomic, readonly, strong, nullable) NSNumber *errorGlobalCodeByServer;
 
 @end
 
