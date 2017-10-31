@@ -187,6 +187,9 @@
 }
 
 - (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete {
+    if (self.hud) {
+        [self.hud hide];
+    }
     self.hud = AZProgressHUD.hud.grace(0.5f).contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 165));
     if (!animated) {
         self.hud.displayAnimationType(AZProgressHUDAnimationTypeDefault);
