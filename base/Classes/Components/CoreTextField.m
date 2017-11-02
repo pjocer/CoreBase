@@ -122,7 +122,6 @@
         @strongify(self);
         return value.boolValue ? self.invalidPlaceholder : self.customPlaceholder;
     }];
-    
     RAC(self, customPlaceholderLabel.text) = [RACSignal merge:@[customPlaceholderSignal, invalidPlaceholderSignal, invalidSignal]];
     
     [[self rac_signalForControlEvents:UIControlEventEditingChanged | UIControlEventEditingDidBegin] subscribeNext:^(UITextField *textField){
@@ -146,13 +145,18 @@
 #pragma mark - raise
 
 - (void)setRaised:(BOOL)raised animated:(BOOL)animated {
-    if (_raised != raised && animated) {
+    if (_raised != raised) {
         _raised = raised;
-        [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAllowAnimatedContent animations:^{
+        if (animated) {
+            [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAllowAnimatedContent animations:^{
+                [self updateStyle];
+            } completion:^(BOOL finished) {
+                
+            }];
+        } else {
             [self updateStyle];
-        } completion:^(BOOL finished) {
-            
-        }];
+        }
+        
     } else {
         [self updateStyle];
     }
