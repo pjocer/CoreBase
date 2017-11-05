@@ -270,4 +270,10 @@ static void notifyDataNotAllowed(void) {
     }];
 }
 
++ (void)showURLErrorAlertWith:(NSError *)error {
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:[RACSignal __NSURLErrorMessageWithCode:error.code] preferConfirm:YES];
+    [alert addConfirmItemWithTitle:@"OK" action:NULL];
+    [alert show];
+}
+
 @end

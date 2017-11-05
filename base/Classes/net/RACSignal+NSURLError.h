@@ -33,4 +33,6 @@ FOUNDATION_EXPORT NSInteger const AzazieErrorSingleError;
 - (RACSignal<ValueType> *)doURLErrorAlert;
 - (RACSignal<ValueType> *)doNSURLErrorAlert;
 - (RACSignal<ValueType> *)doAzazieURLErrorAlert;
+
++ (void)showURLErrorAlertWith:(NSError *)error;
 @end
