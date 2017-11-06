@@ -22,16 +22,12 @@
 
 @implementation ProfileAutoLoader
 
-- (instancetype)initPrivate
-{
+- (instancetype)initPrivate {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         Profile *profile = [Profile currentProfile];
-        if (!profile)
-        {
-            if ([AccessToken currentAccessToken])
-            {
+        if (!profile) {
+            if ([AccessToken currentAccessToken]) {
                 [self requestProfileUntilSuccess];
             }
         }
@@ -40,8 +36,7 @@
     return self;
 }
 
-+ (ProfileAutoLoader *)sharedLoader
-{
++ (ProfileAutoLoader *)sharedLoader {
     static ProfileAutoLoader *loader = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -50,28 +45,24 @@
     return loader;
 }
 
-- (void)prepare
-{
+- (void)prepare {
     @weakify(self);
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:AccessTokenDidChangeNotification object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification * _Nullable x) {
         @strongify(self);
         AccessToken *token = x.userInfo[AccessTokenChangeNewKey];
         self.disposable = nil;
-        if (token)
-        {
+        if (token) {
             [self requestProfileUntilSuccess];
         }
     }];
 }
 
-- (void)requestProfileUntilSuccess
-{
+- (void)requestProfileUntilSuccess {
     @weakify(self);
-    self.disposable = [[[[Network.APISession rac_GET:@"me" parameters:nil] tryMapResponseToModel:Profile.class] doNext:^(Profile * _Nullable x) {
+    self.disposable = [[[[[Network.APISession rac_GET:@"me" parameters:nil] retry] tryMapResponseToModel:Profile.class] doNext:^(Profile * _Nullable x) {
         [Profile setCurrentProfile:x];
     }] subscribeError:^(NSError * _Nullable error) {
-        if ([AccessToken currentAccessToken])
-        {
+        if ([AccessToken currentAccessToken]) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 @strongify(self);
                 [self requestProfileUntilSuccess];

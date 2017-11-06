@@ -77,9 +77,9 @@ static void notifyDataNotAllowed(void) {
     if (error.domain == AzazieErrorDomain) {
         if (error.code == AzazieErrorMultipleErrors) {
             NSArray <NSError *>*errors = error.userInfo[AzazieErrorDomainErrorsKey];
-            [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:obj]?:[RACSignal __NSURLErrorMessageWithCode:obj.code];
-                [detailTexts addObject:msg];
+            [errors.rac_sequence.signal subscribeNext:^(NSError * _Nullable x) {
+                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:x]?:[RACSignal __NSURLErrorMessageWithCode:x.code];
+                if (![detailTexts containsObject:msg]) [detailTexts addObject:msg];
             }];
         }
         if (error.code == AzazieErrorSingleError) {

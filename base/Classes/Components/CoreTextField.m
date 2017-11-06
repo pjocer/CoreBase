@@ -117,7 +117,7 @@
         if ([x boolValue]) {
             [self resignFirstResponder];
         }
-        [self updateRaiseWithAnimated:YES];
+        [self updateRaiseWithAnimated:![x boolValue]];
     }] map:^id _Nullable(NSNumber *  _Nullable value) {
         @strongify(self);
         return value.boolValue ? self.invalidPlaceholder : self.customPlaceholder;
