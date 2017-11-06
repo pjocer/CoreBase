@@ -14,6 +14,7 @@ FOUNDATION_EXPORT NSString *const AzazieErrorDomainErrorsKey;
 
 FOUNDATION_EXPORT NSInteger const AzazieErrorMultipleErrors;
 FOUNDATION_EXPORT NSInteger const AzazieErrorSingleError;
+FOUNDATION_EXPORT NSString *const AzazieErrorSingleErrorMessageKey;
 
 @interface RACSignal<__covariant ValueType> (NSURLError)
 

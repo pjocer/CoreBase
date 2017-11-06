@@ -13,7 +13,7 @@
 
 NSError * ResponseToModelError(void) {
     NSString *msg = @"Sorry, lovely! Something went wrong, please try again.";
-    return [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorSingleError userInfo:@{AzazieErrorDomainErrorsKey:msg}];
+    return [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorSingleError userInfo:@{AzazieErrorSingleErrorMessageKey:msg}];
 }
 
 @implementation RACSignal (ResponseToModel)

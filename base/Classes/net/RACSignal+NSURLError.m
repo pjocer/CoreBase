@@ -14,6 +14,7 @@
 
 NSErrorDomain const AzazieErrorDomain = @"kAzazieErrorDomain";
 NSString *const AzazieErrorDomainErrorsKey = @"AzazieErrorDomainErrorsKey";
+NSString *const AzazieErrorSingleErrorMessageKey = @"AzazieErrorSingleErrorMessageKey";
 
 NSInteger const AzazieErrorMultipleErrors = -5000;
 NSInteger const AzazieErrorSingleError = -5001;
@@ -83,7 +84,7 @@ static void notifyDataNotAllowed(void) {
             }];
         }
         if (error.code == AzazieErrorSingleError) {
-            [detailTexts addObject:error.userInfo[AzazieErrorDomainErrorsKey]];
+            [detailTexts addObject:error.userInfo[AzazieErrorSingleErrorMessageKey]];
         }
     }
     AZAlert *alert = [AZAlert alertWithTitle:nil detailTexts:detailTexts preferConfirm:YES];
@@ -103,7 +104,7 @@ static void notifyDataNotAllowed(void) {
 }
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if (!error.responseObject) {
+        if (!error.responseObject || error.domain != AzazieErrorDomain) {
             return [RACSignal return:nil];
         }
         return [RACSignal error:error];
@@ -254,12 +255,18 @@ static void notifyDataNotAllowed(void) {
 }
 
 - (RACSignal *)doURLErrorAlert {
-    return [[self doNSURLErrorAlert] doAzazieURLErrorAlert];
+    return [self doError:^(NSError * _Nonnull error) {
+        if (error.responseObject || error.domain == AzazieErrorDomain) {
+            [RACSignal __doAzazieURLErrorWithError:error];
+        } else {
+            [RACSignal __doNSURLErrorWithCode:error.code];
+        }
+    }];
 }
 
 - (RACSignal *)doNSURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
-        if (error.responseObject) return ;
+        if (error.responseObject || error.domain == AzazieErrorDomain) return ;
         [RACSignal __doNSURLErrorWithCode:error.code];
     }];
 }

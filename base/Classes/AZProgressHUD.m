@@ -11,7 +11,7 @@
 #import <Masonry.h>
 #import <TXFire.h>
 
-#define IMAGE_HEADER_SQUARE_SIZE 120/ScreenScale
+#define IMAGE_HEADER_SQUARE_SIZE CGSizeMake(60, 60)
 #define REFRESH_GIF_IMAGE [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]]]
 
 @interface AZProgressHUDDefaultContentView ()
@@ -42,7 +42,7 @@
 - (instancetype)makeConstraints {
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.width.height.mas_equalTo(IMAGE_HEADER_SQUARE_SIZE);
+        make.size.mas_equalTo(IMAGE_HEADER_SQUARE_SIZE);
     }];
     
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -217,7 +217,7 @@
         self.mode = MBProgressHUDModeCustomView;
         self.customView = view;
         if ([view isKindOfClass:AZProgressHUDDefaultContentView.class]) {
-            self.minContentSize(CGSizeMake(IMAGE_HEADER_SQUARE_SIZE, IMAGE_HEADER_SQUARE_SIZE)).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
+            self.minContentSize(IMAGE_HEADER_SQUARE_SIZE).maxContentSize(CGSizeMake(295, SCREEN_HEIGHT));
             AZProgressHUDDefaultContentView *view =self.customView;
             if (view.textLabel.text.length>0||view.detailTextLabel.text.length>0||view.actionLabel.text.length>0) {
                 [self updateDefaultContentViewImageHeaderConstraints];
@@ -299,7 +299,7 @@
     AZProgressHUDDefaultContentView *contentView = self.customView;
     [contentView.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.top.equalTo(contentView);
-        make.width.height.mas_equalTo(IMAGE_HEADER_SQUARE_SIZE);
+        make.size.mas_equalTo(IMAGE_HEADER_SQUARE_SIZE);
     }];
 }
 

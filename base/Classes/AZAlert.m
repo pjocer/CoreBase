@@ -17,6 +17,7 @@
 
 @interface AZAlert ()
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UIView *alertView;
 @property (nonatomic, strong) UIImageView *header;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSMutableArray <UIView *>*detailLabels;
@@ -47,6 +48,12 @@
     alert.preferred = preferred;
     
     alert.contentView = ({
+        UIView *view = [[UIView alloc] init];
+        view.backgroundColor = UIColorClear;
+        view;
+    });
+    
+    alert.alertView = ({
         UIView *view = [[UIView alloc] init];
         view.backgroundColor = UIColorWhite;
         view.layer.cornerRadius = 5;
@@ -90,17 +97,27 @@
 }
 
 - (void)handleConstraintsForSubViews {
-    [self.contentView addSubview:self.titleLabel];
+    [self.contentView addSubview:self.alertView];
+    [self.alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(30);
+        make.left.right.bottom.equalTo(self.contentView);
+    }];
+    [self.contentView addSubview:self.header];
+    [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.contentView);
+        make.top.equalTo(self.contentView);
+        make.size.mas_equalTo(CGSizeMake(60, 60));
+    }];
+    [self.alertView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(48);
-        make.centerX.equalTo(self.contentView);
+        make.centerX.equalTo(self.alertView);
     }];
-    
     NSUInteger count = self.detailLabels.count;
     __block UIView *last = nil;
     [self.detailLabels enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (!obj.superview) {
-            [self.contentView addSubview:obj];
+            [self.alertView addSubview:obj];
         }
         if (last) {
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -109,7 +126,7 @@
             }];
         } else {
             UILabel *subtitle = [self generateNormalLabelWithText:[NSString stringWithFormat:@"We find %ld problems below:",count]];
-            [self.contentView addSubview:subtitle];
+            [self.alertView addSubview:subtitle];
             
             [subtitle mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.leading.mas_equalTo(40);
@@ -125,10 +142,10 @@
         last = obj;
     }];
     
-    [self.contentView addSubview:self.footerSeparator];
+    [self.alertView addSubview:self.footerSeparator];
     [self.footerSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo([self.detailLabels lastObject].mas_bottom).offset(32);
-        make.left.right.equalTo(self.contentView);
+        make.left.right.equalTo(self.alertView);
         make.height.mas_equalTo(1);
     }];
 }
@@ -190,7 +207,7 @@
     if (self.hud) {
         [self.hud hide];
     }
-    self.hud = AZProgressHUD.hud.grace(0.5f).contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 165));
+    self.hud = AZProgressHUD.hud.grace(0.5f).contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 195));
     if (!animated) {
         self.hud.displayAnimationType(AZProgressHUDAnimationTypeDefault);
     }
@@ -211,22 +228,22 @@
     __block UIButton *lastButton = nil;
     [self.items enumerateObjectsUsingBlock:^(QMUIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (!obj.superview) {
-            [self.contentView addSubview:obj];
+            [self.alertView addSubview:obj];
         }
         if (lastButton) {
             [obj mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.leading.equalTo(lastButton.mas_trailing);
                 make.top.bottom.height.equalTo(lastButton);
-                make.width.equalTo(self.contentView).dividedBy(count);
+                make.width.equalTo(self.alertView).dividedBy(count);
             }];
             [obj drawSeparatorLineToPosition:UIRectEdgeLeft lineWidth:1];
         } else {
             [obj mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(self.contentView);
+                make.leading.equalTo(self.alertView);
                 make.top.equalTo(self.footerSeparator.mas_bottom);
-                make.bottom.equalTo(self.contentView);
+                make.bottom.equalTo(self.alertView);
                 make.height.mas_equalTo(49);
-                make.width.equalTo(self.contentView).dividedBy(count);
+                make.width.equalTo(self.alertView).dividedBy(count);
             }];
         }
         lastButton = obj;
