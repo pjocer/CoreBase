@@ -173,21 +173,25 @@ static void notifyDataNotAllowed(void) {
                     }
                     if (selfError) {
                         if (selfError.domain == AzazieErrorDomain) {
-                            NSArray *inErrors = selfError.userInfo[AzazieErrorDomainErrorsKey];
-                            if (inErrors.count!=0) {
-                                if (inErrors.count == 1) {
-                                    selfError = inErrors[0];
-                                    otherError = nil;
-                                } else if (inErrors.count == 2) {
-                                    selfError = inErrors[0];
-                                    otherError = inErrors[1];
-                                } else {
-                                    otherError = inErrors.lastObject;
-                                    inErrors = [inErrors subarrayWithRange:NSMakeRange(0, inErrors.count-1)];
-                                    NSDictionary *userInfo = @{AzazieErrorDomainErrorsKey:inErrors};
-                                    selfError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorMultipleErrors userInfo:userInfo];
+                            if (selfError.code == AzazieErrorMultipleErrors) {
+                                NSArray *inErrors = selfError.userInfo[AzazieErrorDomainErrorsKey];
+                                if (inErrors.count!=0) {
+                                    if (inErrors.count == 1) {
+                                        selfError = inErrors[0];
+                                        otherError = nil;
+                                    } else if (inErrors.count == 2) {
+                                        selfError = inErrors[0];
+                                        otherError = inErrors[1];
+                                    } else {
+                                        otherError = inErrors.lastObject;
+                                        inErrors = [inErrors subarrayWithRange:NSMakeRange(0, inErrors.count-1)];
+                                        NSDictionary *userInfo = @{AzazieErrorDomainErrorsKey:inErrors};
+                                        selfError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorMultipleErrors userInfo:userInfo];
+                                    }
+                                    reschedule();
                                 }
-                                reschedule();
+                            } else if (selfError.code == AzazieErrorSingleError) {
+                                [errors addObject:selfError];
                             }
                         } else {
                             [errors addObject:selfError];
