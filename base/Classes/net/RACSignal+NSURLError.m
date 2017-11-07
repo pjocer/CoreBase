@@ -54,6 +54,9 @@ static void notifyDataNotAllowed(void) {
     if (error.HTTPResponse && error.errorMessageByServer) {
         return error.errorMessageByServer;
     }
+    if (error.code == AzazieErrorSingleError) {
+        return error.userInfo[AzazieErrorSingleErrorMessageKey];
+    }
     return nil;
 }
 
