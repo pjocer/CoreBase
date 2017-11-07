@@ -12,7 +12,7 @@
 #import "UIFont+BaseStyle.h"
 
 NSUInteger const PrimaryButtonBackgroundColorHex = 0xe8437b;
-NSUInteger const PrimaryButtonDisabledBackgroundColorHex = 0xf8c7d7;
+NSUInteger const PrimaryButtonDisabledBackgroundColorHex = 0xcccccc;
 NSUInteger const PrimaryButtonHighlightedBackgroundColorHex = 0xdc356f;
 
 @implementation UIButton (BaseCreation)
@@ -27,7 +27,6 @@ NSUInteger const PrimaryButtonHighlightedBackgroundColorHex = 0xdc356f;
     [btn setBackgroundImage:[UIImage tx_imageWithColor:[UIColor tx_colorWithHex:PrimaryButtonBackgroundColorHex]] forState:UIControlStateNormal];
     [btn setBackgroundImage:[UIImage tx_imageWithColor:[UIColor tx_colorWithHex:PrimaryButtonHighlightedBackgroundColorHex]] forState:UIControlStateHighlighted];
     [btn setBackgroundImage:[UIImage tx_imageWithColor:[UIColor tx_colorWithHex:PrimaryButtonDisabledBackgroundColorHex]] forState:UIControlStateDisabled];
-    
     return btn;
 }
 
