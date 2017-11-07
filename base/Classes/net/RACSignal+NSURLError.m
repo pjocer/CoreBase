@@ -90,7 +90,7 @@ static void notifyDataNotAllowed(void) {
             [detailTexts addObject:error.userInfo[AzazieErrorSingleErrorMessageKey]];
         }
     }
-    AZAlert *alert = [AZAlert alertWithTitle:nil detailTexts:detailTexts preferConfirm:YES];
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailTexts:detailTexts preferConfirm:YES];
     [alert addConfirmItemWithTitle:@"OK" action:NULL];
     [alert show];
 }
