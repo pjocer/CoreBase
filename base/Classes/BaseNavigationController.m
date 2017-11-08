@@ -82,4 +82,17 @@
     }
     [self setNeedBacklizeLeftBarButtonItemForViewController:viewController];
 }
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return self.topViewController.preferredStatusBarUpdateAnimation;
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return self.topViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return self.topViewController;
+}
+
 @end

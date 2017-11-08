@@ -107,10 +107,10 @@ static void notifyDataNotAllowed(void) {
 }
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if (!error.responseObject || error.domain != AzazieErrorDomain) {
-            return [RACSignal return:nil];
+        if (error.responseObject || error.domain == AzazieErrorDomain) {
+            return [RACSignal error:error];
         }
-        return [RACSignal error:error];
+        return [RACSignal return:nil];
     }];
 }
 
