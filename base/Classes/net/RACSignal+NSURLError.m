@@ -81,8 +81,8 @@ static void notifyDataNotAllowed(void) {
     if (error.domain == AzazieErrorDomain) {
         if (error.code == AzazieErrorMultipleErrors) {
             NSArray <NSError *>*errors = error.userInfo[AzazieErrorDomainErrorsKey];
-            [errors.rac_sequence.signal subscribeNext:^(NSError * _Nullable x) {
-                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:x]?:[RACSignal __NSURLErrorMessageWithCode:x.code];
+            [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:obj]?:[RACSignal __NSURLErrorMessageWithCode:obj.code];
                 if (![detailTexts containsObject:msg]) [detailTexts addObject:msg];
             }];
         }
@@ -169,7 +169,7 @@ static void notifyDataNotAllowed(void) {
                 BOOL otherErrorAlready = (otherError!=nil || otherCompleted);
                 if (!(selfErrorAlready && otherErrorAlready)) return ;
                 
-                NSMutableArray *errors = [NSMutableArray arrayWithCapacity:0];
+                NSMutableArray <NSError *>*errors = [NSMutableArray arrayWithCapacity:0];
                 [[RACScheduler immediateScheduler] scheduleRecursiveBlock:^(void (^ _Nonnull reschedule)(void)) {
                     if (otherError) {
                         [errors addObject:otherError];
@@ -197,7 +197,13 @@ static void notifyDataNotAllowed(void) {
                                 [errors addObject:selfError];
                             }
                         } else {
-                            [errors addObject:selfError];
+                            [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                if (obj.responseObject || obj.domain == AzazieErrorDomain) {
+                                    [errors addObject:selfError];
+                                } else {
+                                    *stop = YES;
+                                }
+                            }];
                         }
                     }
                 }];

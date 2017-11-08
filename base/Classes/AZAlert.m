@@ -212,6 +212,7 @@
         self.hud.displayAnimationType(AZProgressHUDAnimationTypeDefault);
     }
     [self.hud show];
+    [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
     if (complete) complete();
 }
 
