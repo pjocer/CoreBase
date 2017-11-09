@@ -74,24 +74,34 @@ static void notifyDataNotAllowed(void) {
 }
 
 + (void)__doAzazieURLErrorWithError:(NSError *)error title:(NSString *)title action:(dispatch_block_t)action {
+    dispatch_block_t confirmAction = action;
     NSMutableArray *detailTexts = [NSMutableArray arrayWithCapacity:0];
-    if (error.HTTPResponse && error.errorMessageByServer) {
+    if (error.errorMessageByServer) {
         [detailTexts addObject:error.errorMessageByServer];
     }
     if (error.domain == AzazieErrorDomain) {
         if (error.code == AzazieErrorMultipleErrors) {
             NSArray <NSError *>*errors = error.userInfo[AzazieErrorDomainErrorsKey];
-            [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:obj]?:[RACSignal __NSURLErrorMessageWithCode:obj.code];
-                if (![detailTexts containsObject:msg]) [detailTexts addObject:msg];
-            }];
+            if (errors.count == 1) {
+                NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:errors[0]];
+                if (!msg) {
+                    confirmAction = NULL;
+                    msg = [RACSignal __NSURLErrorMessageWithCode:errors[0].code];
+                }
+                [detailTexts addObject:msg];
+            } else {
+                [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:obj]?:[RACSignal __NSURLErrorMessageWithCode:obj.code];
+                    if (![detailTexts containsObject:msg]) [detailTexts addObject:msg];
+                }];
+            }
         }
         if (error.code == AzazieErrorSingleError) {
             [detailTexts addObject:error.userInfo[AzazieErrorSingleErrorMessageKey]];
         }
     }
     AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailTexts:detailTexts preferConfirm:YES];
-    [alert addConfirmItemWithTitle:title action:action];
+    [alert addConfirmItemWithTitle:title action:confirmAction];
     [alert show];
 }
 
@@ -197,13 +207,17 @@ static void notifyDataNotAllowed(void) {
                                 [errors addObject:selfError];
                             }
                         } else {
-                            [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                                if (obj.responseObject || obj.domain == AzazieErrorDomain) {
-                                    [errors addObject:selfError];
-                                } else {
-                                    *stop = YES;
-                                }
-                            }];
+                            if (errors.count > 0) {
+                                [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                    if (obj.responseObject || obj.domain == AzazieErrorDomain) {
+                                        [errors addObject:selfError];
+                                    } else {
+                                        *stop = YES;
+                                    }
+                                }];
+                            } else {
+                                [errors addObject:selfError];
+                            }
                         }
                     }
                 }];
