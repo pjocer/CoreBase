@@ -60,7 +60,7 @@ static void notifyDataNotAllowed(void) {
     return nil;
 }
 
-+ (void)__doNSURLErrorWithCode:(NSInteger)code {
++ (void)__doNSURLErrorWithCode:(NSInteger)code title:(NSString *)title action:(dispatch_block_t)action {
     if (code == NSURLErrorCancelled) {
         return;
     }
@@ -69,11 +69,11 @@ static void notifyDataNotAllowed(void) {
         return;
     }
     AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:[RACSignal __NSURLErrorMessageWithCode:code] preferConfirm:YES];
-    [alert addConfirmItemWithTitle:@"OK" action:NULL];
+    [alert addConfirmItemWithTitle:title action:action];
     [alert show];
 }
 
-+ (void)__doAzazieURLErrorWithError:(NSError *)error {
++ (void)__doAzazieURLErrorWithError:(NSError *)error title:(NSString *)title action:(dispatch_block_t)action {
     NSMutableArray *detailTexts = [NSMutableArray arrayWithCapacity:0];
     if (error.HTTPResponse && error.errorMessageByServer) {
         [detailTexts addObject:error.errorMessageByServer];
@@ -91,7 +91,7 @@ static void notifyDataNotAllowed(void) {
         }
     }
     AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailTexts:detailTexts preferConfirm:YES];
-    [alert addConfirmItemWithTitle:@"OK" action:NULL];
+    [alert addConfirmItemWithTitle:title action:action];
     [alert show];
 }
 
@@ -268,25 +268,31 @@ static void notifyDataNotAllowed(void) {
 }
 
 - (RACSignal *)doURLErrorAlert {
-    return [self doError:^(NSError * _Nonnull error) {
-        if (error.responseObject || error.domain == AzazieErrorDomain) {
-            [RACSignal __doAzazieURLErrorWithError:error];
-        } else {
-            [RACSignal __doNSURLErrorWithCode:error.code];
-        }
-    }];
+    return [self doURLErrorAlertWithConfirmTitle:@"OK" action:NULL];
 }
 
 - (RACSignal *)doNSURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) return ;
-        [RACSignal __doNSURLErrorWithCode:error.code];
+        [RACSignal __doNSURLErrorWithCode:error.code title:@"OK" action:NULL];
     }];
 }
 
 - (RACSignal *)doAzazieURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
-        [RACSignal __doAzazieURLErrorWithError:error];
+        if (error.responseObject || error.domain == AzazieErrorDomain) {
+            [RACSignal __doAzazieURLErrorWithError:error title:@"OK" action:NULL];
+        }
+    }];
+}
+
+- (RACSignal *)doURLErrorAlertWithConfirmTitle:(NSString *)title action:(dispatch_block_t)action {
+    return [self doError:^(NSError * _Nonnull error) {
+        if (error.responseObject || error.domain == AzazieErrorDomain) {
+            [RACSignal __doAzazieURLErrorWithError:error title:title action:action];
+        } else {
+            [RACSignal __doNSURLErrorWithCode:error.code title:title action:NULL];
+        }
     }];
 }
 
