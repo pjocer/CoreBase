@@ -30,7 +30,9 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     NSError *serializationError = nil;
     NSCAssert(self.baseURL, @"you must setAPIRelativeURL before.");
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+#if DEBUG
     [DebugManager registerNetworkRequest:request type:APIDomainTypeDefault];
+#endif
     if (serializationError) {
         if (failure) {
 #pragma clang diagnostic push

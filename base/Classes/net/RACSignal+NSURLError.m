@@ -75,6 +75,7 @@ static void notifyDataNotAllowed(void) {
 
 + (void)__doAzazieURLErrorWithError:(NSError *)error title:(NSString *)title action:(dispatch_block_t)action {
     dispatch_block_t confirmAction = action;
+    NSString *confirmTitle = title;
     NSMutableArray *detailTexts = [NSMutableArray arrayWithCapacity:0];
     if (error.errorMessageByServer) {
         [detailTexts addObject:error.errorMessageByServer];
@@ -86,6 +87,7 @@ static void notifyDataNotAllowed(void) {
                 NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:errors[0]];
                 if (!msg) {
                     confirmAction = NULL;
+                    confirmTitle = nil;
                     msg = [RACSignal __NSURLErrorMessageWithCode:errors[0].code];
                 }
                 [detailTexts addObject:msg];
