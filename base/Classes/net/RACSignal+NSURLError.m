@@ -318,4 +318,10 @@ static void notifyDataNotAllowed(void) {
     [alert show];
 }
 
++ (void)showURLErrorAlertWith:(NSError *)error action:(dispatch_block_t)action {
+    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:[RACSignal __NSURLErrorMessageWithCode:error.code] preferConfirm:YES];
+    [alert addConfirmItemWithTitle:@"OK" action:action];
+    [alert show];
+}
+
 @end
