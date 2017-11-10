@@ -87,7 +87,7 @@ static void notifyDataNotAllowed(void) {
                 NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:errors[0]];
                 if (!msg) {
                     confirmAction = NULL;
-                    confirmTitle = nil;
+                    confirmTitle = @"OK";
                     msg = [RACSignal __NSURLErrorMessageWithCode:errors[0].code];
                 }
                 [detailTexts addObject:msg];
