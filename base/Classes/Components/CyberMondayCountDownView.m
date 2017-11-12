@@ -146,7 +146,7 @@
     }] distinctUntilChanged] subscribeNext:^(NSNumber * _Nullable x) {
         [self resetPreSaleViewAnimate:!x.boolValue];
     }]];
-    [self.presaleLabel.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
+    [self.presaleContentView.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
         UIViewController *vc = [RouterManager.sharedManager request:[[RouterRequest alloc] initWithURL:[NSURL URLWithString:@"https://support.azazie.com/hc/en-us/articles/115005449083"] parameters:nil]];
         [[QMUIHelper visibleViewController].navigationController pushViewController:vc animated:YES];
     }];

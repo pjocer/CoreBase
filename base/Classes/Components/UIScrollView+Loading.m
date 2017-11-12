@@ -33,6 +33,12 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
 
 @implementation UIScrollView (Loading)
 
+- (BOOL)isHeaderRefreshing {
+    return self.mj_header.isRefreshing;
+}
+- (BOOL)isFooterRefreshing {
+    return self.mj_footer.isRefreshing;
+}
 - (void)addRefreshHeaderWithBlock:(void (^)(void))block
 {
     MJRefreshGifHeader *refreshHeader = [MJRefreshGifHeader headerWithRefreshingBlock:block];
@@ -64,6 +70,10 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
 - (void)endHeaderRefreshing
 {
     [self.mj_header endRefreshing];
+}
+
+- (void)endHeaderRefreshingCompeletion:(dispatch_block_t)compeletion {
+    [self.mj_header endRefreshingWithCompletionBlock:compeletion];
 }
 
 - (void)endFooterRefreshing:(BOOL)isNoMoreData {
