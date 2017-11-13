@@ -81,7 +81,8 @@
         make.right.top.bottom.equalTo(self.countDownImageView);
         make.left.equalTo(self.countDownImageView).offset(3);
     }];
-    [self setNeedsLayout];
+    [self resetPreSaleViewAnimate:YES];
+    [self resetCyberMondayViewAnimate:YES];
     return self;
 }
 
