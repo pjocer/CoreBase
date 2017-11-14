@@ -8,9 +8,9 @@
 
 #import "ActivityHandler.h"
 
-NSString *const CyberMondayCountDownEndTime = @"2017-11-11 05:10:00";
+NSString *const CyberMondayCountDownEndTime = @"2017-11-14 00:45:00";
 NSString *const PreSaleCountDownEndTime = @"2017-11-19 00:00:00";
-NSString *const CyberMondayActivityCode = @"cyber15";
+NSString *const CyberMondayActivityCode = @"cyberrrr";
 
 @implementation ActivityHandler
 
@@ -30,11 +30,11 @@ NSString *const CyberMondayActivityCode = @"cyber15";
 }
 
 - (BOOL)isCyberMondayViewAvaliable {
-    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-11 05:00:00" to:CyberMondayCountDownEndTime];
+    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-14 00:40:00" to:CyberMondayCountDownEndTime];
 }
 
 - (BOOL)isCyberMondayCouponCodeAvaliable {
-    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-11 06:30:00" to:@"2017-11-11 06:35:00"];
+    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-14 00:40:00" to:@"2017-11-14 00:45:00"];
 }
 
 - (void)setHasClosedPreSaleView:(BOOL)hasClosedPreSaleView {

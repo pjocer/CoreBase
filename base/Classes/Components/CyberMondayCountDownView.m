@@ -55,12 +55,12 @@
     }];
     [self.presaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.presaleContentView);
-        make.left.equalTo(self).offset(40);
-        make.right.equalTo(self).offset(-40);
+        make.left.equalTo(self).offset(35);
+        make.right.equalTo(self).offset(-35);
     }];
     [self.presaleClose mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.equalTo(self.presaleContentView);
-        make.left.equalTo(self.presaleLabel.mas_right);
+        make.top.right.equalTo(self.presaleContentView);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [self.cyberContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.presaleContentView);
@@ -114,6 +114,7 @@
         NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
         timeInterval = timeInterval/(3600*24);
         NSString *text = nil;
+        NSString *note = @"Note: Production times may increase";
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
         [paragraphStyle setLineSpacing:6];
         if (timeInterval == 0) {
@@ -124,7 +125,10 @@
             text = [NSString stringWithFormat:@"%ld DAYS UNTIL CYBER MONDAY | Note: Production times may increase", timeInterval];
         }
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName:paragraphStyle}];
-        [self.presaleLabel setAttributedText:attr];
+        NSMutableAttributedString *new = [[NSMutableAttributedString alloc] initWithAttributedString:attr];
+        [new addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[text rangeOfString:note]];
+        [new addAttribute:NSUnderlineColorAttributeName value:UIColorMakeWithHex(@"#333333") range:NSMakeRange(0, text.length)];
+        [self.presaleLabel setAttributedText:new];
         self.presaleLabel.textAlignment = NSTextAlignmentCenter;
     }]];
     [self.rac_deallocDisposable addDisposable:[[[countDown map:^id _Nullable(id  _Nullable value) {
@@ -170,7 +174,7 @@
     [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.presaleContentView.alpha = hidden?0:1;
         [self.presaleContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(hidden?0:60);
+            make.height.mas_equalTo(hidden?0:50);
         }];
         [self.superview setNeedsLayout];
         [self.superview layoutIfNeeded];
@@ -181,14 +185,14 @@
 - (UIView *)presaleContentView {
     if (!_presaleContentView) {
         _presaleContentView = [[UIView alloc] init];
-        _presaleContentView.backgroundColor = [UIColor tx_colorWithHex:0xDBBA6A];
+        _presaleContentView.backgroundColor = [UIColor tx_colorWithHex:0xFDE2EC];
     }
     return _presaleContentView;
 }
 
 - (UILabel *)presaleLabel {
     if (!_presaleLabel) {
-        _presaleLabel = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorWhite];
+        _presaleLabel = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorMakeWithHex(@"#333333")];
         _presaleLabel.numberOfLines = 2;
         _presaleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     }

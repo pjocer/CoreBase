@@ -11,7 +11,3 @@
 @interface UITableView (ReloadAnimation)
 
 @end
-
-@interface UICollectionView (ReloadAnimation)
-
-@end
