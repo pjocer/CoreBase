@@ -7,10 +7,17 @@
 //
 
 #import "ActivityHandler.h"
+#import "Network.h"
 
 NSString *const CyberMondayCountDownEndTime = @"2017-11-14 00:45:00";
 NSString *const PreSaleCountDownEndTime = @"2017-11-19 00:00:00";
 NSString *const CyberMondayActivityCode = @"cyberrrr";
+NSString *const CyberMondayCountDownViewDisplayNotification = @"CyberMondayCountDownViewDisplayNotification";
+NSString *const CyberMondayPreSaleViewDisplayNotification = @"CyberMondayPreSaleViewDisplayNotification";
+
+@interface ActivityHandler ()
+@property (nonatomic, strong) RACScopedDisposable *_dispose;
+@end
 
 @implementation ActivityHandler
 
@@ -25,6 +32,12 @@ NSString *const CyberMondayActivityCode = @"cyberrrr";
     return handler;
 }
 
+- (void)startMonitoring {
+    [[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] subscribeNext:^(NSDate * _Nullable x) {
+        
+    }];
+}
+
 - (BOOL)isPreSaleViewAvaliable {
     return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-11 00:00:00" to:PreSaleCountDownEndTime];
 }
@@ -34,7 +47,7 @@ NSString *const CyberMondayActivityCode = @"cyberrrr";
 }
 
 - (BOOL)isCyberMondayCouponCodeAvaliable {
-    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-14 00:40:00" to:@"2017-11-14 00:45:00"];
+    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-14 18:49:00" to:@"2017-11-14 18:49:30"];
 }
 
 - (void)setHasClosedPreSaleView:(BOOL)hasClosedPreSaleView {
@@ -69,4 +82,7 @@ NSString *const CyberMondayActivityCode = @"cyberrrr";
     NSTimeInterval nowInterval = [NSDate.date timeIntervalSince1970]*1000;
     return (startInterval < nowInterval && nowInterval < endInterval);
 }
+
+
+
 @end

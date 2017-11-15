@@ -12,6 +12,9 @@ FOUNDATION_EXPORT NSString *const CyberMondayCountDownEndTime;
 FOUNDATION_EXPORT NSString *const PreSaleCountDownEndTime;
 FOUNDATION_EXPORT NSString *const CyberMondayActivityCode;
 
+FOUNDATION_EXPORT NSString *const CyberMondayCountDownViewDisplayNotification;
+FOUNDATION_EXPORT NSString *const CyberMondayPreSaleViewDisplayNotification;
+
 @interface ActivityHandler : NSObject
 @property (nonatomic, readonly, assign, getter=isCyberMondayViewAvaliable) BOOL cyberMondayViewAvaliable;
 @property (nonatomic, readonly, assign, getter=isPreSaleViewAvaliable) BOOL preSaleViewAvaliable;
@@ -20,5 +23,9 @@ FOUNDATION_EXPORT NSString *const CyberMondayActivityCode;
 @property (nonatomic, assign) BOOL hasClosedPreSaleView;
 
 + (instancetype)sharedHandler;
+
+- (void)startMonitoring;
+
+- (void)stopMonitoring;
 
 @end

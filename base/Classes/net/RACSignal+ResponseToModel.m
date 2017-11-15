@@ -8,7 +8,6 @@
 
 #import "RACSignal+ResponseToModel.h"
 #import <YYModel/YYModel.h>
-#import <AFURLResponseSerialization.h>
 #import "RACSignal+NSURLError.h"
 
 NSError * ResponseToModelError(void) {

@@ -202,6 +202,7 @@
         [self setText:text animated:text.length == 0 || textField.text.length == 0];
         return NO;
     }
+    [self setRaised:YES animated:YES];
     return YES;
 }
 
