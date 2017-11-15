@@ -11,7 +11,7 @@
 
 NSString *const CyberMondayCountDownEndTime = @"2017-11-27 21:00:00";
 NSString *const PreSaleCountDownEndTime = @"2017-11-28 00:00:00";
-NSString *const CyberMondayActivityCode = @"cyberok";
+NSString *const CyberMondayActivityCode = @"cyber17";
 NSString *const CyberMondayCountDownViewDisplayNotification = @"CyberMondayCountDownViewDisplayNotification";
 NSString *const CyberMondayPreSaleViewDisplayNotification = @"CyberMondayPreSaleViewDisplayNotification";
 
