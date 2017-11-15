@@ -94,16 +94,12 @@
     [self resetCyberMondayViewAnimate:YES];
     return self;
 }
-- (void)dealloc {
-    
-}
 - (instancetype)subscribe {
     @weakify(self);
     RACSignal *countDown = [[[[RACSignal interval:1 onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] publish] autoconnect];
     RACSignal *presaleClose = [[self.presaleClose rac_signalForControlEvents:UIControlEventTouchUpInside] mapReplace:@(NO)];
     
     [self.rac_deallocDisposable addDisposable:[[countDown filter:^BOOL(id  _Nullable value) {
-        NSLog(@"CYBERMONDAY VIEW:%@",self);
         return [[ActivityHandler sharedHandler] isCyberMondayViewAvaliable];
     }] subscribeNext:^(id  _Nullable x) {
         @strongify(self);
