@@ -10,6 +10,7 @@
 #import <TXFire/TXFire.h>
 #import "UIApplication+Base.h"
 #import <DebugBall/DebugManager.h>
+#import <base/base.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
@@ -29,7 +30,25 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 {
     NSError *serializationError = nil;
     NSCAssert(self.baseURL, @"you must setAPIRelativeURL before.");
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+    NSURL *requestURL = [NSURL URLWithString:URLString relativeToURL:self.baseURL];
+    if (![requestURL absoluteURL]) {
+        requestURL = [NSURL URLWithString:[URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:self.baseURL];
+    }
+    if (![requestURL absoluteURL]) {
+        if (failure) {
+            NSString *errorMsg = @"";
+            if ([[URLString substringToIndex:6] isEqualToString:@"coupon"]) {
+                errorMsg = @"Sorry lovely, your coupon code contains invalid space, please go back to shopping bag and check your coupon code.";
+            } else {
+                errorMsg = @"Sorry, lovely! Something went wrong, please try again.";
+            }
+            NSError *urlError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorSingleError userInfo:@{AzazieErrorSingleErrorMessageKey:errorMsg}];
+            failure(nil, urlError);
+        }
+        return nil;
+    }
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[requestURL absoluteString] parameters:parameters error:&serializationError];
+
 #if DEBUG
     [DebugManager registerNetworkRequest:request type:APIDomainTypeDefault];
 #endif
