@@ -33,9 +33,9 @@ NSString *const CyberMondayPreSaleViewDisplayNotification = @"CyberMondayPreSale
 }
 
 - (void)startMonitoring {
-    [[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] subscribeNext:^(NSDate * _Nullable x) {
-        
-    }];
+//    [[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] subscribeNext:^(NSDate * _Nullable x) {
+//        
+//    }];
 }
 
 - (BOOL)isPreSaleViewAvaliable {

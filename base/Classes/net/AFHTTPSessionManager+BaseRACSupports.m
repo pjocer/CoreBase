@@ -36,13 +36,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     }
     if (![requestURL absoluteURL]) {
         if (failure) {
-            NSString *errorMsg = @"";
-            if ([[URLString substringToIndex:6] isEqualToString:@"coupon"]) {
-                errorMsg = @"Sorry lovely, your coupon code contains invalid space, please go back to shopping bag and check your coupon code.";
-            } else {
-                errorMsg = @"Sorry, lovely! Something went wrong, please try again.";
-            }
-            NSError *urlError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorSingleError userInfo:@{AzazieErrorSingleErrorMessageKey:errorMsg}];
+            NSError *urlError = [NSError errorWithDomain:AzazieErrorDomain code:AzazieErrorSingleError userInfo:@{AzazieErrorSingleErrorMessageKey:@"Sorry, lovely! Something went wrong, please try again."}];
             failure(nil, urlError);
         }
         return nil;
