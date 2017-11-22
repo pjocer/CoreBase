@@ -160,6 +160,7 @@
             }
         }
     }] distinctUntilChanged] subscribeNext:^(NSNumber * _Nullable x) {
+        @strongify(self);
         [self resetPreSaleViewAnimate:!x.boolValue];
     }]];
     
