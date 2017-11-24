@@ -49,6 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tx_interactiveNavigationBarHidden = YES;
     if ([self iPhoneX]) {
         _navigationBar.frame = CGRectMake(0, 44.f, self.view.bounds.size.width, 44.f);
     } else {
@@ -59,10 +60,6 @@
     _navigationBar.delegate = self;
 
     [self.view addSubview:_navigationBar];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    self.tx_interactiveNavigationBarHidden = YES;
 }
 
 - (void)backlizeLeftBarButtonItem
