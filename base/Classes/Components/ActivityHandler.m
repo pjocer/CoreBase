@@ -47,7 +47,7 @@ NSString *const CyberMondayPreSaleViewDisplayNotification = @"CyberMondayPreSale
 }
 
 - (BOOL)isCyberMondayCouponCodeAvaliable {
-    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-27 00:00:00" to:@"2017-11-27 24:00:00"];
+    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:@"2017-11-27 00:00:00" to:@"2017-11-28 00:00:00"];
 }
 
 - (void)setHasClosedPreSaleView:(BOOL)hasClosedPreSaleView {
