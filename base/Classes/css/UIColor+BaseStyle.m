@@ -15,7 +15,7 @@ NSUInteger const LightTextColorHex = 0xa7a7a7;
 
 NSUInteger const LoadingPlaceholderColorHex = 0xf8f8f8; // f8f8f8
 
-NSUInteger const AzazieColorHex = 0xee7086; // ee7086
+NSUInteger const AzazieColorHex = 0xe8437b; // ee7086
 
 @implementation UIColor (BaseStyle)
 

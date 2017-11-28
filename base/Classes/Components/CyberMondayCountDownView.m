@@ -37,7 +37,7 @@
     return self;
 }
 
-- (instancetype)commitSubviews {
+- (instancetype)commitSubviews{
     [self addSubview:self.presaleContentView];
     [self.presaleContentView addSubview:self.presaleLabel];
     [self.presaleContentView addSubview:self.presaleClose];
