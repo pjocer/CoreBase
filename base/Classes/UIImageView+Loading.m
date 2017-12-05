@@ -37,8 +37,9 @@
     }
     
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
+    SDWebImageOptions option = SDWebImageCacheMemoryOnly|SDWebImageRetryFailed|SDWebImageRefreshCached;
     @weakify(self);
-    [self sd_setImageWithURL:URL placeholderImage:image completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [self sd_setImageWithPreviousCachedImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         [[UIApplication sharedApplication] hideNetworkActivityIndicator];
         main_thread_safe(^{
             @strongify(self);
