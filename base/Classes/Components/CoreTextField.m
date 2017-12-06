@@ -56,6 +56,7 @@
 - (instancetype)configureDefaultStyle {
     self.font = [UIFont systemFontOfSize:UIFontSmallSize];
     self.delegate = self;
+    self.layer.masksToBounds = NO;
     self.originalTextColor = [UIColor tx_colorWithHex:TextColorHex];
     _animationTranslation = 20.f;
     _invalidPlaceholderTextColor = [UIColor redColor];
