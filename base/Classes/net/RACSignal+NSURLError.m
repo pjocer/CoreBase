@@ -181,7 +181,7 @@ static void notifyDataNotAllowed(void) {
                 BOOL otherErrorAlready = (otherError!=nil || otherCompleted);
                 if (!(selfErrorAlready && otherErrorAlready)) return ;
                 
-                NSMutableArray <NSError *>*errors = [NSMutableArray arrayWithCapacity:0];
+                NSMutableArray <NSError *>* __block errors = [NSMutableArray arrayWithCapacity:0];
                 [[RACScheduler immediateScheduler] scheduleRecursiveBlock:^(void (^ _Nonnull reschedule)(void)) {
                     if (otherError) {
                         [errors addObject:otherError];
@@ -210,13 +210,15 @@ static void notifyDataNotAllowed(void) {
                             }
                         } else {
                             if (errors.count > 0) {
+                                NSMutableArray <NSError *>*temp = [NSMutableArray arrayWithArray:errors];
                                 [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                                     if (obj.responseObject || obj.domain == AzazieErrorDomain) {
-                                        [errors addObject:selfError];
+                                        [temp addObject:selfError];
                                     } else {
                                         *stop = YES;
                                     }
                                 }];
+                                errors = temp;
                             } else {
                                 [errors addObject:selfError];
                             }
