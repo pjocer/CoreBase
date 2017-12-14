@@ -10,7 +10,7 @@
 #import <TXFire/TXFire.h>
 #import "UIApplication+Base.h"
 #import <DebugBall/DebugManager.h>
-#import <base/base.h>
+#import "base.h"
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";

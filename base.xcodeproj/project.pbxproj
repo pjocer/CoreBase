@@ -77,6 +77,7 @@
 		B7FFA9DF1E8E67CF0070C6A2 /* NetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9DE1E8E67CF0070C6A2 /* NetworkFailedView.m */; };
 		B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */; };
 		D347F4C61F3D43F100878AE4 /* UIView+ReloadAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */; };
+		D351415B1FE2413900046D66 /* AZAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = D35141591FE2413900046D66 /* AZAlert.m */; };
 		D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */; };
 		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
 /* End PBXBuildFile section */
@@ -239,6 +240,8 @@
 		C1DE84AC6B689A507B2993C0 /* Pods-baseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baseTests/Pods-baseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D347F4C41F3D43F100878AE4 /* UIView+ReloadAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+ReloadAnimation.h"; path = "../UIView+ReloadAnimation.h"; sourceTree = "<group>"; };
 		D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+ReloadAnimation.m"; path = "../UIView+ReloadAnimation.m"; sourceTree = "<group>"; };
+		D35141591FE2413900046D66 /* AZAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZAlert.m; sourceTree = "<group>"; };
+		D351415A1FE2413900046D66 /* AZAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZAlert.h; sourceTree = "<group>"; };
 		D3668A8E1F8DEB110060C99B /* base.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = base.podspec; sourceTree = SOURCE_ROOT; };
 		D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshActivityIndicatorViewFooter.h; sourceTree = "<group>"; };
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
@@ -422,6 +425,8 @@
 				B7C738FF1ED426D100FCC28A /* BaseLauncher.m */,
 				B7C739041ED4313A00FCC28A /* AppIdentifier.h */,
 				B7C739051ED4313A00FCC28A /* AppIdentifier.m */,
+				D351415A1FE2413900046D66 /* AZAlert.h */,
+				D35141591FE2413900046D66 /* AZAlert.m */,
 				B7511E251EA9E5D600A5A972 /* Profile */,
 				B76BB4151EA071B900F1EC6A /* AccessToken */,
 				B76BB4051E9F59C800F1EC6A /* router */,
@@ -877,7 +882,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-base/Pods-base-resources.sh",
 				"$PODS_CONFIGURATION_BUILD_DIR/Braintree/Braintree-UI-Localization.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/Braintree/Braintree-Drop-In-Localization.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/DebugBall/DebugBall.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/DebugBall/DebugBall.bundle,
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/QMUIKit/QMUIKit/UIResources/QMUIResources.bundle",
 				"${PODS_ROOT}/QMUIKit/QMUIKit/UIResources/QMUI_QQEmotion.bundle",
@@ -959,6 +964,7 @@
 				B775BEBA1EAB5DF1003EBABC /* ProfileAutoLoader.m in Sources */,
 				B7511E281EA9E5F200A5A972 /* Profile.m in Sources */,
 				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
+				D351415B1FE2413900046D66 /* AZAlert.m in Sources */,
 				B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */,
 				B7534FAA1EA0B25800C94516 /* NSString+Validation.m in Sources */,
 				B7F15EF91EA5AA1900C18CD4 /* BaseHTTPSessionManager.m in Sources */,
