@@ -9,8 +9,8 @@
 #import "UIViewController+NetworkView.h"
 #import "UIView+NetworkFailed.h"
 #import "UIView+NetworkLoading.h"
-#import <UIView+TXFire.h>
-#import <ReactiveObjC.h>
+#import <TXFire/UIView+TXFire.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 
 @implementation UIViewController (NetworkView)
 

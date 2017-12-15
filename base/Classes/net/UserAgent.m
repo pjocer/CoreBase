@@ -31,7 +31,8 @@
 + (NSString *)customUserAgent
 {
     NSString *userAgent = [self retrieveUserAgentInWebview];
-    return [NSString stringWithFormat:@"%@ Azazie/%@", userAgent, [UIApplication sharedApplication].tx_appVersion];
+    NSString *app = [[[[[NSBundle mainBundle] bundleIdentifier] componentsSeparatedByString:@"."] objectAtIndex:1] capitalizedString];
+    return [NSString stringWithFormat:@"%@ %@/%@", userAgent, app, [UIApplication sharedApplication].tx_appVersion];
 }
 
 @end

@@ -11,7 +11,7 @@
 #import <Masonry/Masonry.h>
 #import <objc/runtime.h>
 #import "NetworkFailedView.h"
-#import <ReactiveObjC.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 
 static const void *kNetworkFailedComponent = &kNetworkFailedComponent;
 

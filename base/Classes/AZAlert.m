@@ -8,9 +8,9 @@
 
 #import "AZAlert.h"
 #import "UIView+SeparatorLine.h"
-#import <QMUIKit.h>
-#import <Masonry.h>
-#import <ReactiveObjC.h>
+#import <QMUIKit/QMUIKit.h>
+#import <Masonry/Masonry.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 #import "AZProgressHUD.h"
 
 #define animate_duration 0.3

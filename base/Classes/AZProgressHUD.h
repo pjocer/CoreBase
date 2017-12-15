@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MBProgressHUD.h>
-#import <QMUIKit.h>
-#import <FLAnimatedImageView+WebCache.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <QMUIKit/QMUIKit.h>
+#import <SDWebImage/FLAnimatedImageView+WebCache.h>
 
 typedef NS_ENUM(NSInteger, AZProgressHUDAnimationType) {
     AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationFade,

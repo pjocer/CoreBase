@@ -7,9 +7,9 @@
 //
 
 #import "AZProgressHUD.h"
-#import <ReactiveObjC.h>
-#import <Masonry.h>
-#import <TXFire.h>
+#import <ReactiveObjC/ReactiveObjC.h>
+#import <Masonry/Masonry.h>
+#import <TXFire/TXFire.h>
 
 #define IMAGE_HEADER_SQUARE_SIZE CGSizeMake(60, 60)
 #define REFRESH_GIF_IMAGE [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]]]

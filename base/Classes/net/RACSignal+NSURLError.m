@@ -9,7 +9,7 @@
 #import "RACSignal+NSURLError.h"
 #import "AZAlert.h"
 #import <TXFire/TXFire.h>
-#import <AFNetworking.h>
+#import <AFNetworking/AFNetworking.h>
 #import <ReactiveObjC/RACStream+Private.h>
 
 NSErrorDomain const AzazieErrorDomain = @"kAzazieErrorDomain";

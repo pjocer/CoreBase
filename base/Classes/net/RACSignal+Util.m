@@ -9,8 +9,8 @@
 #import "RACSignal+Util.h"
 #import <TXFire/TXFire.h>
 #import <libkern/OSAtomic.h>
-#import <AZProgressHUD.h>
-#import <QMUICommonDefines.h>
+#import "AZProgressHUD.h"
+#import <QMUIKit/QMUICommonDefines.h>
 
 @implementation RACSignal (Util)
 
