@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define IS_LOVEPROM
+
 UIKIT_EXTERN NSString * _Nullable BasePathForResource(NSString *_Nonnull name, NSString *_Nullable ext);
 UIKIT_EXTERN UIImage *_Nullable BaseImageWithNamed(NSString *name);
 
@@ -25,6 +27,16 @@ UIKIT_EXTERN UIImage *_Nullable BaseImageWithNamed(NSString *name);
     { \
         dispatch_async(dispatch_get_main_queue(), block);\
     }
+#endif
+
+#ifndef IS_AZAZIE
+#define IS_AZAZIE \
+[[NSBundle.mainBundle.bundleIdentifier componentsSeparatedByString:@"."][1] isEqualToString:@"azazie"]
+#endif
+
+#ifndef IS_LOVEPROM
+#define IS_LOVEPROM \
+[[NSBundle.mainBundle.bundleIdentifier componentsSeparatedByString:@"."][1] isEqualToString:@"loveprom"]
 #endif
 
 NS_ASSUME_NONNULL_END

@@ -26,7 +26,7 @@
 
 + (UIImage *)productPlaceholderImage
 {
-    return BaseImageWithNamed(@"product_placeholder");
+    return BaseImageWithNamed(IS_AZAZIE?@"product_placeholder":@"product_placeholder_loveprom");
 }
 
 - (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image showLoadingIndicator:(BOOL)showLoadingIndicator completion:(BaseImageLoadCompletion)completion
