@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 UIKIT_EXTERN NSUInteger const PrimaryButtonBackgroundColorHex; // e8437b
-UIKIT_EXTERN NSUInteger const PrimaryButtonDisabledBackgroundColorHex; // f8c7d7
+UIKIT_EXTERN NSUInteger const PrimaryButtonDisabledBackgroundColorHex; // 0xcccccc
 UIKIT_EXTERN NSUInteger const PrimaryButtonHighlightedBackgroundColorHex; // dc356f
+
+UIKIT_EXTERN NSUInteger const LPPrimaryButtonBackgroundColorHex; // ef6767
+UIKIT_EXTERN NSUInteger const LPPrimaryButtonHighlightedBackgroundColorHex; //dd5757
 
 @interface UIButton (BaseCreation)
 
 + (UIButton *)primaryButton;
++ (UIButton *)primaryButtonForLP;
 
 @end
