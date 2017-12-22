@@ -36,9 +36,9 @@
 - (void)commonInit
 {
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"Base" ofType:@"bundle"]];
-    
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:IS_AZAZIE?@"network_failed":@"network_failed_loveprom@" inBundle:bundle compatibleWithTraitCollection:nil]];
+
+    NSString *imageName = IS_AZAZIE ? @"network_failed" : @"network_failed_loveprom" ;
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil]];
     [self addSubview:imageView];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView mas_makeConstraints:^(MASConstraintMaker *maker){
@@ -50,8 +50,8 @@
     NSMutableParagraphStyle *mutableParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     mutableParagraphStyle.paragraphSpacing = 13.f;
     mutableParagraphStyle.alignment = NSTextAlignmentCenter;
-    label.attributedText = [[NSMutableAttributedString alloc] initWithString:IS_AZAZIE?@"Oops, something's wrong here.\n Please tap screen to retry.":@"It seems that something went wrong. Please tap screen to retry."
-                                                                  attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18.f],
+    NSString *errorMessage = IS_AZAZIE ? @"Oops, something's wrong here.\n Please tap screen to retry." : @"It seems that something went wrong.\n Please tap screen to retry.";
+    label.attributedText = [[NSMutableAttributedString alloc] initWithString:errorMessage               attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18.f],
                                                                                NSForegroundColorAttributeName: [UIColor tx_colorWithHex:0xcccccc],
                                                                                NSParagraphStyleAttributeName: mutableParagraphStyle}];
     [self addSubview:label];
