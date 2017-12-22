@@ -9,6 +9,7 @@
 #import "NetworkFailedView.h"
 #import <Masonry/Masonry.h>
 #import <TXFire/TXFire.h>
+#import "util.h"
 
 @implementation NetworkFailedView
 
@@ -36,7 +37,8 @@
 {
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"Base" ofType:@"bundle"]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"network_failed" inBundle:bundle compatibleWithTraitCollection:nil]];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:IS_AZAZIE?@"network_failed":@"network_failed_loveprom@" inBundle:bundle compatibleWithTraitCollection:nil]];
     [self addSubview:imageView];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView mas_makeConstraints:^(MASConstraintMaker *maker){
@@ -48,7 +50,7 @@
     NSMutableParagraphStyle *mutableParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     mutableParagraphStyle.paragraphSpacing = 13.f;
     mutableParagraphStyle.alignment = NSTextAlignmentCenter;
-    label.attributedText = [[NSMutableAttributedString alloc] initWithString:@"Oops, something's wrong here.\n Please tap screen to retry."
+    label.attributedText = [[NSMutableAttributedString alloc] initWithString:IS_AZAZIE?@"Oops, something's wrong here.\n Please tap screen to retry.":@"It seems that something went wrong. Please tap screen to retry."
                                                                   attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18.f],
                                                                                NSForegroundColorAttributeName: [UIColor tx_colorWithHex:0xcccccc],
                                                                                NSParagraphStyleAttributeName: mutableParagraphStyle}];

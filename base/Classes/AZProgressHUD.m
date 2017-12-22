@@ -9,10 +9,12 @@
 #import "AZProgressHUD.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import <Masonry/Masonry.h>
+#import "util.h"
 #import <TXFire/TXFire.h>
 
 #define IMAGE_HEADER_SQUARE_SIZE CGSizeMake(60, 60)
-#define REFRESH_GIF_IMAGE [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"refresh_hud" ofType:@"gif"]]]
+
+#define REFRESH_GIF_IMAGE [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:IS_AZAZIE?@"refresh_hud":@"refresh_hud_loveprom" ofType:@"gif"]]]
 
 @interface AZProgressHUDDefaultContentView ()
 @property (nonatomic, strong, readwrite) UILabel *textLabel;

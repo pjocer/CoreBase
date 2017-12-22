@@ -15,7 +15,7 @@
 
 static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
 {
-    NSString *file = BasePathForResource(@"refreshing_header", @"gif");
+    NSString *file = BasePathForResource(IS_AZAZIE?@"refreshing_header":@"refreshing_header_loveprom", @"gif");
     CFArrayRef frames = [UIImage tx_gifFramesWithFile:file totalDuration:duration];
     if (!frames)
     {
