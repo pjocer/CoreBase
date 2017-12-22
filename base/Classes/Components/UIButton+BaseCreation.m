@@ -15,8 +15,8 @@ NSUInteger const PrimaryButtonBackgroundColorHex = 0xe8437b;
 NSUInteger const PrimaryButtonDisabledBackgroundColorHex = 0xcccccc;
 NSUInteger const PrimaryButtonHighlightedBackgroundColorHex = 0xdc356f;
 
-NSUInteger const LPPrimaryButtonBackgroundColorHex = 0xef6767;
-NSUInteger const LPPrimaryButtonHighlightedBackgroundColorHex = 0xdd5757;
+NSUInteger const LPPrimaryButtonBackgroundColorHex = 0xEF6767;
+NSUInteger const LPPrimaryButtonHighlightedBackgroundColorHex = 0xDD5757;
 
 @implementation UIButton (BaseCreation)
 
