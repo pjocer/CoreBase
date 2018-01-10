@@ -67,6 +67,7 @@
 
 #import "UIColor+BaseStyle.h"
 #import "UIFont+BaseStyle.h"
+#import "UIFont+LQFont.h"
 
 #import "AZAlert.h"
 #import "AZProgressHUD.h"

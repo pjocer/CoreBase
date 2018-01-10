@@ -8,5 +8,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIFont (LQFont)
-+ (UIFont *)lq_fontWithName:(NSString *)fontName size:(CGFloat)fontSize;
++ (UIFont *)dynamic_fontWithName:(NSString *)fontName size:(CGFloat)fontSize;
 @end

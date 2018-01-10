@@ -10,7 +10,7 @@
 #import <CoreText/CTFontManager.h>
 @implementation UIFont (LQFont)
 
-+ (UIFont *)lq_fontWithName:(NSString *)fontName size:(CGFloat)fontSize {
++ (UIFont *)dynamic_fontWithName:(NSString *)fontName size:(CGFloat)fontSize {
     UIFont *font = [UIFont fontWithName:fontName size:fontSize];
     if (!font) {
         [UIFont dynamicallyLoadFontNamed:fontName];
