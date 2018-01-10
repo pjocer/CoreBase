@@ -47,7 +47,7 @@ const CGFloat NoMoreProductsViewExpectedHeight = 65.f;
     UILabel *tipLabel = [[UILabel alloc] init];
     tipLabel.text = @"There's no more items.";
     tipLabel.textColor = [UIColor tx_colorWithHex:0xcccccc];
-    tipLabel.font = [UIFont systemFontOfSize:14];
+    tipLabel.font = [UIFont systemFontOfSize:13];
     [self addSubview:tipLabel];
     
     [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
