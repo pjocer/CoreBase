@@ -8,6 +8,15 @@
 #import "UIFont+LQFont.h"
 #import "util.h"
 #import <CoreText/CTFontManager.h>
+
+FontName const Ordinary                   = @".SFUIText";
+FontName const OrdinaryBold               = @".SFUIText-Semibold";
+FontName const FunctionProBook            = @"FunctionPro-Book";
+FontName const FunctionProDemi            = @"FunctionPro-Demi";
+FontName const FunctionProMedium          = @"FunctionPro-Medium";
+FontName const FunctionProOblique         = @"FunctionPro-BookOblique";
+FontName const LibreBaskervilleRegular    = @"LibreBaskerville-Regular";
+
 @implementation UIFont (LQFont)
 
 + (UIFont *)dynamic_fontWithName:(NSString *)fontName size:(CGFloat)fontSize {

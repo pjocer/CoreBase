@@ -12,6 +12,8 @@
 #import <Masonry/Masonry.h>
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "AZProgressHUD.h"
+#import "util.h"
+#import "UIFont+LQFont.h"
 
 #define animate_duration 0.3
 
@@ -69,7 +71,7 @@
     });
     
     alert.titleLabel = ({
-        UILabel *label = [[UILabel alloc] initWithFont:UIFontBoldMake(18) textColor:UIColorMakeWithHex(@"#333333")];
+        UILabel *label = [[UILabel alloc] initWithFont:[UIFont dynamic_fontWithName:IS_AZAZIE?OrdinaryBold:FunctionProDemi size:18.f] textColor:UIColorMakeWithHex(@"#333333")];
         label.text = title;
         label;
     });
@@ -151,7 +153,8 @@
 }
 
 - (UILabel *)generateNormalLabelWithText:(NSString *)text {
-    UILabel *label = [[UILabel alloc] initWithFont:UIFontMake(12) textColor:UIColorMakeWithHex(@"#333333")];
+    
+    UILabel *label = [[UILabel alloc] initWithFont:[UIFont dynamic_fontWithName:IS_AZAZIE?Ordinary:FunctionProBook size:12.f] textColor:UIColorMakeWithHex(@"#333333")];
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.numberOfLines = 0;
     [label setQmui_lineHeight:18];
@@ -169,16 +172,16 @@
 }
 
 - (void)addCancelItemWithTitle:(NSString *)title action:(dispatch_block_t)action {
-    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#333333"):UIColorMakeWithHex(@"#E8437B")} title:title action:action];
+    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#333333"):UIColorMakeWithHex(IS_AZAZIE?@"#E8437B":@"#E73A8F")} title:title action:action];
 }
 
 - (void)addConfirmItemWithTitle:(NSString *)title action:(dispatch_block_t)action {
-    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#E8437B"):UIColorMakeWithHex(@"#333333")} title:title action:action];
+    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#E8437B"):UIColorMakeWithHex(IS_AZAZIE?@"#E8437B":@"#E73A8F")} title:title action:action];
 }
 
 - (void)addItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
     QMUIButton *item = [QMUIButton buttonWithType:UIButtonTypeCustom];
-    item.titleLabel.font = UIFontBoldMake(15);
+    item.titleLabel.font = [UIFont dynamic_fontWithName:IS_AZAZIE?OrdinaryBold:FunctionProDemi size:15.f];
     if (attr) {
         [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateHighlighted];
         [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateNormal];

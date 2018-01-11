@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import <TXFire/TXFire.h>
 #import "util.h"
+#import "UIFont+LQFont.h"
 
 @implementation NetworkFailedView
 
@@ -51,7 +52,8 @@
     mutableParagraphStyle.paragraphSpacing = 13.f;
     mutableParagraphStyle.alignment = NSTextAlignmentCenter;
     NSString *errorMessage = IS_AZAZIE ? @"Oops, something's wrong here.\n Please tap screen to retry." : @"It seems that something went wrong.\n Please tap screen to retry.";
-    label.attributedText = [[NSMutableAttributedString alloc] initWithString:errorMessage               attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18.f],
+    UIFont *font = IS_AZAZIE ? [UIFont dynamic_fontWithName:Ordinary size:18.f] : [UIFont dynamic_fontWithName:FunctionProBook size:23];
+    label.attributedText = [[NSMutableAttributedString alloc] initWithString:errorMessage               attributes:@{NSFontAttributeName: font,
                                                                                NSForegroundColorAttributeName: [UIColor tx_colorWithHex:0xcccccc],
                                                                                NSParagraphStyleAttributeName: mutableParagraphStyle}];
     [self addSubview:label];

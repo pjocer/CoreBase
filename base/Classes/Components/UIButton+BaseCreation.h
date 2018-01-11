@@ -18,6 +18,5 @@ UIKIT_EXTERN NSUInteger const LPPrimaryButtonHighlightedBackgroundColorHex;
 @interface UIButton (BaseCreation)
 
 + (UIButton *)primaryButton;
-+ (UIButton *)primaryButtonForLP;
 
 @end
