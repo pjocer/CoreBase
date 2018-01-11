@@ -9,6 +9,8 @@
 #import "NoMoreProductsView.h"
 #import <Masonry/Masonry.h>
 #import <TXFire/TXFire.h>
+#import "util.h"
+#import "UIFont+LQFont.h"
 
 const CGFloat NoMoreProductsViewExpectedHeight = 65.f;
 
@@ -45,9 +47,9 @@ const CGFloat NoMoreProductsViewExpectedHeight = 65.f;
     }];
     
     UILabel *tipLabel = [[UILabel alloc] init];
-    tipLabel.text = @"There's no more items.";
+    tipLabel.text = IS_AZAZIE ? @"There's no more items." : @"No more items";
     tipLabel.textColor = [UIColor tx_colorWithHex:0xcccccc];
-    tipLabel.font = [UIFont systemFontOfSize:13];
+    tipLabel.font = [UIFont dynamic_fontWithName:IS_AZAZIE?Ordinary:FunctionProBook size:IS_AZAZIE?13.f:15.f];
     [self addSubview:tipLabel];
     
     [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
