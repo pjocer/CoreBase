@@ -71,7 +71,7 @@
     });
     
     alert.titleLabel = ({
-        UILabel *label = [[UILabel alloc] initWithFont:[UIFont dynamic_fontWithName:IS_AZAZIE?OrdinaryBold:FunctionProDemi size:18.f] textColor:UIColorMakeWithHex(@"#333333")];
+        UILabel *label = [[UILabel alloc] initWithFont:[UIFont dynamic_fontWithName:IS_AZAZIE?OrdinaryBold:FunctionProDemi size:IS_AZAZIE?18.f:19.f] textColor:UIColorMakeWithHex(@"#333333")];
         label.text = title;
         label;
     });
@@ -154,7 +154,7 @@
 
 - (UILabel *)generateNormalLabelWithText:(NSString *)text {
     
-    UILabel *label = [[UILabel alloc] initWithFont:[UIFont dynamic_fontWithName:IS_AZAZIE?Ordinary:FunctionProBook size:12.f] textColor:UIColorMakeWithHex(@"#333333")];
+    UILabel *label = [[UILabel alloc] initWithFont:[UIFont dynamic_fontWithName:IS_AZAZIE?Ordinary:FunctionProBook size:IS_AZAZIE?13.f:15.f] textColor:UIColorMakeWithHex(@"#333333")];
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.numberOfLines = 0;
     [label setQmui_lineHeight:18];
