@@ -176,7 +176,7 @@
 }
 
 - (void)addConfirmItemWithTitle:(NSString *)title action:(dispatch_block_t)action {
-    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(@"#E8437B"):UIColorMakeWithHex(IS_AZAZIE?@"#E8437B":@"#E73A8F")} title:title action:action];
+    [self addItemWithTitleAttributes:@{NSForegroundColorAttributeName:self.preferred?UIColorMakeWithHex(IS_AZAZIE?@"#E8437B":@"#E73A8F"):UIColorMakeWithHex(@"#333333")} title:title action:action];
 }
 
 - (void)addItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
