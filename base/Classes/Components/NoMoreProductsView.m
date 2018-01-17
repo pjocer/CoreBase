@@ -48,7 +48,7 @@ const CGFloat NoMoreProductsViewExpectedHeight = 65.f;
     
     UILabel *tipLabel = [[UILabel alloc] init];
     tipLabel.text = IS_AZAZIE ? @"There's no more items." : @"No more items";
-    tipLabel.textColor = [UIColor tx_colorWithHex:0xcccccc];
+    tipLabel.textColor = [UIColor tx_colorWithHex:IS_AZAZIE?0xcccccc:0x666666];
     tipLabel.font = [UIFont dynamic_fontWithName:IS_AZAZIE?Ordinary:FunctionProBook size:IS_AZAZIE?13.f:15.f];
     [self addSubview:tipLabel];
     
