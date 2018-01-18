@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.6.0"
-  s.summary      = "Azazie Fundamentals"
+  s.version      = "1.7.0"
+  s.summary      = "Leqee Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
   s.author       = { "Jocer" => "com.pjocer@outlook.com" }
@@ -27,9 +27,8 @@ Pod::Spec.new do |s|
 	s.dependency "MBProgressHUD"
 	s.dependency "MJRefresh"
 	s.dependency "DebugBall"
-    s.dependency "SDWebImage/GIF"
-    s.dependency "FLAnimatedImage"
-    s.dependency "Braintree"
-    s.dependency "CardIO"
-#s.dependency "FDFullscreenPopGesture"
+  s.dependency "SDWebImage/GIF"
+  s.dependency "FLAnimatedImage"
+  s.dependency "Braintree"
+  s.dependency "CardIO"
 end
