@@ -20,13 +20,19 @@ FontName const LibreBaskervilleRegular    = @"LibreBaskerville-Regular";
 @implementation UIFont (LQFont)
 
 + (UIFont *)dynamic_fontWithName:(NSString *)fontName size:(CGFloat)fontSize {
-    UIFont *font = [UIFont fontWithName:fontName size:fontSize];
-    if (!font) {
-        [UIFont dynamicallyLoadFontNamed:fontName];
-        font = [UIFont fontWithName:fontName size:fontSize];
-        if (!font) font = [UIFont systemFontOfSize:fontSize];
+    if (fontName == Ordinary) {
+        return [UIFont systemFontOfSize:fontSize];
+    } else if (fontName == OrdinaryBold) {
+        return [UIFont boldSystemFontOfSize:fontSize];
+    } else {
+        UIFont *font = [UIFont fontWithName:fontName size:fontSize];
+        if (!font) {
+            [UIFont dynamicallyLoadFontNamed:fontName];
+            font = [UIFont fontWithName:fontName size:fontSize];
+            if (!font) font = [UIFont systemFontOfSize:fontSize];
+        }
+        return font;
     }
-    return font;
 }
 
 + (void)dynamicallyLoadFontNamed:(NSString *)name {
