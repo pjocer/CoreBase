@@ -291,7 +291,7 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)doNSURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
-        if (error.responseObject || error.domain == AzazieErrorDomain) return ;
+        if (error.domain == AzazieErrorDomain) return ;
         [RACSignal __doNSURLErrorWithCode:error.code title:@"OK" action:NULL];
     }];
 }
