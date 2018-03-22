@@ -206,13 +206,24 @@
     [self showWithAnimated:YES completion:NULL];
 }
 
+- (void)showWithoutMaskView {
+    [self showWithAnimated:YES completion:NULL withoutMask:YES];
+}
+
 - (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete {
+    [self showWithAnimated:animated completion:complete withoutMask:NO];
+}
+
+- (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete withoutMask:(BOOL)shouldMask{
     if (self.hud) {
         [self.hud hide];
     }
     self.hud = AZProgressHUD.hud.grace(0.5f).contentView(self.contentView).coverredWindow(YES).minContentSize(CGSizeMake(295, 195));
     if (!animated) {
         self.hud.displayAnimationType(AZProgressHUDAnimationTypeDefault);
+    }
+    if (shouldMask) {
+        self.hud.maskColor(UIColorMakeWithRGBA(0, 0, 0, 0.1));
     }
     [self.hud show];
     [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];

@@ -45,6 +45,7 @@
 - (void)addHeaderImage:(UIImage *)img;
 
 - (void)show;
+- (void)showWithoutMaskView;
 - (void)showWithAnimated:(BOOL)animated completion:(dispatch_block_t)complete;
 
 @end
