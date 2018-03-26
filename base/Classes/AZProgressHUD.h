@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (AZProgressHUD *(^)(CGFloat delay))hideAfterDelay;
 
+- (AZProgressHUD *(^)(CGFloat delay))distanceFromKeyboard;
+
 - (AZProgressHUD *(^)(NSString *text))text;
 
 - (AZProgressHUD *(^)(NSString *detailText))detailText;

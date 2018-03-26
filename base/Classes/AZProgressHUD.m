@@ -111,6 +111,7 @@
 @end
 
 @interface AZProgressHUD ()
+@property (nonatomic, assign) CGFloat _distanceFromKeyboard;
 @property (nonatomic, assign) CGFloat _hideAfterDelay;
 @property (nonatomic, assign) CGSize _minContentSize;
 @property (nonatomic, assign) CGSize _maxContentSize;
@@ -171,6 +172,12 @@
 - (AZProgressHUD * _Nonnull (^)(CGFloat))hideAfterDelay {
     return ^(CGFloat time) {
         self._hideAfterDelay = time;
+        return self;
+    };
+}
+- (AZProgressHUD * _Nonnull (^)(CGFloat))distanceFromKeyboard {
+    return ^(CGFloat distance) {
+        self._distanceFromKeyboard = distance;
         return self;
     };
 }
@@ -277,6 +284,9 @@
     if (!self.customView) {
          self.contentView(self.defaultContentView);
     }
+    if (self._distanceFromKeyboard == 0) {
+        self.distanceFromKeyboard(20.f);
+    }
     NSCAssert(self.canShow, @"set 'minContentSize' or 'maxContentSize' with custom content view before displaying");
     self.animationType = self._displayAnimationType;
     [self subscribeKeyboardIfNeeded];
@@ -325,15 +335,23 @@
         }
     }
 }
-- (void)subscribeKeyboardIfNeeded {
+
+- (BOOL)needSubscribeForView:(UIView *)view {
     __block BOOL needSubscribe = NO;
-    [self.customView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj canBecomeFirstResponder]) {
-            *stop = YES;
             needSubscribe = YES;
+            *stop = YES;
+        } else {
+            needSubscribe = [self needSubscribeForView:obj];
+            *stop = needSubscribe;
         }
     }];
-    if (needSubscribe) {
+    return needSubscribe;
+}
+
+- (void)subscribeKeyboardIfNeeded {
+    if ([self needSubscribeForView:self.customView]) {
         @weakify(self);
         [[RACObserve(self, customView) combineLatestWith:[NSNotificationCenter.defaultCenter rac_addObserverForName:UIKeyboardWillChangeFrameNotification    object:nil]] subscribeNext:^(RACTuple * _Nullable x) {
             @strongify(self);
@@ -344,7 +362,7 @@
             CGFloat keyboardMinY = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
             [UIView animateWithDuration:duration delay:0 options:option animations:^{
                 [self.bezelView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.bottom.mas_lessThanOrEqualTo(-(SCREEN_HEIGHT-keyboardMinY+20));
+                    make.bottom.mas_lessThanOrEqualTo(-(SCREEN_HEIGHT-keyboardMinY + __distanceFromKeyboard));
                 }];
                 [self layoutIfNeeded];
             } completion:^(BOOL finished) {
@@ -352,6 +370,14 @@
             }];
         }];
         [self.backgroundView.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
+            @strongify(self);
+            [self endEditing:YES];
+        }];
+        [self.bezelView.tx_tapGestureRecognizer.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) {
+            @strongify(self);
+            [self endEditing:YES];
+        }];
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil] subscribeNext:^(NSNotification * _Nullable x) {
             @strongify(self);
             [self endEditing:YES];
         }];
