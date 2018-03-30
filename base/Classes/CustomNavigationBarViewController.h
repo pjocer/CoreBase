@@ -17,4 +17,6 @@
 
 - (void)backlizeLeftBarButtonItem;
 
+- (void)back;
+
 @end

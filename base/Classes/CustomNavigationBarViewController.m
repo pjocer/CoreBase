@@ -68,10 +68,14 @@
     @weakify(self);
     item.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
         @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
+        [self back];
         return RACSignal.empty;
     }];
     self.navigationBar.topItem.leftBarButtonItem = item;
+}
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
@@ -85,7 +89,7 @@
     NSString *version = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     if ([version isEqualToString:@"iPhone10,3"]) return YES;
     if ([version isEqualToString:@"iPhone10,6"]) return YES;
-    if ([version isEqualToString:@"x86_64"]) return YES;
+//    if ([version isEqualToString:@"x86_64"]) return YES;
     return NO;
 }
 
