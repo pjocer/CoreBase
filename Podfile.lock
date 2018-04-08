@@ -36,7 +36,7 @@ PODS:
   - Braintree/UI (4.14.0):
     - Braintree/Card
     - Braintree/Core
-  - DebugBall (0.4.8):
+  - DebugBall (1.0.5):
     - QMUIKit
   - FLAnimatedImage (1.0.12)
   - Masonry (1.1.0)
@@ -303,7 +303,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
   Braintree: a538846b544c5785cb0040f86cc97079af74b950
-  DebugBall: 6cf4e2222f17d93e6f8421a6b9837fcb0a61d3d6
+  DebugBall: fcea5b0b359cde7a07bf4aba9c6519a66efe3091
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
