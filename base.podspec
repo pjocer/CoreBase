@@ -28,6 +28,7 @@ Pod::Spec.new do |s|
 	s.dependency "MJRefresh"
 	# s.dependency "DebugBall"
   s.dependency "SDWebImage/GIF"
+  s.dependency "QMUIKit"
   s.dependency "FLAnimatedImage"
   s.dependency "Braintree"
   s.dependency "CardIO"
