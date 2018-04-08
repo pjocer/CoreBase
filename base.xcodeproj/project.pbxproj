@@ -46,7 +46,6 @@
 		B7A89CF91E7B74170020F186 /* util.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CF81E7B74170020F186 /* util.m */; };
 		B7A89CFC1E7B765F0020F186 /* GIFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A89CFB1E7B765E0020F186 /* GIFViewController.m */; };
 		B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC60E71E827B4000859FE6 /* UIView+NetworkFailed.m */; };
-		B7BC60EC1E827C4600859FE6 /* UIViewController+NetworkFailed.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC60EB1E827C4600859FE6 /* UIViewController+NetworkFailed.m */; };
 		B7BC60F31E835CCA00859FE6 /* UIView+LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC60F21E835CCA00859FE6 /* UIView+LoadingIndicator.m */; };
 		B7BC60F71E83617000859FE6 /* UIImageView+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC60F61E83617000859FE6 /* UIImageView+Loading.m */; };
 		B7BC60FA1E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BC60F91E8373A900859FE6 /* UITableViewCell+LoadingIndicator.m */; };
@@ -82,6 +81,7 @@
 		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
 		D3D51B0B2079B2E7009316A5 /* UIFont+LQFont.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */; };
 		D3D51B0E2079C96F009316A5 /* AZProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B0C2079C96F009316A5 /* AZProgressHUD.m */; };
+		D3D51B142079CD00009316A5 /* UIViewController+NetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B122079CD00009316A5 /* UIViewController+NetworkView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,8 +180,6 @@
 		B7A89CFB1E7B765E0020F186 /* GIFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GIFViewController.m; sourceTree = "<group>"; };
 		B7BC60E61E827B4000859FE6 /* UIView+NetworkFailed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+NetworkFailed.h"; path = "Components/UIView+NetworkFailed.h"; sourceTree = "<group>"; };
 		B7BC60E71E827B4000859FE6 /* UIView+NetworkFailed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+NetworkFailed.m"; path = "Components/UIView+NetworkFailed.m"; sourceTree = "<group>"; };
-		B7BC60EA1E827C4600859FE6 /* UIViewController+NetworkFailed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+NetworkFailed.h"; sourceTree = "<group>"; };
-		B7BC60EB1E827C4600859FE6 /* UIViewController+NetworkFailed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+NetworkFailed.m"; sourceTree = "<group>"; };
 		B7BC60ED1E827CC000859FE6 /* base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base.h; sourceTree = "<group>"; };
 		B7BC60F11E835CCA00859FE6 /* UIView+LoadingIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LoadingIndicator.h"; sourceTree = "<group>"; };
 		B7BC60F21E835CCA00859FE6 /* UIView+LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LoadingIndicator.m"; sourceTree = "<group>"; };
@@ -253,6 +251,8 @@
 		D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LQFont.m"; sourceTree = "<group>"; };
 		D3D51B0C2079C96F009316A5 /* AZProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZProgressHUD.m; sourceTree = "<group>"; };
 		D3D51B0D2079C96F009316A5 /* AZProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZProgressHUD.h; sourceTree = "<group>"; };
+		D3D51B122079CD00009316A5 /* UIViewController+NetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+NetworkView.m"; path = "../../../app/Pods/base/base/Classes/UIViewController+NetworkView.m"; sourceTree = "<group>"; };
+		D3D51B132079CD00009316A5 /* UIViewController+NetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+NetworkView.h"; path = "../../../app/Pods/base/base/Classes/UIViewController+NetworkView.h"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -603,8 +603,8 @@
 				B7BC60E71E827B4000859FE6 /* UIView+NetworkFailed.m */,
 				B7FFA9D11E8DEE310070C6A2 /* UIView+NetworkLoading.h */,
 				B7FFA9D21E8DEE310070C6A2 /* UIView+NetworkLoading.m */,
-				B7BC60EA1E827C4600859FE6 /* UIViewController+NetworkFailed.h */,
-				B7BC60EB1E827C4600859FE6 /* UIViewController+NetworkFailed.m */,
+				D3D51B132079CD00009316A5 /* UIViewController+NetworkView.h */,
+				D3D51B122079CD00009316A5 /* UIViewController+NetworkView.m */,
 			);
 			name = "Networking+View";
 			sourceTree = "<group>";
@@ -940,6 +940,7 @@
 				B7C7392E1ED6867800FCC28A /* RACSignal+ResponseToModel.m in Sources */,
 				B7BC61091E83A21800859FE6 /* LoadingIndicatorTableViewController.m in Sources */,
 				B7534FA51EA0A72A00C94516 /* AccessToken.m in Sources */,
+				D3D51B142079CD00009316A5 /* UIViewController+NetworkView.m in Sources */,
 				D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */,
 				B7C738CF1ECBF77300FCC28A /* MarginLabel.m in Sources */,
 				B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */,
@@ -991,7 +992,6 @@
 				B7C738FD1ED4091F00FCC28A /* UserAgent.m in Sources */,
 				B7BC61191E84BE6C00859FE6 /* NSString+Base.m in Sources */,
 				B7C7393B1ED8125700FCC28A /* UIScrollView+Loading.m in Sources */,
-				B7BC60EC1E827C4600859FE6 /* UIViewController+NetworkFailed.m in Sources */,
 				B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */,
 				D3D51B0E2079C96F009316A5 /* AZProgressHUD.m in Sources */,
 				B78FC4A81E6F9DB7007F33CA /* UIFont+BaseStyle.m in Sources */,
