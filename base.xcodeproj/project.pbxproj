@@ -80,6 +80,7 @@
 		D351415B1FE2413900046D66 /* AZAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = D35141591FE2413900046D66 /* AZAlert.m */; };
 		D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */; };
 		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
+		D3D51B0B2079B2E7009316A5 /* UIFont+LQFont.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -247,6 +248,8 @@
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
 		D39D72491F330E0500C240EE /* NoMoreProductsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoMoreProductsView.h; sourceTree = "<group>"; };
 		D39D724A1F330E0500C240EE /* NoMoreProductsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoMoreProductsView.m; sourceTree = "<group>"; };
+		D3D51B092079B2E7009316A5 /* UIFont+LQFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LQFont.h"; sourceTree = "<group>"; };
+		D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LQFont.m"; sourceTree = "<group>"; };
 		EA653DA660CB6E64DB71699B /* libPods-baseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75AF287A40D8E8E7B8E59A4 /* Pods-baseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-baseUITests/Pods-baseUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -452,6 +455,8 @@
 				B78FC4A41E6F9DB7007F33CA /* UIColor+BaseStyle.m */,
 				B78FC4A51E6F9DB7007F33CA /* UIFont+BaseStyle.h */,
 				B78FC4A61E6F9DB7007F33CA /* UIFont+BaseStyle.m */,
+				D3D51B092079B2E7009316A5 /* UIFont+LQFont.h */,
+				D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */,
 			);
 			path = css;
 			sourceTree = "<group>";
@@ -936,6 +941,7 @@
 				B7C738CF1ECBF77300FCC28A /* MarginLabel.m in Sources */,
 				B7C739001ED426D100FCC28A /* BaseLauncher.m in Sources */,
 				B78FC4601E6E8BCE007F33CA /* AppDelegate.m in Sources */,
+				D3D51B0B2079B2E7009316A5 /* UIFont+LQFont.m in Sources */,
 				D347F4C61F3D43F100878AE4 /* UIView+ReloadAnimation.m in Sources */,
 				B78FC48D1E6E93F5007F33CA /* PagingViewController.m in Sources */,
 				B7FFA9D61E8DF62B0070C6A2 /* NetworkLoadingViewController.m in Sources */,
