@@ -73,7 +73,7 @@
 
 - (UILabel *)textLabel {
     if (!_textLabel) {
-        _textLabel = [[UILabel alloc] initWithFont:UIFontBoldMake(18) textColor:UIColorWhite];
+        _textLabel = [[UILabel alloc] qmui_initWithFont:UIFontBoldMake(18) textColor:UIColorWhite];
         _textLabel.tx_textAlignment(NSTextAlignmentCenter);
     }
     return _textLabel;
@@ -81,7 +81,7 @@
 
 - (UILabel *)detailTextLabel {
     if (!_detailTextLabel) {
-        _detailTextLabel = [[UILabel alloc] initWithFont:UIFontMake(14) textColor:UIColorWhite];
+        _detailTextLabel = [[UILabel alloc] qmui_initWithFont:UIFontMake(14) textColor:UIColorWhite];
         _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _detailTextLabel.numberOfLines = 0;
         [_detailTextLabel setQmui_lineHeight:18];
@@ -101,7 +101,7 @@
 
 - (UILabel *)actionLabel {
     if (!_actionLabel) {
-        _actionLabel = [[UILabel alloc] initWithFont:UIFontBoldMake(15) textColor:UIColorMakeWithHex(@"#ffffff")];
+        _actionLabel = [[UILabel alloc] qmui_initWithFont:UIFontBoldMake(15) textColor:UIColorMakeWithHex(@"#ffffff")];
         _actionLabel.layer.cornerRadius = 3;
         _actionLabel.layer.masksToBounds = YES;
         _actionLabel.tx_textAlignment(NSTextAlignmentCenter).tx_backgroundColorHex(0xE8437B);
