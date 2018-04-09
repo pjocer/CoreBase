@@ -73,4 +73,6 @@
 #import "AZAlert.h"
 #import "AZProgressHUD.h"
 
+#import "NotificationLoader.h"
+
 #endif /* base_h */
