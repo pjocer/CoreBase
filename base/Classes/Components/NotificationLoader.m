@@ -10,6 +10,7 @@
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "Network.h"
 #import "RACSignal+ResponseToModel.h"
+#import "RACSignal+NSURLError.h"
 
 #define TOP_NOTIFICATION_PATH @"notifications/top"
 
@@ -34,7 +35,7 @@ NSNotificationName const TopNotificationDidUpdated = @"TopNotificationDidUpdate"
     [[RACObserve(self, top_model) skip:1] subscribeNext:^(id  _Nullable x) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TopNotificationDidUpdated object:x];
     }];
-    RAC(self, top_model) = [[Network.APISession rac_GET:TOP_NOTIFICATION_PATH parameters:nil] tryMapResponseToModel:TopNotificationModel.class];
+    RAC(self, top_model) = [[[Network.APISession rac_GET:TOP_NOTIFICATION_PATH parameters:nil] tryMapResponseToModel:TopNotificationModel.class] catchURLError];
 }
 
 @end
