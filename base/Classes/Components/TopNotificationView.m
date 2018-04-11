@@ -25,47 +25,13 @@
 - (instancetype)initWithData:(TopNotificationModel *)data {
     if (self = [super init]) {
         self.model = data;
-        [self.commitSubViews.makeConstraints subscribe];
+        [self subscribe];
     }
-    return self;
-}
-
-- (instancetype)commitSubViews {
-    [self addSubview:self.label];
-    [self addSubview:self.close];
-    return self;
-}
-
-- (instancetype)makeConstraints {
-    [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
-        make.bottom.mas_equalTo(-10);
-        make.left.mas_equalTo(25);
-        make.right.mas_equalTo(-25);
-    }];
-    [self.close mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(10);
-        make.top.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
-    }];
     return self;
 }
 
 - (instancetype)subscribe {
     @weakify(self);
-    [[self.tx_tapGestureRecognizer.rac_gestureSignal map:^id _Nullable(__kindof UIGestureRecognizer * _Nullable value) {
-        @strongify(self);
-        CGPoint point = [value locationInView:self.label];
-        TTTAttributedLabelLink *link = [self.label linkAtPoint:point];
-        return link;
-    }] subscribeNext:^(TTTAttributedLabelLink * _Nullable x) {
-        @strongify(self);
-        if (x) {
-            if (self.clickedLink) self.clickedLink(x.result.URL);
-        } else {
-            if (self.clickedAction) self.clickedAction();
-        }
-    }];
     [[RACObserve(self, model) distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
         @strongify(self);
         self.backgroundColor = UIColorMakeWithHex(self.model.background_color?:@"e8437b");
@@ -74,19 +40,33 @@
         [self setNeedsLayout];
         [self layoutIfNeeded];
     }];
-    [[self.close rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-        @weakify(self);
-        NotificationSharedLoader.top_model = nil;
-    }];
     return self;
+}
+
++ (CGSize)expectedSize {
+    TopNotificationModel *model = NotificationSharedLoader.top_model;
+    if (!model) {
+        return CGSizeZero;
+    }
+    NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+    style.lineSpacing = 6;
+    style.lineBreakMode = NSLineBreakByWordWrapping;
+    style.alignment = model.alignment;
+    CGRect frame = [model.text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : UIFontMake(model.font_size),NSParagraphStyleAttributeName : style} context:nil];
+    frame.size.height += 20;
+    return frame.size;
 }
 
 - (void)renderCloseButton {
     if (!self.model.text) {
         [self.close removeFromSuperview];
+        return;
     } else {
         if (!self.close.superview) {
             [self addSubview:self.close];
+            [[self.close rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+                NotificationSharedLoader.top_model = nil;
+            }];
             [self.close mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.width.height.mas_equalTo(10);
                 make.top.mas_equalTo(10);
@@ -100,6 +80,24 @@
     if (!self.model.text) {
         [self.label removeFromSuperview];
         return;
+    } else {
+        if (!self.label.superview) {
+            [self addSubview:self.label];
+            @weakify(self);
+            [[self.tx_tapGestureRecognizer.rac_gestureSignal map:^id _Nullable(__kindof UIGestureRecognizer * _Nullable value) {
+                @strongify(self);
+                CGPoint point = [value locationInView:self.label];
+                TTTAttributedLabelLink *link = [self.label linkAtPoint:point];
+                return link;
+            }] subscribeNext:^(TTTAttributedLabelLink * _Nullable x) {
+                @strongify(self);
+                if (x) {
+                    if (self.clickedLink) self.clickedLink(x.result.URL);
+                } else {
+                    if (self.clickedAction) self.clickedAction();
+                }
+            }];
+        }
     }
     self.label.textAlignment = self.model.alignment;
     self.label.font = UIFontMake(self.model.font_size);
@@ -160,15 +158,12 @@
         self.label.inactiveLinkAttributes = attributes;
         [self.label addLinkToURL:[NSURL URLWithString:href.value] withRange:href.effect_range];
     }
-    if (!self.label.superview) {
-        [self addSubview:self.label];
-        [self.label mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(10);
-            make.bottom.mas_equalTo(-10);
-            make.left.mas_equalTo(25);
-            make.right.mas_equalTo(-25);
-        }];
-    }
+    [self.label mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.bottom.mas_equalTo(-10);
+        make.left.mas_equalTo(25);
+        make.right.mas_equalTo(-25);
+    }];
 }
 
 - (TTTAttributedLabel *)label {
