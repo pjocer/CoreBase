@@ -17,7 +17,7 @@
 
 @interface TopNotificationView ()
 @property (nonatomic, strong) TTTAttributedLabel *label;
-@property (nonatomic, strong) UIButton *close;
+@property (nonatomic, strong) UIImageView *close;
 @end
 
 @implementation TopNotificationView
@@ -40,6 +40,27 @@
         [self setNeedsLayout];
         [self layoutIfNeeded];
     }];
+    
+    [[self.tx_tapGestureRecognizer.rac_gestureSignal map:^id _Nullable(__kindof UIGestureRecognizer * _Nullable value) {
+        @strongify(self);
+        if (CGRectContainsPoint(self.label.bounds, [value locationInView:self.label])) {
+            CGPoint point = [value locationInView:self.label];
+            TTTAttributedLabelLink *link = [self.label linkAtPoint:point];
+            return link;
+        } else if (CGRectContainsPoint(self.close.bounds, [value locationInView:self.close])) {
+            return self.close;
+        } else {
+            return nil;
+        }
+    }] subscribeNext:^(id  _Nullable x) {
+        if (x == self.close) {
+            NotificationSharedLoader.top_model = nil;
+        } else if ([x isKindOfClass:TTTAttributedLabelLink.class]) {
+            if (self.clickedLink) self.clickedLink([[(TTTAttributedLabelLink *)x result] URL]);
+        } else {
+            if (self.clickedAction) self.clickedAction();
+        }
+    }] ;
     return self;
 }
 
@@ -53,7 +74,7 @@
     style.lineBreakMode = NSLineBreakByWordWrapping;
     style.alignment = model.alignment;
     CGRect frame = [model.text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : UIFontMake(model.font_size),NSParagraphStyleAttributeName : style} context:nil];
-    frame.size.height += 20;
+    frame.size.height += 15;
     return frame.size;
 }
 
@@ -64,9 +85,6 @@
     } else {
         if (!self.close.superview) {
             [self addSubview:self.close];
-            [[self.close rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-                NotificationSharedLoader.top_model = nil;
-            }];
             [self.close mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.width.height.mas_equalTo(10);
                 make.top.mas_equalTo(10);
@@ -83,20 +101,6 @@
     } else {
         if (!self.label.superview) {
             [self addSubview:self.label];
-            @weakify(self);
-            [[self.tx_tapGestureRecognizer.rac_gestureSignal map:^id _Nullable(__kindof UIGestureRecognizer * _Nullable value) {
-                @strongify(self);
-                CGPoint point = [value locationInView:self.label];
-                TTTAttributedLabelLink *link = [self.label linkAtPoint:point];
-                return link;
-            }] subscribeNext:^(TTTAttributedLabelLink * _Nullable x) {
-                @strongify(self);
-                if (x) {
-                    if (self.clickedLink) self.clickedLink(x.result.URL);
-                } else {
-                    if (self.clickedAction) self.clickedAction();
-                }
-            }];
         }
     }
     self.label.textAlignment = self.model.alignment;
@@ -176,10 +180,9 @@
     return _label;
 }
 
-- (UIButton *)close {
+- (UIImageView *)close {
     if (!_close) {
-        _close = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_close setBackgroundImage:UIImageMake(@"nav_close") forState:UIControlStateNormal];
+        _close = [[UIImageView alloc] initWithImage:UIImageMake(@"nav_close")];
     }
     return _close;
 }
