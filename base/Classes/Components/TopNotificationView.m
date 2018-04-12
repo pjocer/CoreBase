@@ -106,7 +106,7 @@
     self.label.textAlignment = self.model.alignment;
     self.label.font = UIFontMake(self.model.font_size);
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.model.text];
-    TopNotificationAttributesModel *href = nil;
+    NSMutableArray <TopNotificationAttributesModel *>*hrefs = [NSMutableArray array];
     for (TopNotificationAttributesModel *attribute in self.model.attributes) {
         __block NSDictionary *attr = nil;
         switch (attribute.type) {
@@ -142,7 +142,7 @@
             }
                 break;
             case TopNotifyLabelAttributesTypeHref:{
-                href = attribute;
+                [hrefs addObject:attribute];
             }
                 break;
             default:
@@ -153,7 +153,7 @@
         }
     }
     self.label.text = text;
-    if (href) {
+    [hrefs enumerateObjectsUsingBlock:^(TopNotificationAttributesModel * _Nonnull href, NSUInteger idx, BOOL * _Nonnull stop) {
         NSRange range = href.effect_range;
         NSMutableDictionary *attributes = [[self.label.attributedText attributesAtIndex:range.location effectiveRange:&range] mutableCopy];
         self.label.linkAttributes = attributes;
@@ -161,7 +161,7 @@
         self.label.activeLinkAttributes = attributes;
         self.label.inactiveLinkAttributes = attributes;
         [self.label addLinkToURL:[NSURL URLWithString:href.value] withRange:href.effect_range];
-    }
+    }];
     [self.label mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
         make.bottom.mas_equalTo(-10);
