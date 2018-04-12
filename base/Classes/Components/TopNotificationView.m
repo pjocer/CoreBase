@@ -30,6 +30,10 @@
     return self;
 }
 
+- (instancetype)init {
+    return [self initWithData:nil];
+}
+
 - (instancetype)subscribe {
     @weakify(self);
     [[RACObserve(self, model) distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
@@ -70,11 +74,11 @@
         return CGSizeZero;
     }
     NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-    style.lineSpacing = 6;
+    style.lineSpacing = 6.f;
     style.lineBreakMode = NSLineBreakByWordWrapping;
     style.alignment = model.alignment;
     CGRect frame = [model.text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : UIFontMake(model.font_size),NSParagraphStyleAttributeName : style} context:nil];
-    frame.size.height += 15;
+    frame.size.height = ceilf(frame.size.height) + 10;
     return frame.size;
 }
 
