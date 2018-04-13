@@ -186,7 +186,7 @@
 
 - (UIImageView *)close {
     if (!_close) {
-        _close = [[UIImageView alloc] initWithImage:UIImageMake(@"nav_close")];
+        _close = [[UIImageView alloc] initWithImage:UIImageMake(@"cart_nav_close")];
     }
     return _close;
 }
