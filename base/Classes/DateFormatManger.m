@@ -43,27 +43,27 @@
 }
 
 + (NSString *)stringOfDate:(NSDate *)date forStyle:(NSDateFormatterStyle)style {
-    return [[DateFormatManger dateFormatterForStyle:style] stringFromDate:date];
+    return date ? [[DateFormatManger dateFormatterForStyle:style] stringFromDate:date] : nil;
 }
 
 + (NSDate *)dateOfString:(NSString *)string forStyle:(NSDateFormatterStyle)style {
-    return [[DateFormatManger dateFormatterForStyle:style] dateFromString:string];
+    return string ? [[DateFormatManger dateFormatterForStyle:style] dateFromString:string] : nil;
 }
 
 + (NSString *)stringOfDate:(NSDate *)date forFormat:(NSString *)format {
-    return [[DateFormatManger dateFormatterForFormat:format] stringFromDate:date];
+    return date ? [[DateFormatManger dateFormatterForFormat:format] stringFromDate:date] : nil;
 }
 
 + (NSDate *)dateOfString:(NSString *)string forFormat:(NSString *)format {
-    return [[DateFormatManger dateFormatterForFormat:format] dateFromString:string];
+    return string ? [[DateFormatManger dateFormatterForFormat:format] dateFromString:string] : nil;
 }
 
 + (NSString *)stringOfDate:(NSDate *)date forMode:(UIDatePickerMode)mode {
-    return [[DateFormatManger dateFormatterForMode:mode] stringFromDate:date];
+    return date ? [[DateFormatManger dateFormatterForMode:mode] stringFromDate:date] : nil;
 }
 
 + (NSDate *)dateOfString:(NSString *)string forMode:(UIDatePickerMode)mode {
-    return [[DateFormatManger dateFormatterForMode:mode] dateFromString:string];
+    return string ? [[DateFormatManger dateFormatterForMode:mode] dateFromString:string] : nil;
 }
 
 @end
