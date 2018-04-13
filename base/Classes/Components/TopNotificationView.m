@@ -78,7 +78,7 @@
     style.lineBreakMode = NSLineBreakByWordWrapping;
     style.alignment = model.alignment;
     CGRect frame = [model.text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : UIFontMake(model.font_size),NSParagraphStyleAttributeName : style} context:nil];
-    frame.size.height = ceilf(frame.size.height) + 10;
+    frame.size.height = ceilf(frame.size.height) + 20;
     return frame.size;
 }
 
