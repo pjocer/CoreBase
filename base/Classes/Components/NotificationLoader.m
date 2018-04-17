@@ -35,7 +35,11 @@ NSNotificationName const TopNotificationDidUpdated = @"TopNotificationDidUpdate"
     [[RACObserve(self, top_model) skip:1] subscribeNext:^(id  _Nullable x) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TopNotificationDidUpdated object:x];
     }];
-    RAC(self, top_model) = [[[Network.APISession rac_GET:TOP_NOTIFICATION_PATH parameters:nil] tryMapResponseToModel:TopNotificationModel.class] catchURLError];
+    RAC(self, top_model) = [[[[[Network.APISession rac_GET:TOP_NOTIFICATION_PATH parameters:nil] tryMapResponseToModel:TopNotificationModel.class] doError:^(NSError * _Nonnull error) {
+        
+    }] doNext:^(TopNotificationModel *_Nullable x) {
+        
+    }] catchURLError];
 }
 
 @end

@@ -68,18 +68,83 @@
     return self;
 }
 
+static CGSize expectedSize;
+
 + (CGSize)expectedSize {
     TopNotificationModel *model = NotificationSharedLoader.top_model;
     if (!model) {
         return CGSizeZero;
     }
-    NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-    style.lineSpacing = 6.f;
-    style.lineBreakMode = NSLineBreakByWordWrapping;
-    style.alignment = model.alignment;
-    CGRect frame = [model.text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : UIFontMake(model.font_size),NSParagraphStyleAttributeName : style} context:nil];
-    frame.size.height = ceilf(frame.size.height) + 20;
-    return frame.size;
+    if (!CGSizeIsEmpty(expectedSize)) {
+        return expectedSize;
+    }
+    TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.lineSpacing = 6;
+    label.textAlignment = model.alignment;
+    label.font = UIFontMake(model.font_size);
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:model.text];
+    NSMutableArray <TopNotificationAttributesModel *>*hrefs = [NSMutableArray array];
+    for (TopNotificationAttributesModel *attribute in model.attributes) {
+        __block NSDictionary *attr = nil;
+        switch (attribute.type) {
+            case TopNotifyLabelAttributesTypeFontColor: {
+                NSRange range = attribute.effect_range;
+                NSDictionary *dic = [text attributesAtIndex:0 effectiveRange:&range];
+                if (dic && dic[NSUnderlineStyleAttributeName]) {
+                    attr = @{NSForegroundColorAttributeName : UIColorMakeWithHex(attribute.value),
+                             NSUnderlineColorAttributeName : UIColorMakeWithHex(attribute.value)
+                             };
+                } else {
+                    attr = @{NSForegroundColorAttributeName : UIColorMakeWithHex(attribute.value)
+                             };
+                }
+            }
+                break;
+            case TopNotifyLabelAttributesTypeBold:{
+                if ([attribute.value boolValue]) {
+                    attr = @{NSFontAttributeName : UIFontBoldMake(model.font_size)};
+                }
+            }
+                break;
+            case TopNotifyLabelAttributesTypeUnderline:{
+                NSRange range = attribute.effect_range;
+                NSDictionary *dic = [text attributesAtIndex:0 effectiveRange:&range];
+                if (dic && dic[NSForegroundColorAttributeName]) {
+                    attr = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
+                             NSUnderlineColorAttributeName : dic[NSForegroundColorAttributeName]
+                             };
+                } else {
+                    attr = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)};
+                }
+            }
+                break;
+            case TopNotifyLabelAttributesTypeHref:{
+                [hrefs addObject:attribute];
+            }
+                break;
+            default:
+                break;
+        }
+        if (attr) {
+            [text addAttributes:attr range:attribute.effect_range];
+        }
+    }
+    label.text = text;
+    [hrefs enumerateObjectsUsingBlock:^(TopNotificationAttributesModel * _Nonnull href, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSRange range = href.effect_range;
+        NSMutableDictionary *attributes = [[label.attributedText attributesAtIndex:range.location effectiveRange:&range] mutableCopy];
+        label.linkAttributes = attributes;
+        attributes[NSForegroundColorAttributeName] = UIColorMakeWithHex(@"e8437b");
+        label.activeLinkAttributes = attributes;
+        label.inactiveLinkAttributes = attributes;
+        [label addLinkToURL:[NSURL URLWithString:href.value] withRange:href.effect_range];
+    }];
+    CGSize s = [label sizeThatFits:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX)];
+    s.height = ceilf(s.height) + 20;
+    expectedSize = s;
+    return expectedSize;
 }
 
 - (void)renderCloseButton {
