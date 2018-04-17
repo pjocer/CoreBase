@@ -78,6 +78,14 @@ static CGSize expectedSize;
     if (!CGSizeIsEmpty(expectedSize)) {
         return expectedSize;
     }
+    TTTAttributedLabel *label = [self getAttributedLabelWithData:model];
+    CGSize s = [label sizeThatFits:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX)];
+    s.height = ceilf(s.height) + 20;
+    expectedSize = s;
+    return expectedSize;
+}
+
++ (TTTAttributedLabel *)getAttributedLabelWithData:(TopNotificationModel *)model {
     TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -141,10 +149,7 @@ static CGSize expectedSize;
         label.inactiveLinkAttributes = attributes;
         [label addLinkToURL:[NSURL URLWithString:href.value] withRange:href.effect_range];
     }];
-    CGSize s = [label sizeThatFits:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX)];
-    s.height = ceilf(s.height) + 20;
-    expectedSize = s;
-    return expectedSize;
+    return label;
 }
 
 - (void)renderCloseButton {
@@ -169,84 +174,16 @@ static CGSize expectedSize;
         return;
     } else {
         if (!self.label.superview) {
+            self.label = [self.class getAttributedLabelWithData:self.model];
             [self addSubview:self.label];
+            [self.label mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(10);
+                make.bottom.mas_equalTo(-10);
+                make.left.mas_equalTo(25);
+                make.right.mas_equalTo(-25);
+            }];
         }
     }
-    self.label.textAlignment = self.model.alignment;
-    self.label.font = UIFontMake(self.model.font_size);
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.model.text];
-    NSMutableArray <TopNotificationAttributesModel *>*hrefs = [NSMutableArray array];
-    for (TopNotificationAttributesModel *attribute in self.model.attributes) {
-        __block NSDictionary *attr = nil;
-        switch (attribute.type) {
-            case TopNotifyLabelAttributesTypeFontColor: {
-                NSRange range = attribute.effect_range;
-                NSDictionary *dic = [text attributesAtIndex:0 effectiveRange:&range];
-                if (dic && dic[NSUnderlineStyleAttributeName]) {
-                    attr = @{NSForegroundColorAttributeName : UIColorMakeWithHex(attribute.value),
-                             NSUnderlineColorAttributeName : UIColorMakeWithHex(attribute.value)
-                             };
-                } else {
-                    attr = @{NSForegroundColorAttributeName : UIColorMakeWithHex(attribute.value)
-                             };
-                }
-            }
-                break;
-            case TopNotifyLabelAttributesTypeBold:{
-                if ([attribute.value boolValue]) {
-                    attr = @{NSFontAttributeName : UIFontBoldMake(self.model.font_size)};
-                }
-            }
-                break;
-            case TopNotifyLabelAttributesTypeUnderline:{
-                NSRange range = attribute.effect_range;
-                NSDictionary *dic = [text attributesAtIndex:0 effectiveRange:&range];
-                if (dic && dic[NSForegroundColorAttributeName]) {
-                    attr = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
-                             NSUnderlineColorAttributeName : dic[NSForegroundColorAttributeName]
-                             };
-                } else {
-                    attr = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)};
-                }
-            }
-                break;
-            case TopNotifyLabelAttributesTypeHref:{
-                [hrefs addObject:attribute];
-            }
-                break;
-            default:
-                break;
-        }
-        if (attr) {
-            [text addAttributes:attr range:attribute.effect_range];
-        }
-    }
-    self.label.text = text;
-    [hrefs enumerateObjectsUsingBlock:^(TopNotificationAttributesModel * _Nonnull href, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSRange range = href.effect_range;
-        NSMutableDictionary *attributes = [[self.label.attributedText attributesAtIndex:range.location effectiveRange:&range] mutableCopy];
-        self.label.linkAttributes = attributes;
-        attributes[NSForegroundColorAttributeName] = UIColorMakeWithHex(@"e8437b");
-        self.label.activeLinkAttributes = attributes;
-        self.label.inactiveLinkAttributes = attributes;
-        [self.label addLinkToURL:[NSURL URLWithString:href.value] withRange:href.effect_range];
-    }];
-    [self.label mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
-        make.bottom.mas_equalTo(-10);
-        make.left.mas_equalTo(25);
-        make.right.mas_equalTo(-25);
-    }];
-}
-
-- (TTTAttributedLabel *)label {
-    if (!_label) {
-        _label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-        _label.numberOfLines = 0;
-        _label.lineBreakMode = NSLineBreakByWordWrapping;
-        _label.lineSpacing = 6;
-    }
-    return _label;
 }
 
 - (UIImageView *)close {
