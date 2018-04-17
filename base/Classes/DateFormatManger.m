@@ -12,12 +12,20 @@
 + (NSDateFormatter *)dateFormatterForStyle:(NSDateFormatterStyle)style {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = style;
+    
+    NSLocale *locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+    [dateFormatter setLocale:locale];
+    
     return dateFormatter;
 }
 
 + (NSDateFormatter *)dateFormatterForFormat:(NSString *)format {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:format];
+    
+    NSLocale *locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+    [dateFormatter setLocale:locale];
+    
     return dateFormatter;
 }
 
@@ -39,6 +47,10 @@
         default:
             break;
     }
+    
+    NSLocale *locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+    [dateFormatter setLocale:locale];
+    
     return dateFormatter;
 }
 
