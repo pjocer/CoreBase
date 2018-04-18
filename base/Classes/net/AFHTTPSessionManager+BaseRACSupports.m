@@ -11,11 +11,14 @@
 #import "UIApplication+Base.h"
 #import <DebugBall/DebugManager.h>
 #import "base.h"
+#import <YTKKeyValueStore/YTKKeyValueStore.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
 const HTTPMethod HTTPMethodPUT = @"PUT";
 const HTTPMethod HTTPMethodDELETE = @"DELETE";
+
+static NSString *const network_cache_table = @"network_cache_table";
 
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
@@ -78,37 +81,97 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     return dataTask;
 }
 
-- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters
-{
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
+    @weakify(self);
     return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
-        
-        NSURLSessionDataTask *dataTask =
-        [self base_dataTaskWithHTTPMethod:method
-                                URLString:path
-                               parameters:parameters
-                           uploadProgress:nil
-                         downloadProgress:nil
-                                  success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
-                                      [subscriber sendNext:RACTuplePack(task.response, responseObject)];
-                                      [subscriber sendCompleted];
-                                      Dlogvars(task.currentRequest.allHTTPHeaderFields);
-                                      [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-                                  } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
-                                      [subscriber sendError:error];
-                                      Dlogvars(dataTask.currentRequest.allHTTPHeaderFields);
-                                      [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-                                  }];
-        
-        if (dataTask)
-        {
-            [dataTask resume];
-            [RACDisposable disposableWithBlock:^{
-                [dataTask cancel];
-            }];
+        @strongify(self);
+        RACDisposable *disposable = nil;
+        NetworkCachePolicy group_policy = [objc_getAssociatedObject(self, @selector(startGroupCachePolicy:)) unsignedIntegerValue];
+        if (self.cachePolicy != group_policy) {
+            self.cachePolicy = MAX(self.cachePolicy, group_policy);
         }
-        return nil;
+        switch (self.cachePolicy) {
+            case AZURLRequestProtocolCachePolicy: {
+                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+            }
+                break;
+            case AZURLRequestCacheDataThenRefresh: {
+                id cached_value = [self getCachedDataBy:path parameters:parameters];
+                [subscriber sendNext:RACTuplePack(nil,cached_value)];
+                [subscriber sendCompleted];
+                [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:nil];
+            }
+                break;
+            case AZURLRequestCacheDataThenRefreshSendNext: {
+                id cached_value = [self getCachedDataBy:path parameters:parameters];
+                if (cached_value) {
+                    [subscriber sendNext:RACTuplePack(nil,cached_value)];
+                }
+                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+            }
+                break;
+            case AZURLRequestCacheDataElseLoad: {
+                id cached_value = [self getCachedDataBy:path parameters:parameters];
+                if (cached_value) {
+                    [subscriber sendNext:RACTuplePack(nil,cached_value)];
+                    [subscriber sendCompleted];
+                } else {
+                    disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+                }
+            }
+                break;
+            case AZURLRequestReloadIgnoringLocalCacheData: {
+                id cached_value = [self getCachedDataBy:path parameters:parameters];
+                [subscriber sendNext:RACTuplePack(nil,cached_value)];
+                [subscriber sendCompleted];
+            }
+                break;
+            default: {
+                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+            }
+                break;
+        }
+        self.cachePolicy = group_policy;
+        return disposable;
     }];
+}
+
+
+
+- (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber {
+    NSURLSessionDataTask *dataTask =
+    [self base_dataTaskWithHTTPMethod:method
+                            URLString:path
+                           parameters:parameters
+                       uploadProgress:nil
+                     downloadProgress:nil
+                              success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
+                                  [subscriber sendNext:RACTuplePack(task.response, responseObject)];
+                                  [subscriber sendCompleted];
+                                  Dlogvars(task.currentRequest.allHTTPHeaderFields);
+                                  [self.DAOStore putObject:responseObject withId:[self getCachedKeyBy:path parameters:parameters] intoTable:network_cache_table];
+                                  [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                              } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
+                                  [subscriber sendError:error];
+                                  Dlogvars(dataTask.currentRequest.allHTTPHeaderFields);
+                                  [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                              }];
+    [dataTask resume];
+    return [RACDisposable disposableWithBlock:^{
+        [dataTask cancel];
+    }];
+}
+
+- (NSString *)getCachedKeyBy:(NSString *)path parameters:(id)parameters {
+    NSParameterAssert(path && path.length != 0);
+    NSData *paramsData = parameters ? [NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:nil] : nil;
+    NSString *paramsString = paramsData ? [[NSString alloc] initWithData:paramsData encoding:NSUTF8StringEncoding] : @"";
+    return [path stringByAppendingString:[NSString stringWithFormat:@"?%@", paramsString]];
+}
+
+- (id)getCachedDataBy:(NSString *)path parameters:(id)parameters {
+    return [self.DAOStore getObjectById:[self getCachedKeyBy:path parameters:parameters] fromTable:network_cache_table];
 }
 
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
@@ -130,4 +193,36 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     return [self rac_method:HTTPMethodDELETE path:path parameters:parameters];
 }
 
+@end
+
+@implementation AFHTTPSessionManager (CachePolicy)
+- (CachePolicyHandler)cachePolicyHandler {
+    return ^(NetworkCachePolicy policy) {
+        self.cachePolicy = policy;
+        return self;
+    };
+}
+- (NetworkCachePolicy)cachePolicy {
+    NSNumber *value = objc_getAssociatedObject(self, _cmd);
+    return value.unsignedIntegerValue;
+}
+- (void)setCachePolicy:(NetworkCachePolicy)cachePolicy {
+    objc_setAssociatedObject(self, @selector(cachePolicy), @(cachePolicy), OBJC_ASSOCIATION_ASSIGN);
+}
+- (YTKKeyValueStore *)DAOStore {
+    YTKKeyValueStore *dao = objc_getAssociatedObject(self, _cmd);
+    if (dao) {
+        return dao;
+    }
+    dao = [[YTKKeyValueStore alloc] initDBWithName:@"azazie.db"];
+    [dao createTableWithName:network_cache_table];
+    objc_setAssociatedObject(self, _cmd, dao, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return dao;
+}
+- (void)startGroupCachePolicy:(NetworkCachePolicy)policy {
+    objc_setAssociatedObject(self, _cmd, @(policy), OBJC_ASSOCIATION_ASSIGN);
+}
+- (void)stopGroupCachePolicy{
+    objc_setAssociatedObject(self, @selector(startGroupCachePolicy:), @(AZURLRequestProtocolCachePolicy), OBJC_ASSOCIATION_ASSIGN);
+}
 @end

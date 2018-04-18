@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#define APINetwork Network.APISession
+#define APIJSONNetwork Network.APIJSONSession
 
 @interface Network (AFHTTPSessionManager)
 

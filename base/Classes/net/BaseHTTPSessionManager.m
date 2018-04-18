@@ -52,18 +52,9 @@
     return [self initWithBaseURL:url sessionConfiguration:configuration requestSerializer:nil];
 }
 
-- (void)updateHeaderForToken:(AccessToken *)token
-{
-    @synchronized (self)
-    {
-        if (token)
-        {
-            [self.requestSerializer setValue:token.tokenString forHTTPHeaderField:@"Token"];
-        }
-        else
-        {
-            [self.requestSerializer setValue:nil forHTTPHeaderField:@"Token"];
-        }
+- (void)updateHeaderForToken:(AccessToken *)token {
+    @synchronized (self) {
+        [self.requestSerializer setValue:token.tokenString forHTTPHeaderField:@"Token"];
     }
 }
 

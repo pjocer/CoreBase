@@ -59,7 +59,7 @@
 
 - (void)requestProfileUntilSuccess {
     @weakify(self);
-    self.disposable = [[[[[Network.APISession rac_GET:@"me" parameters:nil] retry] tryMapResponseToModel:Profile.class] doNext:^(Profile * _Nullable x) {
+    self.disposable = [[[[[APINetwork rac_GET:@"me" parameters:nil] retry] tryMapResponseToModel:Profile.class] doNext:^(Profile * _Nullable x) {
         [Profile setCurrentProfile:x];
     }] subscribeError:^(NSError * _Nullable error) {
         if ([AccessToken currentAccessToken]) {
