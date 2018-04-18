@@ -16,6 +16,7 @@ typedef void(^BaseImageLoadCompletion)(UIImage *_Nullable);
 
 /// 默认铺满颜色为@LoadingPlaceholderColorHex的图片
 + (UIImage *)defaultPlaceholderImage;
++ (UIImage *)defaultCirclePlaceholderImage;
 + (UIImage *)productPlaceholderImage;
 
 - (void)az_setImageWithURL:(NSURL *)URL

@@ -16,12 +16,17 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIView+LoadingIndicator.h"
 #import <ReactiveObjC/ReactiveObjC.h>
+#import <QMUIKit/QMUIKit.h>
 
 @implementation UIImageView (Loading)
 
 + (UIImage *)defaultPlaceholderImage
 {
     return [[UIImage tx_imageWithColor:[UIColor tx_colorWithHex:LoadingPlaceholderColorHex]] tx_centerResizingImage];
+}
+
++ (UIImage *)defaultCirclePlaceholderImage {
+    return [UIImage qmui_imageWithColor:[UIColor tx_colorWithHex:LoadingPlaceholderColorHex] size:CGSizeMake(100, 100) cornerRadius:50];
 }
 
 + (UIImage *)productPlaceholderImage

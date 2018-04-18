@@ -30,7 +30,6 @@
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
         [self.requestSerializer setValue:UserAgent.customUserAgent forHTTPHeaderField:@"User-Agent"];
-        
         [self.requestSerializer setValue:[AppIdentifier IDFA] forHTTPHeaderField:@"idfa"];
         [self.requestSerializer setValue:[AppIdentifier IDFV] forHTTPHeaderField:@"idfv"];
         
