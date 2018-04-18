@@ -32,4 +32,5 @@ Pod::Spec.new do |s|
   s.dependency "FLAnimatedImage"
   s.dependency "Braintree"
   s.dependency "CardIO"
+  s.dependency "YTKKeyValueStore"
 end
