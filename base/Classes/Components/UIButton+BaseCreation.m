@@ -33,7 +33,7 @@ NSUInteger const LPPrimaryButtonHighlightedBackgroundColorHex = 0xd73384;
     UIColor *disabled = nil;
     
     if (IS_AZAZIE) {
-        font = [UIFont dynamic_fontWithName:Ordinary size:UIFontLargeSize];
+        font = [UIFont dynamic_fontWithName:OrdinaryBold size:UIFontLargeSize];
         normal = [UIColor tx_colorWithHex:PrimaryButtonBackgroundColorHex];
         highlited = [UIColor tx_colorWithHex:PrimaryButtonHighlightedBackgroundColorHex];
         disabled = [UIColor tx_colorWithHex:PrimaryButtonDisabledBackgroundColorHex];
