@@ -84,7 +84,7 @@ static BOOL loadedFromDisk = NO;
             if (encodedObject)
             {
                 globalProfile = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-                if ([globalProfile yy_modelIsEqual:[Profile new]]) globalProfile = nil; //Fix nil properties in Profile error.
+                if ([globalProfile.yy_modelToJSONObject yy_modelIsEqual:[Profile new].yy_modelToJSONObject]) globalProfile = nil; //Fix nil properties in Profile error.
             }
         }
     }
@@ -111,7 +111,7 @@ static BOOL loadedFromDisk = NO;
         }
         
         if (newProfile) {
-            if (![oldProfile yy_modelIsEqual:newProfile]) {
+            if (![oldProfile.yy_modelToJSONObject yy_modelIsEqual:newProfile.yy_modelToJSONObject]) {
                 globalProfile = newProfile.copy;
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:globalProfile];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
