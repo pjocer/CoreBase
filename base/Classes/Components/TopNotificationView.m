@@ -91,8 +91,8 @@ static CGSize expectedSize;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.lineSpacing = 6;
     label.textAlignment = model.alignment;
-    label.font = UIFontMake(model.font_size);
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:model.text];
+    [text addAttribute:NSFontAttributeName value:UIFontMake(model.font_size) range:NSMakeRange(0, model.text.length)];
     NSMutableArray <TopNotificationAttributesModel *>*hrefs = [NSMutableArray array];
     for (TopNotificationAttributesModel *attribute in model.attributes) {
         __block NSDictionary *attr = nil;
