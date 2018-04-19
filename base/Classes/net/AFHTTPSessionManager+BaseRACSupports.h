@@ -21,7 +21,7 @@ FOUNDATION_EXTERN const HTTPMethod HTTPMethodDELETE;
 typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
     AZURLRequestProtocolCachePolicy,            //按照协议获取缓存【默认】
     AZURLRequestCacheDataThenRefresh,           //获取缓存数据并立即sendNext:然后刷新缓存
-    AZURLRequestCacheDataThenRefreshSendNext,   //获取缓存数据并立即sendNext:然后刷新缓存并再次sendNext:
+    AZURLRequestCacheDataThenRefreshSendNext,   //获取缓存数据并立即sendNext:然后刷新缓存并比较后选择是否再次sendNext:
     AZURLRequestCacheDataElseLoad,              //获取缓存数据，若无则刷新缓存，最后sendNext
     AZURLRequestReloadIgnoringLocalCacheData,   //忽略缓存，获取最新数据
 };

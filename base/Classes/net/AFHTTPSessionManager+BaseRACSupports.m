@@ -93,7 +93,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                 id cached_value = [self getCachedDataBy:path parameters:parameters];
                 [subscriber sendNext:RACTuplePack(nil,cached_value)];
                 [subscriber sendCompleted];
-                [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:nil];
+                [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:nil compare:NO];
             }
                 break;
             case AZURLRequestCacheDataThenRefreshSendNext: {
@@ -101,7 +101,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                 if (cached_value) {
                     [subscriber sendNext:RACTuplePack(nil,cached_value)];
                 }
-                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:YES];
             }
                 break;
             case AZURLRequestCacheDataElseLoad: {
@@ -110,14 +110,14 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                     [subscriber sendNext:RACTuplePack(nil,cached_value)];
                     [subscriber sendCompleted];
                 } else {
-                    disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+                    disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO];
                 }
             }
                 break;
             case AZURLRequestReloadIgnoringLocalCacheData: {
                 RACCompoundDisposable *compoundDisposable = [RACCompoundDisposable compoundDisposable];
                 self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-                [compoundDisposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber]];
+                [compoundDisposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO]];
                 [compoundDisposable addDisposable:[RACDisposable disposableWithBlock:^{
                     self.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
                 }]];
@@ -126,7 +126,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                 break;
             case AZURLRequestProtocolCachePolicy:
             default: {
-                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
+                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO];
             }
                 break;
         }
@@ -137,7 +137,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 
 
-- (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber {
+- (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber compare:(BOOL)compare {
     NSURLSessionDataTask *dataTask =
     [self base_dataTaskWithHTTPMethod:method
                             URLString:path
@@ -145,11 +145,19 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                        uploadProgress:nil
                      downloadProgress:nil
                               success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
-                                  [subscriber sendNext:RACTuplePack(task.response, responseObject)];
-                                  [subscriber sendCompleted];
+                                  if (compare) {
+                                      id cachedObject = [NetworkDAO getObjectById:self.cachedKey(path, parameters)];
+                                      if (![cachedObject yy_modelIsEqual:responseObject]) {
+                                          [subscriber sendNext:RACTuplePack(task.response, responseObject)];
+                                          [subscriber sendCompleted];
+                                      }
+                                  } else {
+                                      [subscriber sendNext:RACTuplePack(task.response, responseObject)];
+                                      [subscriber sendCompleted];
+                                  }
                                   Dlogvars(task.currentRequest.allHTTPHeaderFields);
                                   [[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground] schedule:^{
-                                    [NetworkDAO putObject:responseObject withId:[self getCachedKeyBy:path parameters:parameters]];
+                                      [NetworkDAO putObject:responseObject withId:self.cachedKey(path, parameters)];
                                   }];
                                   [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                               } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
