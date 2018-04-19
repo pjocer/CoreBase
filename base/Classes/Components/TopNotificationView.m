@@ -188,7 +188,7 @@ static CGSize expectedSize;
 
 - (UIImageView *)close {
     if (!_close) {
-        _close = [[UIImageView alloc] initWithImage:UIImageMake(@"cart_nav_close")];
+        _close = [[UIImageView alloc] initWithImage:UIImageMake(@"home_coupon_close")];
     }
     return _close;
 }
