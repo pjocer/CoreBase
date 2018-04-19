@@ -41,8 +41,8 @@
 #import "BaseNavigationController.h"
 #import "CustomAlertViewController.h"
 
-#import "BaseStorage.h"
-#import "BaseTmpNetworkStorage.h"
+#import "BaseDAOStore.h"
+#import "BaseNetworkDAOStore.h"
 
 #import "AFHTTPSessionManager+BaseRACSupports.h"
 #import "RACSignal+ResponseToModel.h"

@@ -42,12 +42,17 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
 
 @end
 
-typedef AFHTTPSessionManager *_Nullable(^CachePolicyHandler)(NetworkCachePolicy);
-@class YTKKeyValueStore;
+typedef AFHTTPSessionManager *(^CachePolicyHandler)(NetworkCachePolicy);
+typedef NSString *_Nullable(^CachedKeyHandler)(NSString *path, id _Nullable parameters);
+typedef id _Nullable(^CachedValueHandler)(NSString * path, id _Nullable parameters);
+typedef id _Nullable(^CachedValueDirectHandler)(NSString *key);
+
 @interface AFHTTPSessionManager (CachePolicy)
 @property (nonatomic, readonly) CachePolicyHandler cachePolicyHandler;
+@property (nonatomic, readonly) CachedKeyHandler cachedKey;
+@property (nonatomic, readonly) CachedValueDirectHandler directCachedValue;
+@property (nonatomic, readonly) CachedValueHandler cachedValue;
 @property (nonatomic, assign) NetworkCachePolicy cachePolicy;
-@property (nonatomic, strong, readonly) YTKKeyValueStore *DAOStore;
 - (void)startGroupCachePolicy:(NetworkCachePolicy)policy;
 - (void)stopGroupCachedPolicy;
 @end

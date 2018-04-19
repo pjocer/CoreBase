@@ -11,14 +11,11 @@
 #import "UIApplication+Base.h"
 #import <DebugBall/DebugManager.h>
 #import "base.h"
-#import <YTKKeyValueStore/YTKKeyValueStore.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
 const HTTPMethod HTTPMethodPUT = @"PUT";
 const HTTPMethod HTTPMethodDELETE = @"DELETE";
-
-static NSString *const network_cache_table = @"network_cache_table";
 
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
@@ -92,10 +89,6 @@ static NSString *const network_cache_table = @"network_cache_table";
             self.cachePolicy = MAX(self.cachePolicy, group_policy);
         }
         switch (self.cachePolicy) {
-            case AZURLRequestProtocolCachePolicy: {
-                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
-            }
-                break;
             case AZURLRequestCacheDataThenRefresh: {
                 id cached_value = [self getCachedDataBy:path parameters:parameters];
                 [subscriber sendNext:RACTuplePack(nil,cached_value)];
@@ -122,11 +115,16 @@ static NSString *const network_cache_table = @"network_cache_table";
             }
                 break;
             case AZURLRequestReloadIgnoringLocalCacheData: {
-                id cached_value = [self getCachedDataBy:path parameters:parameters];
-                [subscriber sendNext:RACTuplePack(nil,cached_value)];
-                [subscriber sendCompleted];
+                RACCompoundDisposable *compoundDisposable = [RACCompoundDisposable compoundDisposable];
+                self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+                [compoundDisposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber]];
+                [compoundDisposable addDisposable:[RACDisposable disposableWithBlock:^{
+                    self.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+                }]];
+                disposable = compoundDisposable;
             }
                 break;
+            case AZURLRequestProtocolCachePolicy:
             default: {
                 disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber];
             }
@@ -150,7 +148,7 @@ static NSString *const network_cache_table = @"network_cache_table";
                                   [subscriber sendNext:RACTuplePack(task.response, responseObject)];
                                   [subscriber sendCompleted];
                                   Dlogvars(task.currentRequest.allHTTPHeaderFields);
-                                  [self.DAOStore putObject:responseObject withId:[self getCachedKeyBy:path parameters:parameters] intoTable:network_cache_table];
+                                  [NetworkDAO putObject:responseObject withId:[self getCachedKeyBy:path parameters:parameters]];
                                   [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                               } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
                                   [subscriber sendError:error];
@@ -171,7 +169,7 @@ static NSString *const network_cache_table = @"network_cache_table";
 }
 
 - (id)getCachedDataBy:(NSString *)path parameters:(id)parameters {
-    return [self.DAOStore getObjectById:[self getCachedKeyBy:path parameters:parameters] fromTable:network_cache_table];
+    return [NetworkDAO getObjectById:[self getCachedKeyBy:path parameters:parameters]];
 }
 
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
@@ -202,22 +200,27 @@ static NSString *const network_cache_table = @"network_cache_table";
         return self;
     };
 }
+- (CachedKeyHandler)cachedKey {
+    return ^(NSString *path, id parameters) {
+        return [self getCachedKeyBy:path parameters:parameters];
+    };
+}
+- (CachedValueHandler)cachedValue {
+    return ^(NSString *path, id parameters) {
+        return [self getCachedDataBy:path parameters:parameters];
+    };
+}
+- (CachedValueDirectHandler)directCachedValue {
+    return ^(NSString *key) {
+        return [NetworkDAO getObjectById:key];
+    };
+}
 - (NetworkCachePolicy)cachePolicy {
     NSNumber *value = objc_getAssociatedObject(self, _cmd);
     return value.unsignedIntegerValue;
 }
 - (void)setCachePolicy:(NetworkCachePolicy)cachePolicy {
     objc_setAssociatedObject(self, @selector(cachePolicy), @(cachePolicy), OBJC_ASSOCIATION_ASSIGN);
-}
-- (YTKKeyValueStore *)DAOStore {
-    YTKKeyValueStore *dao = objc_getAssociatedObject(self, _cmd);
-    if (dao) {
-        return dao;
-    }
-    dao = [[YTKKeyValueStore alloc] initDBWithName:@"azazie.db"];
-    [dao createTableWithName:network_cache_table];
-    objc_setAssociatedObject(self, _cmd, dao, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    return dao;
 }
 - (void)startGroupCachePolicy:(NetworkCachePolicy)policy {
     objc_setAssociatedObject(self, _cmd, @(policy), OBJC_ASSOCIATION_ASSIGN);
