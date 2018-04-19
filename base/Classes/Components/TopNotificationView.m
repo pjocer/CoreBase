@@ -14,6 +14,7 @@
 #import "UIFont+LQFont.h"
 #import <QMUIKit/QMUIKit.h>
 #import <Masonry/Masonry.h>
+#import "util.h"
 
 @interface TopNotificationView ()
 @property (nonatomic, strong) TTTAttributedLabel *label;
@@ -188,7 +189,7 @@ static CGSize expectedSize;
 
 - (UIImageView *)close {
     if (!_close) {
-        _close = [[UIImageView alloc] initWithImage:UIImageMake(@"home_coupon_close")];
+        _close = [[UIImageView alloc] initWithImage:BaseImageWithNamed(@"top_notification_close")];
     }
     return _close;
 }
