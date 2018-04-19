@@ -148,7 +148,9 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                                   [subscriber sendNext:RACTuplePack(task.response, responseObject)];
                                   [subscriber sendCompleted];
                                   Dlogvars(task.currentRequest.allHTTPHeaderFields);
-                                  [NetworkDAO putObject:responseObject withId:[self getCachedKeyBy:path parameters:parameters]];
+                                  [[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground] schedule:^{
+                                    [NetworkDAO putObject:responseObject withId:[self getCachedKeyBy:path parameters:parameters]];
+                                  }];
                                   [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                               } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
                                   [subscriber sendError:error];
