@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.7.4"
+  s.version      = "1.7.5"
   s.summary      = "Leqee Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 	s.resource_bundles    = {'Base' => 'base/Resources/Base.bundle/*'}
 
   s.requires_arc = true
-
+  s.dependency "TTTAttributedLabel"
   s.dependency "ReactiveObjC"
   s.dependency "Masonry"
   s.dependency "SMPageControl"
