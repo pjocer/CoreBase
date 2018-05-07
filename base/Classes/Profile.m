@@ -9,7 +9,7 @@
 #import "Profile.h"
 #import <pthread/pthread.h>
 #import "Network.h"
-#import <YYModel/YYModel.h>
+#import <NSObject+YYModel.h>
 
 NSString *const ProfileDidChangeNotification = @"ProfileDidChangeNotification";
 NSString *const ProfileChangeOldKey = @"ProfileChangeOldKey";
@@ -84,7 +84,7 @@ static BOOL loadedFromDisk = NO;
             if (encodedObject)
             {
                 globalProfile = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-                if ([globalProfile.yy_modelToJSONObject yy_modelIsEqual:[Profile new].yy_modelToJSONObject]) globalProfile = nil; //Fix nil properties in Profile error.
+                if ([globalProfile.modelToJSONObject modelIsEqual:[Profile new].modelToJSONObject]) globalProfile = nil; //Fix nil properties in Profile error.
             }
         }
     }
@@ -111,7 +111,7 @@ static BOOL loadedFromDisk = NO;
         }
         
         if (newProfile) {
-            if (![oldProfile.yy_modelToJSONObject yy_modelIsEqual:newProfile.yy_modelToJSONObject]) {
+            if (![oldProfile.modelToJSONObject modelIsEqual:newProfile.modelToJSONObject]) {
                 globalProfile = newProfile.copy;
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:globalProfile];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

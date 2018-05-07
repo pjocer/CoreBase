@@ -11,7 +11,7 @@
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "Profile.h"
 #import "Network.h"
-#import <YYModel/YYModel.h>
+#import <NSObject+YYModel.h>
 #import "RACSignal+ResponseToModel.h"
 
 @interface ProfileAutoLoader ()

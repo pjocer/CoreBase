@@ -11,6 +11,7 @@
 #import "UIApplication+Base.h"
 #import <DebugBall/DebugManager.h>
 #import "base.h"
+#import <NSObject+YYModel.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
@@ -147,7 +148,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                               success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
                                   if (compare) {
                                       id cachedObject = [NetworkDAO getObjectById:self.cachedKey(path, parameters)];
-                                      if (![cachedObject yy_modelIsEqual:responseObject]) {
+                                      if (![cachedObject modelIsEqual:responseObject]) {
                                           [subscriber sendNext:RACTuplePack(task.response, responseObject)];
                                           [subscriber sendCompleted];
                                       }

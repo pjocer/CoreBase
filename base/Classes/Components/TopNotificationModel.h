@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <YYModel/YYModel.h>
-
+#import <NSObject+YYModel.h>
 typedef enum : NSUInteger {
     TopNotifyLabelAttributesTypeFontColor,
     TopNotifyLabelAttributesTypeBold,
