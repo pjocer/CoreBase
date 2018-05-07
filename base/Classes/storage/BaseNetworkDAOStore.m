@@ -25,4 +25,7 @@
     if (!object || !objectId || objectId.length <= 0)   return ;
     [self putObject:object withId:objectId intoTable:NETWORK_CACHE_TABLE];
 }
+- (void)clear {
+    [self clearTable:NETWORK_CACHE_TABLE];
+}
 @end

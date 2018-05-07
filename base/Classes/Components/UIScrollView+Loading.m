@@ -61,7 +61,11 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
     RefreshActivityIndicatorViewFooter *refreshFooter = [RefreshActivityIndicatorViewFooter footerWithRefreshingBlock:block];
     self.mj_footer = refreshFooter;
 }
-
+- (void)addNoNoticeRefreshFooterWithBlock:(void (^)(void))block {
+    RefreshActivityIndicatorViewFooter *refreshFooter = [RefreshActivityIndicatorViewFooter footerWithRefreshingBlock:block];
+    refreshFooter.disableNoMoreProductView = YES;
+    self.mj_footer = refreshFooter;
+}
 - (void)beginHeaderRefreshing
 {
     [self.mj_header beginRefreshing];

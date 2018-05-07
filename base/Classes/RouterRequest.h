@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSURL *URL;
 @property (nonatomic, copy, readonly, nullable) id<NSCopying> parameters;
+@property (nonatomic, copy, readonly, nullable) id data;
 
-- (instancetype)initWithURL:(NSURL *)URL parameters:(nullable id<NSCopying>)parameters NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithURL:(NSURL *)URL parameters:(nullable id<NSCopying>)parameters;
+- (instancetype)initWithURL:(NSURL *)URL data:(nullable id)data;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

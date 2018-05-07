@@ -43,7 +43,7 @@
         }];
     }
     
-    if (!self.noMoreProductsView)
+    if (!self.noMoreProductsView && !self.disableNoMoreProductView)
     {
         self.noMoreProductsView = [[NoMoreProductsView alloc] init];
         [self addSubview:self.noMoreProductsView];

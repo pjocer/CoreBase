@@ -13,4 +13,6 @@
 
 @property (nonatomic, assign) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
 
+@property (nonatomic, assign) BOOL disableNoMoreProductView;
+
 @end

@@ -12,4 +12,5 @@
 
 @interface BaseNetworkDAOStore : BaseDAOStore
 + (instancetype)sharedDAOStore;
+- (void)clear;
 @end

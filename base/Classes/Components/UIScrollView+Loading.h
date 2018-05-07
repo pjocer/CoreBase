@@ -13,6 +13,7 @@
 - (BOOL)isFooterRefreshing;
 - (void)addRefreshHeaderWithBlock:(void(^)(void))block;
 - (void)addRefreshFooterWithBlock:(void(^)(void))block;
+- (void)addNoNoticeRefreshFooterWithBlock:(void(^)(void))block;
 - (void)beginHeaderRefreshing;
 - (void)endHeaderRefreshing;
 - (void)endHeaderRefreshingCompeletion:(dispatch_block_t)compeletion;
