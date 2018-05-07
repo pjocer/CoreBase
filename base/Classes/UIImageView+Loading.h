@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^BaseImageLoadCompletion)(UIImage *_Nullable);
+typedef void(^BaseImageLoadCompletion)(UIImage *_Nullable image);
 
 @interface UIImageView (Loading)
 

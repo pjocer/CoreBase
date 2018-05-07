@@ -42,7 +42,7 @@
     }
     
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
-    SDWebImageOptions option = SDWebImageCacheMemoryOnly|SDWebImageRetryFailed|SDWebImageRefreshCached;
+    SDWebImageOptions option = SDWebImageQueryDataWhenInMemory|SDWebImageRetryFailed|SDWebImageRefreshCached|SDWebImageContinueInBackground|SDWebImageQueryDiskSync;
     @weakify(self);
     [self sd_setImageWithPreviousCachedImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         [[UIApplication sharedApplication] hideNetworkActivityIndicator];
