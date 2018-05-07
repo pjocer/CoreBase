@@ -18,9 +18,11 @@
     return store;
 }
 - (id)getObjectById:(NSString *)objectId {
+    if (!objectId || objectId.length <= 0)  return nil;
     return [self getObjectById:objectId fromTable:NETWORK_CACHE_TABLE];
 }
 - (void)putObject:(id)object withId:(NSString *)objectId {
+    if (!object || !objectId || objectId.length <= 0)   return ;
     [self putObject:object withId:objectId intoTable:NETWORK_CACHE_TABLE];
 }
 @end
