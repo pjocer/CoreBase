@@ -11,6 +11,7 @@
 #import "util.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "sys/utsname.h"
+#import <Masonry/Masonry.h>
 
 @interface CustomNavigationBarViewController () <UINavigationBarDelegate>
 
@@ -49,19 +50,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tx_interactiveNavigationBarHidden = YES;
-    if ([self iPhoneX]) {
-        _navigationBar.frame = CGRectMake(0, 44.f, self.view.bounds.size.width, 44.f);
-    } else {
-        _navigationBar.frame = CGRectMake(0, 20.f, self.view.bounds.size.width, 44.f);
-    }
-    
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _navigationBar.delegate = self;
-
     [self.view addSubview:_navigationBar];
+    self.tx_interactiveNavigationBarHidden = YES;
 }
-
+- (void)viewSafeAreaInsetsDidChange {
+    [super viewSafeAreaInsetsDidChange];
+    if (@available(iOS 11.0, *)) {
+        _navigationBar.frame = CGRectMake(0, self.view.safeAreaInsets.top, self.view.bounds.size.width, 44.f);
+    } else {
+        _navigationBar.frame = CGRectMake(0, 20, self.view.bounds.size.width, 44.f);
+    }
+}
 - (void)backlizeLeftBarButtonItem
 {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:BaseImageWithNamed(@"nav_back") style:UIBarButtonItemStylePlain target:nil action:nil];
