@@ -179,7 +179,7 @@ static CGSize expectedSize;
             [self addSubview:self.label];
             [self.label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(10);
-                make.bottom.mas_equalTo(-10);
+                make.bottom.mas_equalTo(-10).priorityLow();
                 make.left.mas_equalTo(25);
                 make.right.mas_equalTo(-25);
             }];

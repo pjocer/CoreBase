@@ -12,7 +12,7 @@
     static dispatch_once_t onceToken;
     static BaseNetworkDAOStore *store = nil;
     dispatch_once(&onceToken, ^{
-        store = [[BaseNetworkDAOStore alloc] initDBWithName:@"azazie.db"];
+        store = [[BaseNetworkDAOStore alloc] init];
         [store createTableWithName:NETWORK_CACHE_TABLE];
     });
     return store;
