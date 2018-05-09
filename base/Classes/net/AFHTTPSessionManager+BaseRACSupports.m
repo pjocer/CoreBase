@@ -12,6 +12,8 @@
 #import <DebugBall/DebugManager.h>
 #import "base.h"
 #import <NSObject+YYModel.h>
+#import "AccessToken.h"
+#import "Profile.h"
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
@@ -162,9 +164,13 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                                   }];
                                   [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                               } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
-                                  [subscriber sendError:error];
                                   Dlogvars(dataTask.currentRequest.allHTTPHeaderFields);
                                   [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                                  if (error.errorGlobalCodeByServer == 10301) {
+                                      [AccessToken setCurrentAccessToken:nil];
+                                      [Profile setCurrentProfile:nil];
+                                  }
+                                  [subscriber sendError:error];
                               }];
     [dataTask resume];
     return [RACDisposable disposableWithBlock:^{

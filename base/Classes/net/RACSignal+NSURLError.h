@@ -36,6 +36,11 @@ FOUNDATION_EXPORT NSString *const AzazieErrorSingleErrorMessageKey;
 - (RACSignal<ValueType> *)doAzazieURLErrorAlert;
 - (RACSignal<ValueType> *)doURLErrorAlertWithConfirmTitle:(NSString *)title
                                                    action:(dispatch_block_t)action;
+- (RACSignal<ValueType> *)doURLErrorAlertWithHead:(NSString *)head
+                                     confirmTitle:(NSString *)title
+                                    confirmAction:(dispatch_block_t)confirmAction
+                                      cancelTitle:(NSString *)cancel
+                                     cancelAction:(dispatch_block_t)cancelAction;
 
 + (void)showURLErrorAlertWith:(NSError *)error;
 + (void)showURLErrorAlertWith:(NSError *)error action:(dispatch_block_t)action;

@@ -73,9 +73,17 @@ static void notifyDataNotAllowed(void) {
     [alert show];
 }
 
-+ (void)__doAzazieURLErrorWithError:(NSError *)error title:(NSString *)title action:(dispatch_block_t)action {
-    dispatch_block_t confirmAction = action;
-    NSString *confirmTitle = title;
++ (void)__doAzazieURLErrorWithError:(NSError *)error
+                               Head:(NSString *)head
+                       confirmTitle:(NSString *)confirmTitle
+                      confirmAction:(dispatch_block_t)confirmAction
+                        cancelTitle:(NSString *)cancelTitle
+                       cancelAction:(dispatch_block_t)cancelAction {
+    dispatch_block_t _confirmAction = confirmAction;
+    NSString *_confirmTitle = confirmTitle;
+    dispatch_block_t _cancelAction = cancelAction;
+    NSString *_cancelTitle = cancelTitle;
+    NSString *_head = head;
     NSMutableArray *detailTexts = [NSMutableArray arrayWithCapacity:0];
     if (error.errorMessageByServer) {
         [detailTexts addObject:error.errorMessageByServer];
@@ -86,8 +94,10 @@ static void notifyDataNotAllowed(void) {
             if (errors.count == 1) {
                 NSString *msg = [RACSignal __AzazieURLErrorMessageWithError:errors[0]];
                 if (!msg) {
-                    confirmAction = NULL;
-                    confirmTitle = @"OK";
+                    _confirmAction = NULL;
+                    _confirmTitle = @"OK";
+                    _cancelAction = NULL;
+                    _cancelTitle = nil;
                     msg = [RACSignal __NSURLErrorMessageWithCode:errors[0].code];
                 }
                 [detailTexts addObject:msg];
@@ -102,8 +112,12 @@ static void notifyDataNotAllowed(void) {
             [detailTexts addObject:error.userInfo[AzazieErrorSingleErrorMessageKey]];
         }
     }
-    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailTexts:detailTexts preferConfirm:YES];
-    [alert addConfirmItemWithTitle:title action:confirmAction];
+    AZAlert *alert = [AZAlert alertWithTitle:_head detailTexts:detailTexts preferConfirm:YES];
+    if (!_confirmTitle || _confirmTitle.length == 0) _confirmTitle = @"OK";
+    [alert addConfirmItemWithTitle:_confirmTitle action:_confirmAction];
+    if (_cancelTitle && _cancelTitle.length > 0) {
+        [alert addCancelItemWithTitle:_cancelTitle action:_cancelAction];
+    }
     [alert show];
 }
 
@@ -299,15 +313,19 @@ static void notifyDataNotAllowed(void) {
 - (RACSignal *)doAzazieURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
-            [RACSignal __doAzazieURLErrorWithError:error title:@"OK" action:NULL];
+            [RACSignal __doAzazieURLErrorWithError:error Head:nil confirmTitle:nil confirmAction:NULL cancelTitle:nil cancelAction:NULL];
         }
     }];
 }
 
 - (RACSignal *)doURLErrorAlertWithConfirmTitle:(NSString *)title action:(dispatch_block_t)action {
+    return [self doURLErrorAlertWithHead:nil confirmTitle:title confirmAction:action cancelTitle:nil cancelAction:NULL];
+}
+
+- (RACSignal *)doURLErrorAlertWithHead:(NSString *)head confirmTitle:(NSString *)title confirmAction:(dispatch_block_t)confirmAction cancelTitle:(NSString *)cancel cancelAction:(dispatch_block_t)cancelAction {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
-            [RACSignal __doAzazieURLErrorWithError:error title:title action:action];
+            [RACSignal __doAzazieURLErrorWithError:error Head:head confirmTitle:title confirmAction:confirmAction cancelTitle:cancel cancelAction:cancelAction];
         } else {
             [RACSignal __doNSURLErrorWithCode:error.code title:title action:NULL];
         }
