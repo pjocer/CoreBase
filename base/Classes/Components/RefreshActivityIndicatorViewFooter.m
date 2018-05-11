@@ -20,20 +20,17 @@
 
 @implementation RefreshActivityIndicatorViewFooter
 
-- (void)prepare
-{
+- (void)prepare {
     [super prepare];
     
-    self.mj_h = NoMoreProductsViewExpectedHeight + 30.f + 15.f;
+    self.disableNoMoreProductView = NO;
     self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 }
 
-- (void)placeSubviews
-{
+- (void)placeSubviews {
     [super placeSubviews];
     
-    if (!self.activityIndicatorView)
-    {
+    if (!self.activityIndicatorView) {
         self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:self.activityIndicatorViewStyle];
         RAC(self, activityIndicatorView.activityIndicatorViewStyle) = [RACObserve(self, activityIndicatorViewStyle) skip:1];
         [self addSubview:self.activityIndicatorView];
@@ -43,8 +40,7 @@
         }];
     }
     
-    if (!self.noMoreProductsView && !self.disableNoMoreProductView)
-    {
+    if (!self.noMoreProductsView && !self.disableNoMoreProductView) {
         self.noMoreProductsView = [[NoMoreProductsView alloc] init];
         [self addSubview:self.noMoreProductsView];
         self.noMoreProductsView.hidden = YES;
@@ -53,28 +49,20 @@
         }];
     }
 }
-
-- (void)setState:(MJRefreshState)state
-{
+- (void)setDisableNoMoreProductView:(BOOL)disableNoMoreProductView {
+    _disableNoMoreProductView = disableNoMoreProductView;
+    self.mj_h = disableNoMoreProductView ? 45.f : NoMoreProductsViewExpectedHeight + 30.f + 15.f;
+}
+- (void)setState:(MJRefreshState)state {
     MJRefreshCheckState
-    
-    if (state == MJRefreshStateNoMoreData)
-    {
+    if (state == MJRefreshStateNoMoreData) {
         [self.activityIndicatorView stopAnimating];
-        self.activityIndicatorView.hidden = YES;
-        self.noMoreProductsView.hidden = NO;
-    }
-    else
-    {
-        self.activityIndicatorView.hidden = NO;
+        self.noMoreProductsView.hidden = _disableNoMoreProductView;
+    } else {
         self.noMoreProductsView.hidden = YES;
-        
-        if (state == MJRefreshStateIdle)
-        {
+        if (state == MJRefreshStateIdle) {
             [self.activityIndicatorView stopAnimating];
-        }
-        else
-        {
+        } else {
             [self.activityIndicatorView startAnimating];
         }
     }

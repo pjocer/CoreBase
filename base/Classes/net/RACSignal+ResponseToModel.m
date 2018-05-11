@@ -18,8 +18,10 @@ NSError * ResponseToModelError(void) {
 @implementation RACSignal (ResponseToModel)
 
 - (RACSignal *)tryMapResponseToModel:(Class)model {
-    
     return [self tryMap:^id _Nonnull(RACTuple * _Nullable value, NSError * _Nullable __autoreleasing * _Nullable errorPtr) {
+        if (!value.second) {
+            return [[model alloc] init];
+        }
         id result = [model modelWithDictionary:value.second];
         if (result) {
             return result;
@@ -32,6 +34,9 @@ NSError * ResponseToModelError(void) {
 
 - (RACSignal *)tryMapResponseToModelArray:(Class)model {
     return [self tryMap:^id _Nonnull(RACTuple * _Nullable value, NSError * _Nullable __autoreleasing * _Nullable errorPtr) {
+        if (!value.second) {
+            return [[model alloc] init];
+        }
         if ([value.second isKindOfClass:[NSArray class]]) {
             NSArray *result = [NSArray modelArrayWithClass:model json:value.second];
             if (result) {

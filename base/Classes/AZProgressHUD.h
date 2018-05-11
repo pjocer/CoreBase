@@ -15,6 +15,7 @@ typedef NS_ENUM(NSInteger, AZProgressHUDAnimationType) {
     AZProgressHUDAnimationTypeDefault = MBProgressHUDAnimationFade,
     AZProgressHUDAnimationTypeSpringOut = MBProgressHUDAnimationZoomOut,
     AZProgressHUDAnimationTypeSpringIn = MBProgressHUDAnimationZoomIn,
+    AZProgressHUDAnimationTypeTrasitionFade = 10,
 };
 
 @interface AZProgressHUD : MBProgressHUD

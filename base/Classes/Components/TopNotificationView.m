@@ -42,8 +42,6 @@
         self.backgroundColor = UIColorMakeWithHex(self.model.background_color?:@"e8437b");
         [self renderDetailLabel];
         [self renderCloseButton];
-        [self setNeedsLayout];
-        [self layoutIfNeeded];
     }];
     
     [[self.tx_tapGestureRecognizer.rac_gestureSignal map:^id _Nullable(__kindof UIGestureRecognizer * _Nullable value) {
