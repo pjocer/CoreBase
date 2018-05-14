@@ -293,13 +293,13 @@
     [self showAnimated:YES];
 }
 
-- (void)animateIn:(BOOL)animatingIn withType:(MBProgressHUDAnimation)type completion:(void(^)(BOOL finished))completion {
-    if (type == AZProgressHUDAnimationTypeTrasitionFade) {
-        
-    } else {
-        [super qmui_performSelector:_cmd withArguments:animatingIn, type, completion];
-    }
-}
+//- (void)animateIn:(BOOL)animatingIn withType:(MBProgressHUDAnimation)type completion:(void(^)(BOOL finished))completion {
+//    if (type == AZProgressHUDAnimationTypeTrasitionFade) {
+//        
+//    } else {
+//        [super qmui_performSelector:_cmd withArguments:animatingIn, type, completion];
+//    }
+//}
 
 - (void)hide {
     self.animationType = self._hiddenAnimationType;
