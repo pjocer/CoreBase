@@ -23,6 +23,7 @@ target 'base' do
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'Braintree'
   pod 'YTKKeyValueStore'
+  pod 'DebugBall'
   
   target 'baseTests' do
     inherit! :search_paths
