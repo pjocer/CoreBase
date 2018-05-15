@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.7.6"
+  s.version      = "1.7.7"
   s.summary      = "Leqee Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
@@ -23,10 +23,10 @@ Pod::Spec.new do |s|
   s.dependency "TXFire"
   s.dependency "AFNetworking"
   s.dependency "YYKit"
-	s.dependency "SDWebImage"
-	s.dependency "MBProgressHUD"
-	s.dependency "MJRefresh"
-	s.dependency "DebugBall"
+    s.dependency "SDWebImage"
+    s.dependency "MBProgressHUD"
+    s.dependency "MJRefresh"
+    s.dependency "DebugBall"
   s.dependency "SDWebImage/GIF"
   s.dependency "QMUIKit"
   s.dependency "FLAnimatedImage"

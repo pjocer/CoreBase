@@ -9,9 +9,10 @@ target 'base' do
   
   pod 'ReactiveObjC'
   pod 'AFNetworking'
+  pod 'TTTAttributedLabel'
   pod 'Masonry'
   pod 'QMUIKit'
-  pod 'YYModel'
+  pod 'YYKit'
   pod 'SMPageControl'
   pod 'TXFire'
   pod 'SDWebImage'
@@ -21,6 +22,7 @@ target 'base' do
   pod 'SDWebImage/GIF'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'Braintree'
+  pod 'YTKKeyValueStore'
   
   target 'baseTests' do
     inherit! :search_paths

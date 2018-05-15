@@ -55,7 +55,6 @@
 #import "URLManager.h"
 
 #import "UIButton+BaseCreation.h"
-#import "BasePagingView.h"
 #import "UIView+SeparatorLine.h"
 #import "CoreTextField.h"
 #import "SeparatorTextView.h"

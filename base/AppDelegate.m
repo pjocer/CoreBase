@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "PagingViewController.h"
 #import "GIFViewController.h"
 #import "Network.h"
 #import <TXFire/TXFire.h>

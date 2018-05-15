@@ -12,7 +12,7 @@
 #define NotificationSharedLoader [NotificationLoader sharedLoader]
 
 FOUNDATION_EXPORT NSNotificationName const TopNotificationDidUpdated;
-
+ 
 @interface NotificationLoader : NSObject
 
 @property (nonatomic, strong) TopNotificationModel *top_model;
