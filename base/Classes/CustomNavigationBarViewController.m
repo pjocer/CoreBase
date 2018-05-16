@@ -54,6 +54,7 @@
     _navigationBar.delegate = self;
     [self.view addSubview:_navigationBar];
     self.tx_interactiveNavigationBarHidden = YES;
+    _navigationBar.frame = CGRectMake(0, 20, self.view.bounds.size.width, 44.f);
 }
 - (void)viewSafeAreaInsetsDidChange {
     [super viewSafeAreaInsetsDidChange];
