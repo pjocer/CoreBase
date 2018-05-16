@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "base"
-  s.version      = "1.7.8"
+  s.version      = "1.7.9"
   s.summary      = "Leqee Fundamentals"
   s.homepage     = "https://g.digi800.com/azios/base"
 
@@ -28,7 +28,6 @@ Pod::Spec.new do |s|
     s.dependency "MJRefresh"
     s.dependency "DebugBall"
   s.dependency "SDWebImage/GIF"
-  s.dependency "QMUIKit"
   s.dependency "FLAnimatedImage"
   s.dependency "Braintree"
   s.dependency "CardIO"

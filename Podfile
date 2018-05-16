@@ -11,7 +11,6 @@ target 'base' do
   pod 'AFNetworking'
   pod 'TTTAttributedLabel'
   pod 'Masonry'
-  pod 'QMUIKit'
   pod 'YYKit'
   pod 'SMPageControl'
   pod 'TXFire'
