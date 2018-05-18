@@ -44,7 +44,8 @@
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
     SDWebImageOptions option = SDWebImageQueryDataWhenInMemory|SDWebImageRetryFailed|SDWebImageRefreshCached|SDWebImageContinueInBackground|SDWebImageQueryDiskSync;
     @weakify(self);
-    [self sd_setImageWithPreviousCachedImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [self sd_setImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        @strongify(self);
         [[UIApplication sharedApplication] hideNetworkActivityIndicator];
         main_thread_safe(^{
             @strongify(self);
@@ -54,7 +55,7 @@
                 completion(image);
             }
         });
-    }];
+    }];;
 }
 
 - (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image completion:(void (^)(UIImage * _Nullable))completion
