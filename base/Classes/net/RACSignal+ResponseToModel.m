@@ -22,7 +22,7 @@ NSError * ResponseToModelError(void) {
         if (!value.second) {
             return [[model alloc] init];
         }
-        id result = [model modelWithDictionary:value.second];
+        id result = [model yy_modelWithDictionary:value.second];
         if (result) {
             return result;
         } else {
@@ -38,7 +38,7 @@ NSError * ResponseToModelError(void) {
             return [[model alloc] init];
         }
         if ([value.second isKindOfClass:[NSArray class]]) {
-            NSArray *result = [NSArray modelArrayWithClass:model json:value.second];
+            NSArray *result = [NSArray yy_modelArrayWithClass:model json:value.second];
             if (result) {
                 return result;
             }

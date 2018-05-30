@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.dependency "SMPageControl"
   s.dependency "TXFire"
   s.dependency "AFNetworking"
-  s.dependency "YYKit"
+  s.dependency "YYModel"
     s.dependency "SDWebImage"
     s.dependency "MBProgressHUD"
     s.dependency "MJRefresh"

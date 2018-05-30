@@ -150,7 +150,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                               success:^(NSURLSessionDataTask *task, id _Nullable responseObject) {
                                   if (compare) {
                                       id cachedObject = [NetworkDAO getObjectById:self.cachedKey(path, parameters)];
-                                      if (![cachedObject modelIsEqual:responseObject]) {
+                                      if (![cachedObject yy_modelIsEqual:responseObject]) {
                                           [subscriber sendNext:RACTuplePack(task.response, responseObject)];
                                           [subscriber sendCompleted];
                                       }
