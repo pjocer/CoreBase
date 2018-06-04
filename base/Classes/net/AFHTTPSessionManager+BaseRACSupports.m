@@ -14,6 +14,8 @@
 #import <NSObject+YYModel.h>
 #import "AccessToken.h"
 #import "Profile.h"
+#import "RACSignal+NSURLError.h"
+#import <CoreUserManager.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
@@ -83,7 +85,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
     @weakify(self);
-    return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+    return [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         @strongify(self);
         RACDisposable *disposable = nil;
@@ -135,10 +137,10 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
         }
         self.cachePolicy = group_policy;
         return disposable;
+    }] doInvalidTokenURLErrorAlertAction:^{
+        [AccessToken setCurrentAccessToken:nil];
     }];
 }
-
-
 
 - (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber compare:(BOOL)compare {
     NSURLSessionDataTask *dataTask =
@@ -166,10 +168,6 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                               } failure:^(NSURLSessionDataTask *dataTask, NSError *error) {
                                   Dlogvars(dataTask.currentRequest.allHTTPHeaderFields);
                                   [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-                                  if (error.errorGlobalCodeByServer == 10301) {
-                                      [AccessToken setCurrentAccessToken:nil];
-                                      [Profile setCurrentProfile:nil];
-                                  }
                                   [subscriber sendError:error];
                               }];
     [dataTask resume];
@@ -244,5 +242,21 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 }
 - (void)stopGroupCachePolicy{
     objc_setAssociatedObject(self, @selector(startGroupCachePolicy:), @(AZURLRequestProtocolCachePolicy), OBJC_ASSOCIATION_ASSIGN);
+}
+@end
+
+@implementation AFHTTPSessionManager (Alert)
+- (AlertActionHandler)invalidTokenActionHandler {
+    return ^(dispatch_block_t action) {
+        self.customInvalidTokenAction = action;
+        return self;
+    };
+}
+- (dispatch_block_t)customInvalidTokenAction {
+    dispatch_block_t action = objc_getAssociatedObject(self, _cmd);
+    return action;
+}
+- (void)setCustomInvalidTokenAction:(dispatch_block_t)action {
+    objc_setAssociatedObject(self, @selector(customInvalidTokenAction), action, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 @end

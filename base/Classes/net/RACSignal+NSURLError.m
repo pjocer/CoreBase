@@ -131,6 +131,11 @@ static void notifyDataNotAllowed(void) {
         return [RACSignal if:[RACSignal return:@(error.responseObject!=nil)] then:[RACSignal return:nil] else:[RACSignal error:error]];
     }];
 }
+- (RACSignal *)catchAzazieInvalidTokenError {
+    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        return [RACSignal if:[RACSignal return:@(error.errorCodeByServer.integerValue == 10301)] then:[RACSignal return:nil] else:[RACSignal error:error]];
+    }];
+}
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
@@ -313,11 +318,19 @@ static void notifyDataNotAllowed(void) {
 - (RACSignal *)doAzazieURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
-            [RACSignal __doAzazieURLErrorWithError:error Head:nil confirmTitle:nil confirmAction:NULL cancelTitle:nil cancelAction:NULL];
+            if (error.errorCodeByServer.integerValue != 10301) {
+                [RACSignal __doAzazieURLErrorWithError:error Head:nil confirmTitle:nil confirmAction:NULL cancelTitle:nil cancelAction:NULL];
+            }
         }
     }];
 }
-
+- (RACSignal *)doInvalidTokenURLErrorAlertAction:(dispatch_block_t)action {
+    return [self doError:^(NSError * _Nonnull error) {
+        if (error.errorGlobalCodeByServer.integerValue == 10301) {
+            [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:nil confirmAction:action cancelTitle:nil cancelAction:NULL];
+        }
+    }];
+}
 - (RACSignal *)doURLErrorAlertWithConfirmTitle:(NSString *)title action:(dispatch_block_t)action {
     return [self doURLErrorAlertWithHead:nil confirmTitle:title confirmAction:action cancelTitle:nil cancelAction:NULL];
 }
@@ -325,7 +338,9 @@ static void notifyDataNotAllowed(void) {
 - (RACSignal *)doURLErrorAlertWithHead:(NSString *)head confirmTitle:(NSString *)title confirmAction:(dispatch_block_t)confirmAction cancelTitle:(NSString *)cancel cancelAction:(dispatch_block_t)cancelAction {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
-            [RACSignal __doAzazieURLErrorWithError:error Head:head confirmTitle:title confirmAction:confirmAction cancelTitle:cancel cancelAction:cancelAction];
+            if (error.errorCodeByServer.integerValue != 10301) {
+                [RACSignal __doAzazieURLErrorWithError:error Head:head confirmTitle:title confirmAction:confirmAction cancelTitle:cancel cancelAction:cancelAction];
+            }
         } else {
             [RACSignal __doNSURLErrorWithCode:error.code title:title action:NULL];
         }
