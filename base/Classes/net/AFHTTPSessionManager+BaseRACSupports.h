@@ -39,7 +39,6 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
 - (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(nullable id)parameters;
 - (RACSignal<RACTuple *> *)rac_PUT:(NSString *)path parameters:(nullable id)parameters;
 - (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path parameters:(nullable id)parameters;
-
 @end
 
 typedef AFHTTPSessionManager *(^CachePolicyHandler)(NetworkCachePolicy);

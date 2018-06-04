@@ -88,7 +88,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     return [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         @strongify(self);
-        RACDisposable *disposable = nil;
+        RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];
         NetworkCachePolicy group_policy = [objc_getAssociatedObject(self, @selector(startGroupCachePolicy:)) unsignedIntegerValue];
         if (self.cachePolicy != group_policy) {
             self.cachePolicy = MAX(self.cachePolicy, group_policy);
@@ -106,7 +106,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                 if (cached_value) {
                     [subscriber sendNext:RACTuplePack(nil,cached_value)];
                 }
-                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:YES];
+                [disposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:YES]];
             }
                 break;
             case AZURLRequestCacheDataElseLoad: {
@@ -115,30 +115,36 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
                     [subscriber sendNext:RACTuplePack(nil,cached_value)];
                     [subscriber sendCompleted];
                 } else {
-                    disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO];
+                    [disposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO]];
                 }
             }
                 break;
             case AZURLRequestReloadIgnoringLocalCacheData: {
-                RACCompoundDisposable *compoundDisposable = [RACCompoundDisposable compoundDisposable];
                 self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-                [compoundDisposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO]];
-                [compoundDisposable addDisposable:[RACDisposable disposableWithBlock:^{
+                [disposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO]];
+                [disposable addDisposable:[RACDisposable disposableWithBlock:^{
                     self.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
                 }]];
-                disposable = compoundDisposable;
             }
                 break;
             case AZURLRequestProtocolCachePolicy:
             default: {
-                disposable = [self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO];
+                [disposable addDisposable:[self rac_normalNetworkDisposable:method path:path parameters:parameters subscriber:subscriber compare:NO]];
             }
                 break;
         }
-        self.cachePolicy = group_policy;
+        [disposable addDisposable:[RACDisposable disposableWithBlock:^{
+            self.cachePolicy = group_policy;
+            self.customInvalidTokenAction = NULL;
+        }]];
         return disposable;
     }] doInvalidTokenURLErrorAlertAction:^{
         [AccessToken setCurrentAccessToken:nil];
+        if (self.customInvalidTokenAction) {
+            self.customInvalidTokenAction();
+        } else {
+            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+        }
     }];
 }
 
