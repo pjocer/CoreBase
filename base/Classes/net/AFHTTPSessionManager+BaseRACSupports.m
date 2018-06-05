@@ -15,7 +15,7 @@
 #import "AccessToken.h"
 #import "Profile.h"
 #import "RACSignal+NSURLError.h"
-#import <CoreUserManager.h>
+#import <CoreUser/CoreUserManager.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
