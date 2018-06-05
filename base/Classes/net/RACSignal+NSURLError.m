@@ -131,6 +131,7 @@ static void notifyDataNotAllowed(void) {
         return [RACSignal if:[RACSignal return:@(error.responseObject!=nil)] then:[RACSignal return:nil] else:[RACSignal error:error]];
     }];
 }
+
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
@@ -172,6 +173,7 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)zipErrorWith:(RACSignal *)signal {
     NSCParameterAssert(signal != nil);
+    __block BOOL _savedInvalidTokenError = NO;
     return [[RACSignal createSignal:^(id<RACSubscriber> subscriber) {
         __block BOOL selfCompleted = NO;
         __block NSError *selfError = nil;
@@ -227,9 +229,7 @@ static void notifyDataNotAllowed(void) {
                                 NSMutableArray <NSError *>*temp = [NSMutableArray arrayWithArray:errors];
                                 [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                                     if (obj.responseObject || obj.domain == AzazieErrorDomain) {
-                                        if (obj.errorGlobalCodeByServer.integerValue != 10301) {
-                                            [temp addObject:selfError];
-                                        }
+                                        [temp addObject:selfError];
                                     } else {
                                         *stop = YES;
                                     }
@@ -249,7 +249,6 @@ static void notifyDataNotAllowed(void) {
         void (^sendNext)(void) = ^{
             @synchronized (selfValues, otherValues) {
                 if (selfValues.count == 0 || otherValues.count == 0) return;
-                
                 RACTuple *tuple = RACTuplePack(selfValues[0], otherValues[0]);
                 [selfValues removeObjectAtIndex:0];
                 [otherValues removeObjectAtIndex:0];
@@ -275,8 +274,14 @@ static void notifyDataNotAllowed(void) {
                 sendErrorIfNecessary();
             }
         }];
-        
-        RACDisposable *otherDisposable = [signal subscribeNext:^(id x) {
+        RACDisposable *otherDisposable = [[signal catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+            if (_savedInvalidTokenError) {
+                return [RACSignal return:nil];
+            } else {
+                _savedInvalidTokenError = YES;
+                return [RACSignal error:error];
+            }
+        }] subscribeNext:^(id x) {
             @synchronized (otherValues) {
                 [otherValues addObject:x ?: RACTupleNil.tupleNil];
                 sendNext();
