@@ -56,9 +56,21 @@ typedef id _Nullable(^CachedValueDirectHandler)(NSString *key);
 - (void)stopGroupCachedPolicy;
 @end
 
+
+/**
+ 处理全局特殊Alert Action
+
+ @param action action
+ @param needAlert whether show
+ @return self instance type
+ */
 typedef AFHTTPSessionManager *(^AlertActionHandler)(_Nullable dispatch_block_t action, BOOL needAlert);
 
 @interface AFHTTPSessionManager (Alert)
+
+/**
+ 处理invalid token，action为空默认呼出登录注册，needAlert为true则弹框提醒invalid token
+ */
 @property (nonatomic, readonly) AlertActionHandler invalidTokenActionHandler;
 @property (nonatomic, copy) dispatch_block_t customInvalidTokenAction;
 @property (nonatomic, assign) BOOL needAlertInvalidToken;
