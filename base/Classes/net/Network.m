@@ -16,10 +16,6 @@
 
 @implementation Network
 
-+ (void)startService {
-    [ProfileAutoLoader sharedLoader];
-}
-
 @end
 
 @implementation Network (AFHTTPSessionManager)

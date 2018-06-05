@@ -85,7 +85,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
     @weakify(self);
-    RACSignal *request  = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+    RACSignal *request  = [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         @strongify(self);
         RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];
@@ -137,18 +137,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
             self.cachePolicy = group_policy;
         }]];
         return disposable;
-    }];
-    if (self.needAlertInvalidToken) {
-        request = [request doInvalidTokenURLErrorAlertAction:^{
-            @strongify(self);
-            [self handleInvalidToken];
-        }];
-    } else {
-        request = [request doInvalidTokenURLErrorAction:^(NSError *error) {
-            @strongify(self);
-            [self handleInvalidToken];
-        }];
-    }
+    }] doInvalidTokenURLErrorAlertAction:self] ;
     return request;
 }
 
@@ -195,17 +184,6 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 - (id)getCachedDataBy:(NSString *)path parameters:(id)parameters {
     return [NetworkDAO getObjectById:[self getCachedKeyBy:path parameters:parameters]];
-}
-- (void)handleInvalidToken {
-    [AccessToken setCurrentAccessToken:nil];
-    if (self.customInvalidTokenAction) {
-        self.customInvalidTokenAction();
-        self.customInvalidTokenAction = NULL;
-    } else {
-        main_thread_safe(^{
-            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
-        });
-    }
 }
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters {
     return [self rac_method:HTTPMethodGET path:path parameters:parameters];
@@ -265,7 +243,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 - (AlertActionHandler)invalidTokenActionHandler {
     return ^(dispatch_block_t action, BOOL needAlert) {
         self.customInvalidTokenAction = action;
-        self.needAlertInvalidToken = needAlert;
+        self.needHiddenInvalidTokenAlert = needAlert;
         return self;
     };
 }
@@ -276,10 +254,22 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 - (void)setCustomInvalidTokenAction:(dispatch_block_t)action {
     objc_setAssociatedObject(self, @selector(customInvalidTokenAction), action, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
-- (BOOL)needAlertInvalidToken {
+- (BOOL)needHiddenInvalidTokenAlert {
     return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
-- (void)setNeedAlertInvalidToken:(BOOL)needAlertInvalidToken {
-    objc_setAssociatedObject(self, @selector(needAlertInvalidToken), @(needAlertInvalidToken), OBJC_ASSOCIATION_ASSIGN);
+- (void)setNeedHiddenInvalidTokenAlert:(BOOL)needHiddenInvalidTokenAlert {
+    objc_setAssociatedObject(self, @selector(needHiddenInvalidTokenAlert), @(needHiddenInvalidTokenAlert), OBJC_ASSOCIATION_ASSIGN);
+}
+- (void)handleInvalidToken {
+    [AccessToken setCurrentAccessToken:nil];
+    self.needHiddenInvalidTokenAlert = NO;
+    if (self.customInvalidTokenAction) {
+        self.customInvalidTokenAction();
+        self.customInvalidTokenAction = NULL;
+    } else {
+        main_thread_safe(^{
+            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+        });
+    }
 }
 @end

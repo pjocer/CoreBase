@@ -94,16 +94,17 @@ typedef id _Nullable(^CachedValueDirectHandler)(NSString *key);
  @param needAlert whether show
  @return self instance type
  */
-typedef AFHTTPSessionManager *(^AlertActionHandler)(_Nullable dispatch_block_t action, BOOL needAlert);
+typedef AFHTTPSessionManager *(^AlertActionHandler)(_Nullable dispatch_block_t action, BOOL needHiddenAlert);
 
 @interface AFHTTPSessionManager (Alert)
 
 /**
- 处理invalid token，action为空默认呼出登录注册，needAlert为true则弹框提醒invalid token
+ 处理invalid token，action为空默认呼出登录注册，needHiddenAlert为true则隐藏弹框提醒invalid token
  */
 @property (nonatomic, readonly) AlertActionHandler invalidTokenActionHandler;
 @property (nonatomic, copy) dispatch_block_t customInvalidTokenAction;
-@property (nonatomic, assign) BOOL needAlertInvalidToken;
+@property (nonatomic, assign) BOOL needHiddenInvalidTokenAlert;
+- (void)handleInvalidToken;
 @end
 
 NS_ASSUME_NONNULL_END

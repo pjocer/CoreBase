@@ -131,11 +131,6 @@ static void notifyDataNotAllowed(void) {
         return [RACSignal if:[RACSignal return:@(error.responseObject!=nil)] then:[RACSignal return:nil] else:[RACSignal error:error]];
     }];
 }
-- (RACSignal *)catchAzazieInvalidTokenError {
-    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        return [RACSignal if:[RACSignal return:@(error.errorCodeByServer.integerValue == 10301)] then:[RACSignal return:nil] else:[RACSignal error:error]];
-    }];
-}
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
@@ -326,15 +321,18 @@ static void notifyDataNotAllowed(void) {
         }
     }];
 }
-- (RACSignal *)doInvalidTokenURLErrorAlertAction:(dispatch_block_t)action {
-    return [self doInvalidTokenURLErrorAction:^(NSError *error) {
-        [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:nil confirmAction:action cancelTitle:nil cancelAction:NULL];
-    }];
-}
-- (RACSignal *)doInvalidTokenURLErrorAction:(void(^)(NSError *error))action {
+- (RACSignal *)doInvalidTokenURLErrorAlertAction:(AFHTTPSessionManager *)manager {
+    @weakify(manager)
     return [self doError:^(NSError * _Nonnull error) {
-        if (error.errorGlobalCodeByServer.integerValue == 10301) {
-            if (action) action(error);
+        @strongify(manager);
+        if (error.responseObject && error.errorGlobalCodeByServer.integerValue == 10301) {
+            if (manager.needHiddenInvalidTokenAlert) {
+                [manager handleInvalidToken];
+            } else {
+                [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:@"OK" confirmAction:^{
+                    [manager handleInvalidToken];
+                } cancelTitle:nil cancelAction:NULL];
+            }
         }
     }];
 }
