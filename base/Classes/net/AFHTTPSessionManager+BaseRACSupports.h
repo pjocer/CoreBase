@@ -41,9 +41,39 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
 - (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path parameters:(nullable id)parameters;
 @end
 
+
+/**
+ Alternate cache policy
+
+ @param NetworkCachePolicy cache policy
+ @return self instance
+ */
 typedef AFHTTPSessionManager *(^CachePolicyHandler)(NetworkCachePolicy);
+
+/**
+ Get cached key by url path and related parameters
+
+ @param path url path
+ @param parameters url parameters
+ @return cached key
+ */
 typedef NSString *_Nullable(^CachedKeyHandler)(NSString *path, id _Nullable parameters);
+
+/**
+ Get cached value by url path and related parameters
+
+ @param path url path
+ @param parameters url parameters
+ @return cached value
+ */
 typedef id _Nullable(^CachedValueHandler)(NSString * path, id _Nullable parameters);
+
+/**
+ Get cached value by absolutelly key
+
+ @param key
+ @return value
+ */
 typedef id _Nullable(^CachedValueDirectHandler)(NSString *key);
 
 @interface AFHTTPSessionManager (CachePolicy)
