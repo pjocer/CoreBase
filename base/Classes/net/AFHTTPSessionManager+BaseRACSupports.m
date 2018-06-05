@@ -241,7 +241,9 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 @implementation AFHTTPSessionManager (Alert)
 - (AlertActionHandler)invalidTokenActionHandler {
+    @weakify(self);
     return ^(dispatch_block_t action, BOOL needAlert) {
+        @strongify(self);
         self.customInvalidTokenAction = action;
         self.needHiddenInvalidTokenAlert = needAlert;
         return self;

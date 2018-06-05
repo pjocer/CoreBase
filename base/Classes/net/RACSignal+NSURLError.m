@@ -274,14 +274,7 @@ static void notifyDataNotAllowed(void) {
                 sendErrorIfNecessary();
             }
         }];
-        RACDisposable *otherDisposable = [[signal catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-            if (_savedInvalidTokenError) {
-                return [RACSignal return:nil];
-            } else {
-                _savedInvalidTokenError = YES;
-                return [RACSignal error:error];
-            }
-        }] subscribeNext:^(id x) {
+        RACDisposable *otherDisposable = [signal subscribeNext:^(id x) {
             @synchronized (otherValues) {
                 [otherValues addObject:x ?: RACTupleNil.tupleNil];
                 sendNext();
