@@ -232,7 +232,9 @@ static void notifyDataNotAllowed(void) {
                                 NSMutableArray <NSError *>*temp = [NSMutableArray arrayWithArray:errors];
                                 [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                                     if (obj.responseObject || obj.domain == AzazieErrorDomain) {
-                                        [temp addObject:selfError];
+                                        if (obj.errorGlobalCodeByServer.integerValue != 10301) {
+                                            [temp addObject:selfError];
+                                        }
                                     } else {
                                         *stop = YES;
                                     }
