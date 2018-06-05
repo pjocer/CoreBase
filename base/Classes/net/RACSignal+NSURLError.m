@@ -132,6 +132,12 @@ static void notifyDataNotAllowed(void) {
     }];
 }
 
+- (RACSignal *)catchAzazieInvalidTokenError {
+    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
+        return [RACSignal if:[RACSignal return:@(error.errorGlobalCodeByServer.integerValue == 10301)] then:RACSignal.empty else:[RACSignal error:error]];
+    }];
+}
+
 - (RACSignal *)catchNSURLError {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
