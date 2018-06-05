@@ -307,7 +307,9 @@
 }
 
 + (void)hiddenAnimated:(BOOL)isAnimated {
-    [self hiddenAnimated:isAnimated inView:UIApplication.sharedApplication.keyWindow];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self hiddenAnimated:isAnimated inView:UIApplication.sharedApplication.keyWindow];
+    });
 }
 + (void)hiddenAnimated:(BOOL)isAnimated inView:(nonnull UIView *)view {
     [(AZProgressHUD *)[AZProgressHUD HUDForView:view] hide];

@@ -173,7 +173,6 @@ static void notifyDataNotAllowed(void) {
 
 - (RACSignal *)zipErrorWith:(RACSignal *)signal {
     NSCParameterAssert(signal != nil);
-    __block BOOL _savedInvalidTokenError = NO;
     return [[RACSignal createSignal:^(id<RACSubscriber> subscriber) {
         __block BOOL selfCompleted = NO;
         __block NSError *selfError = nil;
@@ -324,12 +323,18 @@ static void notifyDataNotAllowed(void) {
     return [self doError:^(NSError * _Nonnull error) {
         @strongify(manager);
         if (error.responseObject && error.errorGlobalCodeByServer.integerValue == 10301) {
-            if (manager.needHiddenInvalidTokenAlert) {
-                [manager handleInvalidToken];
-            } else {
-                [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:@"OK" confirmAction:^{
+            if (manager.isGroupInvalidTokenAction) {
+                if (manager.needHiddenInvalidTokenAlert) {
                     [manager handleInvalidToken];
-                } cancelTitle:nil cancelAction:NULL];
+                }
+            } else {
+                if (manager.needHiddenInvalidTokenAlert) {
+                    [manager handleInvalidToken];
+                } else {
+                    [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:@"OK" confirmAction:^{
+                        [manager handleInvalidToken];
+                    } cancelTitle:nil cancelAction:NULL];
+                }
             }
         }
     }];

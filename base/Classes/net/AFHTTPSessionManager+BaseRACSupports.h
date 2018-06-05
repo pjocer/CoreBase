@@ -104,7 +104,16 @@ typedef AFHTTPSessionManager *(^AlertActionHandler)(_Nullable dispatch_block_t a
 @property (nonatomic, readonly) AlertActionHandler invalidTokenActionHandler;
 @property (nonatomic, copy) dispatch_block_t customInvalidTokenAction;
 @property (nonatomic, assign) BOOL needHiddenInvalidTokenAlert;
+@property (nonatomic, assign) BOOL isGroupInvalidTokenAction;
 - (void)handleInvalidToken;
+
+/**
+ 开启Group模式会禁掉Invalid Token自动弹框
+
+ @param customInvalidTokenAction <#customInvalidTokenAction description#>
+ */
+- (void)startGroupInvalidTokenAction:(_Nullable dispatch_block_t)customInvalidTokenAction;
+- (void)stopGroupInvalidTokenAction;
 @end
 
 NS_ASSUME_NONNULL_END

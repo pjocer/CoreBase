@@ -85,7 +85,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
     @weakify(self);
-    RACSignal *request  = [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+    return [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         @strongify(self);
         RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];
@@ -137,8 +137,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
             self.cachePolicy = group_policy;
         }]];
         return disposable;
-    }] doInvalidTokenURLErrorAlertAction:self] ;
-    return request;
+    }] doInvalidTokenURLErrorAlertAction:self];
 }
 
 - (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber compare:(BOOL)compare {
@@ -239,13 +238,23 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 }
 @end
 
+typedef AFHTTPSessionManager *(^GroupAlertActionHandler)(_Nullable dispatch_block_t action, BOOL needHiddenAlert, BOOL isGroup);
+
 @implementation AFHTTPSessionManager (Alert)
 - (AlertActionHandler)invalidTokenActionHandler {
     @weakify(self);
     return ^(dispatch_block_t action, BOOL needAlert) {
         @strongify(self);
+        return self._invalidTokenActionHandler(action, needAlert, NO);
+    };
+}
+- (GroupAlertActionHandler)_invalidTokenActionHandler {
+    @weakify(self);
+    return ^(dispatch_block_t action, BOOL needAlert, BOOL isGroup) {
+        @strongify(self);
         self.customInvalidTokenAction = action;
         self.needHiddenInvalidTokenAlert = needAlert;
+        self.isGroupInvalidTokenAction = isGroup;
         return self;
     };
 }
@@ -260,18 +269,51 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
 - (void)setNeedHiddenInvalidTokenAlert:(BOOL)needHiddenInvalidTokenAlert {
-    objc_setAssociatedObject(self, @selector(needHiddenInvalidTokenAlert), @(needHiddenInvalidTokenAlert), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(needHiddenInvalidTokenAlert), @(needHiddenInvalidTokenAlert), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (BOOL)isGroupInvalidTokenAction {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setIsGroupInvalidTokenAction:(BOOL)isGroupInvalidTokenAction {
+    objc_setAssociatedObject(self, @selector(isGroupInvalidTokenAction), @(isGroupInvalidTokenAction), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (void)startGroupInvalidTokenAction:(dispatch_block_t)customInvalidTokenAction {
+    self._invalidTokenActionHandler(customInvalidTokenAction, YES, YES);
+}
+static BOOL done = NO;
+- (void)stopGroupInvalidTokenAction {
+    self.isGroupInvalidTokenAction = NO;
+    done = NO;
 }
 - (void)handleInvalidToken {
-    [AccessToken setCurrentAccessToken:nil];
-    self.needHiddenInvalidTokenAlert = NO;
-    if (self.customInvalidTokenAction) {
-        self.customInvalidTokenAction();
-        self.customInvalidTokenAction = NULL;
-    } else {
-        main_thread_safe(^{
-            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.isGroupInvalidTokenAction) {
+            if (!done) {
+                [AccessToken setCurrentAccessToken:nil];
+                self.needHiddenInvalidTokenAlert = NO;
+                if (self.customInvalidTokenAction) {
+                    self.customInvalidTokenAction();
+                    self.customInvalidTokenAction = NULL;
+                } else {
+                    main_thread_safe(^{
+                        [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+                    });
+                }
+                done = YES;
+            }
+        } else {
+            done = NO;
+            [AccessToken setCurrentAccessToken:nil];
+            self.needHiddenInvalidTokenAlert = NO;
+            if (self.customInvalidTokenAction) {
+                self.customInvalidTokenAction();
+                self.customInvalidTokenAction = NULL;
+            } else {
+                main_thread_safe(^{
+                    [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+                });
+            }
+        }
+    });
 }
 @end
