@@ -85,7 +85,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
     @weakify(self);
-    return [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+    RACSignal *request  = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         @strongify(self);
         RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];
@@ -135,17 +135,21 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
         }
         [disposable addDisposable:[RACDisposable disposableWithBlock:^{
             self.cachePolicy = group_policy;
-            self.customInvalidTokenAction = NULL;
         }]];
         return disposable;
-    }] doInvalidTokenURLErrorAlertAction:^{
-        [AccessToken setCurrentAccessToken:nil];
-        if (self.customInvalidTokenAction) {
-            self.customInvalidTokenAction();
-        } else {
-            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
-        }
     }];
+    if (self.needAlertInvalidToken) {
+        request = [request doInvalidTokenURLErrorAlertAction:^{
+            @strongify(self);
+            [self handleInvalidToken];
+        }];
+    } else {
+        request = [request doInvalidTokenURLErrorAction:^(NSError *error) {
+            @strongify(self);
+            [self handleInvalidToken];
+        }];
+    }
+    return request;
 }
 
 - (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber compare:(BOOL)compare {
@@ -192,23 +196,29 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 - (id)getCachedDataBy:(NSString *)path parameters:(id)parameters {
     return [NetworkDAO getObjectById:[self getCachedKeyBy:path parameters:parameters]];
 }
-
-- (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters
-{
+- (void)handleInvalidToken {
+    [AccessToken setCurrentAccessToken:nil];
+    if (self.customInvalidTokenAction) {
+        self.customInvalidTokenAction();
+        self.customInvalidTokenAction = NULL;
+    } else {
+        main_thread_safe(^{
+            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+        });
+    }
+}
+- (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(id)parameters {
     return [self rac_method:HTTPMethodGET path:path parameters:parameters];
 }
 
-- (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(id)parameters
-{
+- (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(id)parameters {
     return [self rac_method:HTTPMethodPOST path:path parameters:parameters];
 }
 
-- (RACSignal<RACTuple *> *)rac_PUT:(NSString *)path parameters:(nullable id)parameters
-{
+- (RACSignal<RACTuple *> *)rac_PUT:(NSString *)path parameters:(nullable id)parameters {
     return [self rac_method:HTTPMethodPUT path:path parameters:parameters];
 }
-- (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path parameters:(nullable id)parameters
-{
+- (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path parameters:(nullable id)parameters {
     return [self rac_method:HTTPMethodDELETE path:path parameters:parameters];
 }
 
@@ -253,8 +263,9 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 @implementation AFHTTPSessionManager (Alert)
 - (AlertActionHandler)invalidTokenActionHandler {
-    return ^(dispatch_block_t action) {
+    return ^(dispatch_block_t action, BOOL needAlert) {
         self.customInvalidTokenAction = action;
+        self.needAlertInvalidToken = needAlert;
         return self;
     };
 }
@@ -264,5 +275,11 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 }
 - (void)setCustomInvalidTokenAction:(dispatch_block_t)action {
     objc_setAssociatedObject(self, @selector(customInvalidTokenAction), action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+- (BOOL)needAlertInvalidToken {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setNeedAlertInvalidToken:(BOOL)needAlertInvalidToken {
+    objc_setAssociatedObject(self, @selector(needAlertInvalidToken), @(needAlertInvalidToken), OBJC_ASSOCIATION_ASSIGN);
 }
 @end

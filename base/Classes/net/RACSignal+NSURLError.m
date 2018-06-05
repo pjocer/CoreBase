@@ -325,9 +325,14 @@ static void notifyDataNotAllowed(void) {
     }];
 }
 - (RACSignal *)doInvalidTokenURLErrorAlertAction:(dispatch_block_t)action {
+    return [self doInvalidTokenURLErrorAction:^(NSError *error) {
+        [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:nil confirmAction:action cancelTitle:nil cancelAction:NULL];
+    }];
+}
+- (RACSignal *)doInvalidTokenURLErrorAction:(void(^)(NSError *error))action {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.errorGlobalCodeByServer.integerValue == 10301) {
-            [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:nil confirmAction:action cancelTitle:nil cancelAction:NULL];
+            if (action) action(error);
         }
     }];
 }

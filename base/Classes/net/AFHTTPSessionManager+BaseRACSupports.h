@@ -56,11 +56,12 @@ typedef id _Nullable(^CachedValueDirectHandler)(NSString *key);
 - (void)stopGroupCachedPolicy;
 @end
 
-typedef AFHTTPSessionManager *(^AlertActionHandler)(dispatch_block_t action);
+typedef AFHTTPSessionManager *(^AlertActionHandler)(_Nullable dispatch_block_t action, BOOL needAlert);
 
 @interface AFHTTPSessionManager (Alert)
 @property (nonatomic, readonly) AlertActionHandler invalidTokenActionHandler;
 @property (nonatomic, copy) dispatch_block_t customInvalidTokenAction;
+@property (nonatomic, assign) BOOL needAlertInvalidToken;
 @end
 
 NS_ASSUME_NONNULL_END
