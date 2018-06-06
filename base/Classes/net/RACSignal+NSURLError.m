@@ -269,8 +269,13 @@ static void notifyDataNotAllowed(void) {
             }
         } error:^(NSError *error) {
             @synchronized (selfError) {
-                selfError = error;
-                sendErrorIfNecessary();
+                if (error.errorGlobalCodeByServer.integerValue == 10301) {
+                    selfCompleted = YES;
+                    sendCompletedIfNecessary();
+                } else {
+                    selfError = error;
+                    sendErrorIfNecessary();
+                }
             }
         } completed:^{
             @synchronized (selfValues) {
@@ -286,8 +291,13 @@ static void notifyDataNotAllowed(void) {
             }
         } error:^(NSError *error) {
             @synchronized (otherError) {
-                otherError = error;
-                sendErrorIfNecessary();
+                if (error.errorGlobalCodeByServer.integerValue == 10301) {
+                    otherCompleted = YES;
+                    sendCompletedIfNecessary();
+                } else {
+                    otherError = error;
+                    sendErrorIfNecessary();
+                }
             }
         } completed:^{
             @synchronized (selfValues) {

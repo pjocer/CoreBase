@@ -26,6 +26,8 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
     AZURLRequestReloadIgnoringLocalCacheData,   //忽略缓存，获取最新数据
 };
 
+typedef void(^InvalidTokenHandler)(NSError *error);
+
 @interface AFHTTPSessionManager (BaseRACSupports)
 
 /**
@@ -40,7 +42,7 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method
                                  path:(NSString *)path
                            parameters:(nullable id)parameters
-                   handleInvalidToken:(dispatch_block_t)action
+                   handleInvalidToken:(InvalidTokenHandler)action
                             autoAlert:(BOOL)autoAlert;
 
 - (RACSignal<RACTuple *> *)rac_GET:(NSString *)path
@@ -55,7 +57,7 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
 
 
 @interface RACSignal (InvalidToken)
-- (RACSignal *)handleInvalidToken:(void(^)(NSError *error))block
+- (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block
                         autoAlert:(BOOL)autoAlert;
 
 @end

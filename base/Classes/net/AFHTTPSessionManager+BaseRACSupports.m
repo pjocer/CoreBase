@@ -82,7 +82,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     
     return dataTask;
 }
-- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters handleInvalidToken:(dispatch_block_t)action autoAlert:(BOOL)autoAlert {
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters handleInvalidToken:(InvalidTokenHandler)action autoAlert:(BOOL)autoAlert {
     @weakify(self);
     return [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
@@ -139,7 +139,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     }] handleInvalidToken:action autoAlert:autoAlert] ;
 }
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
-    return [self rac_method:method path:path parameters:parameters handleInvalidToken:^{
+    return [self rac_method:method path:path parameters:parameters handleInvalidToken:^(NSError * _Nonnull error) {
         main_thread_safe(^{
             [AccessToken setCurrentAccessToken:nil];
             [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
@@ -209,35 +209,18 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 @end
 
 @implementation RACSignal (InvalidToken)
-- (RACSignal *)handleInvalidToken:(void(^)(NSError *error))action autoAlert:(BOOL)autoAlert {
-//    static dispatch_once_t onceToken;
-//    static BOOL isPerformingAction = NO;
-//    static void(^innetInvalidTokenAction)(NSError *) = NULL;
-//    dispatch_once(&onceToken, ^{
-//        innetInvalidTokenAction = ^(NSError *error){
-//            if (!isPerformingAction) {
-//                isPerformingAction = YES;
-//                if (action) {
-//                    action(error);
-////                    dispatch_block_wait(action, DISPATCH_TIME_FOREVER);
-//                    isPerformingAction = NO;
-//                }
-//            }
-//        };
-//    });
+- (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block autoAlert:(BOOL)autoAlert {
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.errorGlobalCodeByServer.integerValue == 10301) {
-//            if (isPerformingAction) {
             if (autoAlert) {
                 AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
                 [alert addConfirmItemWithTitle:@"OK" action:^{
-                    if (action) action(error);
+                    if (block) block(error);
                 }];
                 [alert show];
             } else {
-                if (action) action(error);
+                if (block) block(error);
             }
-//            }
             return RACSignal.empty;
         } else {
             return [RACSignal error:error];
