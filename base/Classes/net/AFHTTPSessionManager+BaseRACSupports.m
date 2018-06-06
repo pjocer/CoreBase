@@ -209,36 +209,40 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 @end
 
 @implementation RACSignal (InvalidToken)
-- (RACSignal *)handleInvalidToken:(dispatch_block_t)action autoAlert:(BOOL)autoAlert {
-    static dispatch_once_t onceToken;
-    static BOOL isPerformingAction = NO;
-    static dispatch_block_t innetInvalidTokenAction = NULL;
-    dispatch_once(&onceToken, ^{
-        innetInvalidTokenAction = ^{
-            if (!isPerformingAction) {
-                isPerformingAction = YES;
-                if (action) {
-                    action();
-                    dispatch_block_wait(action, DISPATCH_TIME_FOREVER);
-                    isPerformingAction = NO;
-                }
-            }
-        };
-    });
-    return [[self doError:^(NSError * _Nonnull error) {
+- (RACSignal *)handleInvalidToken:(void(^)(NSError *error))action autoAlert:(BOOL)autoAlert {
+//    static dispatch_once_t onceToken;
+//    static BOOL isPerformingAction = NO;
+//    static void(^innetInvalidTokenAction)(NSError *) = NULL;
+//    dispatch_once(&onceToken, ^{
+//        innetInvalidTokenAction = ^(NSError *error){
+//            if (!isPerformingAction) {
+//                isPerformingAction = YES;
+//                if (action) {
+//                    action(error);
+////                    dispatch_block_wait(action, DISPATCH_TIME_FOREVER);
+//                    isPerformingAction = NO;
+//                }
+//            }
+//        };
+//    });
+    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.errorGlobalCodeByServer.integerValue == 10301) {
-            if (isPerformingAction) {
-                if (autoAlert) {
-                    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
-                    [alert addConfirmItemWithTitle:@"OK" action:innetInvalidTokenAction];
-                    [alert show];
-                } else {
-                    if (innetInvalidTokenAction) innetInvalidTokenAction();
-                }
+//            if (isPerformingAction) {
+            if (autoAlert) {
+                AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
+                [alert addConfirmItemWithTitle:@"OK" action:^{
+                    if (action) action(error);
+                }];
+                [alert show];
+            } else {
+                if (action) action(error);
             }
-            
+//            }
+            return RACSignal.empty;
+        } else {
+            return [RACSignal error:error];
         }
-    }] catchAzazieInvalidTokenError] ;
+    }];
 }
 @end
 
