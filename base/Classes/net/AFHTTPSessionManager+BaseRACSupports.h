@@ -54,6 +54,11 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
 @end
 
 
+@interface RACSignal (InvalidToken)
+- (RACSignal *)handleInvalidToken:(dispatch_block_t)action
+                        autoAlert:(BOOL)autoAlert;
+@end
+
 /**
  Alternate cache policy
 
