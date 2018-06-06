@@ -324,27 +324,6 @@ static void notifyDataNotAllowed(void) {
         }
     }];
 }
-- (RACSignal *)doInvalidTokenURLErrorAlertAction:(AFHTTPSessionManager *)manager {
-    @weakify(manager)
-    return [self doError:^(NSError * _Nonnull error) {
-        @strongify(manager);
-        if (error.responseObject && error.errorGlobalCodeByServer.integerValue == 10301) {
-            if (manager.isGroupInvalidTokenAction) {
-                if (manager.needHiddenInvalidTokenAlert) {
-                    [manager handleInvalidToken];
-                }
-            } else {
-                if (manager.needHiddenInvalidTokenAlert) {
-                    [manager handleInvalidToken];
-                } else {
-                    [RACSignal __doAzazieURLErrorWithError:error Head:@"Hmmm..." confirmTitle:@"OK" confirmAction:^{
-                        [manager handleInvalidToken];
-                    } cancelTitle:nil cancelAction:NULL];
-                }
-            }
-        }
-    }];
-}
 - (RACSignal *)doURLErrorAlertWithConfirmTitle:(NSString *)title action:(dispatch_block_t)action {
     return [self doURLErrorAlertWithHead:nil confirmTitle:title confirmAction:action cancelTitle:nil cancelAction:NULL];
 }

@@ -33,12 +33,24 @@ typedef NS_ENUM(NSUInteger, NetworkCachePolicy){
  信号的sendNext, sendCompleted, sendError动作都在-completionQueue中发送.
  */
 
-- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(nullable id)parameters;
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method
+                                 path:(NSString *)path
+                           parameters:(nullable id)parameters;
 
-- (RACSignal<RACTuple *> *)rac_GET:(NSString *)path parameters:(nullable id)parameters;
-- (RACSignal<RACTuple *> *)rac_POST:(NSString *)path parameters:(nullable id)parameters;
-- (RACSignal<RACTuple *> *)rac_PUT:(NSString *)path parameters:(nullable id)parameters;
-- (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path parameters:(nullable id)parameters;
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method
+                                 path:(NSString *)path
+                           parameters:(nullable id)parameters
+                   handleInvalidToken:(dispatch_block_t)action
+                            autoAlert:(BOOL)autoAlert;
+
+- (RACSignal<RACTuple *> *)rac_GET:(NSString *)path
+                        parameters:(nullable id)parameters;
+- (RACSignal<RACTuple *> *)rac_POST:(NSString *)path
+                         parameters:(nullable id)parameters;
+- (RACSignal<RACTuple *> *)rac_PUT:(NSString *)path
+                        parameters:(nullable id)parameters;
+- (RACSignal<RACTuple *> *)rac_DELETE:(NSString *)path
+                           parameters:(nullable id)parameters;
 @end
 
 
@@ -84,36 +96,6 @@ typedef id _Nullable(^CachedValueDirectHandler)(NSString *key);
 @property (nonatomic, assign) NetworkCachePolicy cachePolicy;
 - (void)startGroupCachePolicy:(NetworkCachePolicy)policy;
 - (void)stopGroupCachedPolicy;
-@end
-
-
-/**
- 处理全局特殊Alert Action
-
- @param action action
- @param needAlert whether show
- @return self instance type
- */
-typedef AFHTTPSessionManager *(^AlertActionHandler)(_Nullable dispatch_block_t action, BOOL needHiddenAlert);
-
-@interface AFHTTPSessionManager (Alert)
-
-/**
- 处理invalid token，action为空默认呼出登录注册，needHiddenAlert为true则隐藏弹框提醒invalid token
- */
-@property (nonatomic, readonly) AlertActionHandler invalidTokenActionHandler;
-@property (nonatomic, copy) dispatch_block_t customInvalidTokenAction;
-@property (nonatomic, assign) BOOL needHiddenInvalidTokenAlert;
-@property (nonatomic, assign) BOOL isGroupInvalidTokenAction;
-- (void)handleInvalidToken;
-
-/**
- 开启Group模式会禁掉Invalid Token自动弹框
-
- @param customInvalidTokenAction <#customInvalidTokenAction description#>
- */
-- (void)startGroupInvalidTokenAction:(_Nullable dispatch_block_t)customInvalidTokenAction;
-- (void)stopGroupInvalidTokenAction;
 @end
 
 NS_ASSUME_NONNULL_END

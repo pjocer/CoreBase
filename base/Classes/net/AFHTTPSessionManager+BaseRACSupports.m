@@ -82,10 +82,9 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     
     return dataTask;
 }
-
-- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters handleInvalidToken:(dispatch_block_t)action autoAlert:(BOOL)autoAlert {
     @weakify(self);
-    return [[RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+    RACSignal *request = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         @strongify(self);
         RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];
@@ -137,7 +136,47 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
             self.cachePolicy = group_policy;
         }]];
         return disposable;
-    }] doInvalidTokenURLErrorAlertAction:self];
+    }];
+    return [self handleInvalidToken:request action:action autoAlert:autoAlert];
+}
+- (RACSignal *)handleInvalidToken:(RACSignal *)request action:(dispatch_block_t)action autoAlert:(BOOL)autoAlert {
+    static dispatch_once_t onceToken;
+    static BOOL isPerformingAction = NO;
+    static dispatch_block_t innetInvalidTokenAction = NULL;
+    dispatch_once(&onceToken, ^{
+        innetInvalidTokenAction = ^{
+            if (!isPerformingAction) {
+                isPerformingAction = YES;
+                if (action) {
+                    action();
+                    dispatch_block_wait(action, DISPATCH_TIME_FOREVER);
+                    isPerformingAction = NO;
+                }
+            }
+        };
+    });
+    return [request doError:^(NSError * _Nonnull error) {
+        if (error.errorGlobalCodeByServer.integerValue == 10301) {
+            if (isPerformingAction) {
+                if (autoAlert) {
+                    AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
+                    [alert addConfirmItemWithTitle:@"OK" action:innetInvalidTokenAction];
+                    [alert show];
+                } else {
+                    if (innetInvalidTokenAction) innetInvalidTokenAction();
+                }
+            }
+            
+        }
+    }];
+}
+- (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
+    return [self rac_method:method path:path parameters:parameters handleInvalidToken:^{
+        main_thread_safe(^{
+            [AccessToken setCurrentAccessToken:nil];
+            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+        });
+    } autoAlert:YES];
 }
 
 - (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber compare:(BOOL)compare {
@@ -235,85 +274,5 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 }
 - (void)stopGroupCachePolicy{
     objc_setAssociatedObject(self, @selector(startGroupCachePolicy:), @(AZURLRequestProtocolCachePolicy), OBJC_ASSOCIATION_ASSIGN);
-}
-@end
-
-typedef AFHTTPSessionManager *(^GroupAlertActionHandler)(_Nullable dispatch_block_t action, BOOL needHiddenAlert, BOOL isGroup);
-
-@implementation AFHTTPSessionManager (Alert)
-- (AlertActionHandler)invalidTokenActionHandler {
-    @weakify(self);
-    return ^(dispatch_block_t action, BOOL needAlert) {
-        @strongify(self);
-        return self._invalidTokenActionHandler(action, needAlert, NO);
-    };
-}
-- (GroupAlertActionHandler)_invalidTokenActionHandler {
-    @weakify(self);
-    return ^(dispatch_block_t action, BOOL needAlert, BOOL isGroup) {
-        @strongify(self);
-        self.customInvalidTokenAction = action;
-        self.needHiddenInvalidTokenAlert = needAlert;
-        self.isGroupInvalidTokenAction = isGroup;
-        return self;
-    };
-}
-- (dispatch_block_t)customInvalidTokenAction {
-    dispatch_block_t action = objc_getAssociatedObject(self, _cmd);
-    return action;
-}
-- (void)setCustomInvalidTokenAction:(dispatch_block_t)action {
-    objc_setAssociatedObject(self, @selector(customInvalidTokenAction), action, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-- (BOOL)needHiddenInvalidTokenAlert {
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setNeedHiddenInvalidTokenAlert:(BOOL)needHiddenInvalidTokenAlert {
-    objc_setAssociatedObject(self, @selector(needHiddenInvalidTokenAlert), @(needHiddenInvalidTokenAlert), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (BOOL)isGroupInvalidTokenAction {
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setIsGroupInvalidTokenAction:(BOOL)isGroupInvalidTokenAction {
-    objc_setAssociatedObject(self, @selector(isGroupInvalidTokenAction), @(isGroupInvalidTokenAction), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (void)startGroupInvalidTokenAction:(dispatch_block_t)customInvalidTokenAction {
-    self._invalidTokenActionHandler(customInvalidTokenAction, YES, YES);
-}
-static BOOL done = NO;
-- (void)stopGroupInvalidTokenAction {
-    self.isGroupInvalidTokenAction = NO;
-    done = NO;
-}
-- (void)handleInvalidToken {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.isGroupInvalidTokenAction) {
-            if (!done) {
-                [AccessToken setCurrentAccessToken:nil];
-                self.needHiddenInvalidTokenAlert = NO;
-                if (self.customInvalidTokenAction) {
-                    self.customInvalidTokenAction();
-                    self.customInvalidTokenAction = NULL;
-                } else {
-                    main_thread_safe(^{
-                        [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
-                    });
-                }
-                done = YES;
-            }
-        } else {
-            done = NO;
-            [AccessToken setCurrentAccessToken:nil];
-            self.needHiddenInvalidTokenAlert = NO;
-            if (self.customInvalidTokenAction) {
-                self.customInvalidTokenAction();
-                self.customInvalidTokenAction = NULL;
-            } else {
-                main_thread_safe(^{
-                    [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
-                });
-            }
-        }
-    });
 }
 @end
