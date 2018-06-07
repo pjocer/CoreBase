@@ -235,11 +235,11 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
             if (innetAutoAlert) {
                 AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
                 [alert addConfirmItemWithTitle:@"OK" action:^{
-                    if (block) block(error);
+                    if (innetHandler) innetHandler(error);
                 }];
                 [alert show];
             } else {
-                if (block) block(error);
+                if (innetHandler) innetHandler(error);
             }
             return RACSignal.empty;
         } else {
