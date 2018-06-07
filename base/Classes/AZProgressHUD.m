@@ -310,7 +310,6 @@
     [self hiddenAnimated:isAnimated inView:UIApplication.sharedApplication.keyWindow];
 }
 + (void)hiddenAnimated:(BOOL)isAnimated inView:(nonnull UIView *)view {
-    AZProgressHUD *hud = [AZProgressHUD HUDForView:view];
     [(AZProgressHUD *)[AZProgressHUD HUDForView:view] hide];
 }
 

@@ -219,12 +219,10 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         innetHandler = ^(NSError *error) {
-            if (invalidTokenSniffer = 0) {
-                OSAtomicIncrement32(&invalidTokenSniffer);
-                dispatch_block_wait(^{
-                    if (innetBlock) innetBlock(error);
-                }, DISPATCH_TIME_FOREVER);
+            if (invalidTokenSniffer == 0) {
                 OSAtomicDecrement32(&invalidTokenSniffer);
+                if (innetBlock) innetBlock(error);
+                OSAtomicIncrement32(&invalidTokenSniffer);
             }
         };
     });
