@@ -254,7 +254,6 @@ InvalidTokenHandler defaultInvalidTokenHandler() {
             [subscriber sendNext:x];
             if (__innetBlocked) __innetBlocked = NO;
         } error:^(NSError * _Nullable error) {
-            if (__innetBlocked) __innetBlocked = NO;
             if (error.errorGlobalCodeByServer.integerValue == 10301) {
                 main_thread_safe(^{
                     [subscriber sendCompleted];
@@ -262,10 +261,12 @@ InvalidTokenHandler defaultInvalidTokenHandler() {
                         AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
                         [alert addConfirmItemWithTitle:@"OK" action:^{
                             if (__innetHandler) __innetHandler(error);
+                            if (__innetBlocked) __innetBlocked = NO;
                         }];
                         [alert show];
                     } else {
                         if (__innetHandler) __innetHandler(error);
+                        if (__innetBlocked) __innetBlocked = NO;
                     }
                 })
             } else {
