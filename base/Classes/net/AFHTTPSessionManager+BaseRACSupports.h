@@ -57,6 +57,14 @@ typedef void(^InvalidTokenHandler)(NSError *error);
 
 
 @interface RACSignal (InvalidToken)
+
+/**
+ Only used for API request signal
+
+ @param block the handler will be called while invalid token error occurred
+ @param autoAlert whether need auto alert
+ @return current signal
+ */
 - (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block
                         autoAlert:(BOOL)autoAlert;
 

@@ -23,7 +23,6 @@ FOUNDATION_EXPORT NSString *const AzazieErrorSingleErrorMessageKey;
 - (RACSignal<ValueType> *)catchURLError;
 - (RACSignal<ValueType> *)catchNSURLError;
 - (RACSignal<ValueType> *)catchAzazieError;
-- (RACSignal<ValueType> *)catchAzazieInvalidTokenError;
 
 - (RACSignal<ValueType> *)catchNSURLErrorCancelled;
 - (RACSignal<ValueType> *)catchNSURLErrorNoResponse;

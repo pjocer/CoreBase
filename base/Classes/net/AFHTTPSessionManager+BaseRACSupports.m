@@ -16,6 +16,7 @@
 #import "Profile.h"
 #import "RACSignal+NSURLError.h"
 #import <CoreUser/CoreUserManager.h>
+#import <libkern/OSAtomic.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
 const HTTPMethod HTTPMethodPOST = @"POST";
@@ -138,6 +139,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
         return disposable;
     }] handleInvalidToken:action autoAlert:autoAlert] ;
 }
+
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
     return [self rac_method:method path:path parameters:parameters handleInvalidToken:^(NSError * _Nonnull error) {
         main_thread_safe(^{
@@ -210,9 +212,27 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 @implementation RACSignal (InvalidToken)
 - (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block autoAlert:(BOOL)autoAlert {
+    static InvalidTokenHandler innetHandler = NULL;
+    static InvalidTokenHandler innetBlock = NULL;
+    static BOOL innetAutoAlert = YES;
+    static int32_t invalidTokenSniffer = 0;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        innetHandler = ^(NSError *error) {
+            if (invalidTokenSniffer = 0) {
+                OSAtomicIncrement32(&invalidTokenSniffer);
+                dispatch_block_wait(^{
+                    if (innetBlock) innetBlock(error);
+                }, DISPATCH_TIME_FOREVER);
+                OSAtomicDecrement32(&invalidTokenSniffer);
+            }
+        };
+    });
+    innetBlock = block;
+    innetAutoAlert = autoAlert;
     return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
         if (error.errorGlobalCodeByServer.integerValue == 10301) {
-            if (autoAlert) {
+            if (innetAutoAlert) {
                 AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
                 [alert addConfirmItemWithTitle:@"OK" action:^{
                     if (block) block(error);
