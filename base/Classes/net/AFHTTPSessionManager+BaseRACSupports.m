@@ -254,6 +254,7 @@ InvalidTokenHandler defaultInvalidTokenHandler() {
             [subscriber sendNext:x];
             if (__innetBlocked) __innetBlocked = NO;
         } error:^(NSError * _Nullable error) {
+            if (__innetBlocked) __innetBlocked = NO;
             if (error.errorGlobalCodeByServer.integerValue == 10301) {
                 main_thread_safe(^{
                     [subscriber sendCompleted];
