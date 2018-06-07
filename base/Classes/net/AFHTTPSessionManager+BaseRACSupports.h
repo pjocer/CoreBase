@@ -60,6 +60,7 @@ typedef void(^InvalidTokenHandler)(NSError *error);
 
 /**
  Only used for API request signal
+ will override `block` and `autoAlert` by any new API request.
 
  @param block the handler will be called while invalid token error occurred
  @param autoAlert whether need auto alert
@@ -67,6 +68,20 @@ typedef void(^InvalidTokenHandler)(NSError *error);
  */
 - (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block
                         autoAlert:(BOOL)autoAlert;
+
+
+/**
+ Only used for API request signal
+ will override `block` and `autoAlert` by any new API request.
+
+ @param block the handler will be called while invalid token error occurred
+ @param autoAlert whether need auto alert
+ @param blocked whether need the handler of current API request to be blocked
+ @return current signal
+ */
+- (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block
+                        autoAlert:(BOOL)autoAlert
+                          blocked:(BOOL)blocked;
 
 @end
 

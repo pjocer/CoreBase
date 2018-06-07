@@ -23,6 +23,20 @@ const HTTPMethod HTTPMethodPOST = @"POST";
 const HTTPMethod HTTPMethodPUT = @"PUT";
 const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
+InvalidTokenHandler defaultInvalidTokenHandler() {
+    static dispatch_once_t onceToken;
+    static InvalidTokenHandler handler = NULL;
+    dispatch_once(&onceToken, ^{
+        handler = ^(NSError * _Nonnull error) {
+            main_thread_safe(^{
+                [AccessToken setCurrentAccessToken:nil];
+                [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+            });
+        };
+    });
+    return handler;
+}
+
 @implementation AFHTTPSessionManager (BaseRACSupports)
 
 /// AFNetworking 中的私有方法，copy出来使用
@@ -141,12 +155,7 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 }
 
 - (RACSignal<RACTuple *> *)rac_method:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters {
-    return [self rac_method:method path:path parameters:parameters handleInvalidToken:^(NSError * _Nonnull error) {
-        main_thread_safe(^{
-            [AccessToken setCurrentAccessToken:nil];
-            [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
-        });
-    } autoAlert:YES];
+    return [self rac_method:method path:path parameters:parameters handleInvalidToken:defaultInvalidTokenHandler() autoAlert:YES];
 }
 
 - (RACDisposable *)rac_normalNetworkDisposable:(HTTPMethod)method path:(NSString *)path parameters:(id)parameters subscriber:(id<RACSubscriber> _Nonnull)subscriber compare:(BOOL)compare {
@@ -212,37 +221,63 @@ const HTTPMethod HTTPMethodDELETE = @"DELETE";
 
 @implementation RACSignal (InvalidToken)
 - (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block autoAlert:(BOOL)autoAlert {
-    static InvalidTokenHandler innetHandler = NULL;
-    static InvalidTokenHandler innetBlock = NULL;
-    static BOOL innetAutoAlert = YES;
-    static int32_t invalidTokenSniffer = 0;
+    return [self handleInvalidToken:block autoAlert:autoAlert blocked:NO];
+}
+- (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block autoAlert:(BOOL)autoAlert blocked:(BOOL)blocked {
+    static InvalidTokenHandler __innetHandler = NULL;
+    static InvalidTokenHandler __innetBlock = NULL;
+    static BOOL __innetAutoAlert = YES;
+    static int32_t __invalidTokenSniffer = 0;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        innetHandler = ^(NSError *error) {
-            if (invalidTokenSniffer == 0) {
-                OSAtomicDecrement32(&invalidTokenSniffer);
-                if (innetBlock) innetBlock(error);
-                OSAtomicIncrement32(&invalidTokenSniffer);
+        __innetHandler = ^(NSError *error) {
+            if (__invalidTokenSniffer == 0) {
+                OSAtomicDecrement32(&__invalidTokenSniffer);
+                if (__innetBlock) __innetBlock(error);
+                OSAtomicIncrement32(&__invalidTokenSniffer);
             }
         };
     });
-    innetBlock = block;
-    innetAutoAlert = autoAlert;
-    return [self catch:^RACSignal * _Nonnull(NSError * _Nonnull error) {
-        if (error.errorGlobalCodeByServer.integerValue == 10301) {
-            if (innetAutoAlert) {
-                AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
-                [alert addConfirmItemWithTitle:@"OK" action:^{
-                    if (innetHandler) innetHandler(error);
-                }];
-                [alert show];
+    static BOOL __innetBlocked = NO;
+    static InvalidTokenHandler __blockedBlock = NULL;
+    static BOOL __blockedAutoAlert = YES;
+    if (blocked) {
+        __innetBlocked = YES;
+        __blockedBlock = block;
+        __blockedAutoAlert = autoAlert;
+    }
+    __innetBlock = __innetBlocked ? __blockedBlock : block;
+    __innetAutoAlert = __innetBlocked ? __blockedAutoAlert : autoAlert;
+    return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+        RACCompoundDisposable *__compoundDisposable = [RACCompoundDisposable compoundDisposable];
+        RACDisposable *selfDisposable = [self subscribeNext:^(id  _Nullable x) {
+            [subscriber sendNext:x];
+            if (__innetBlocked) __innetBlocked = NO;
+        } error:^(NSError * _Nullable error) {
+            if (error.errorGlobalCodeByServer.integerValue == 10301) {
+                main_thread_safe(^{
+                    [subscriber sendCompleted];
+                    if (__innetAutoAlert) {
+                        AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
+                        [alert addConfirmItemWithTitle:@"OK" action:^{
+                            if (__innetHandler) __innetHandler(error);
+                        }];
+                        [alert show];
+                    } else {
+                        if (__innetHandler) __innetHandler(error);
+                    }
+                })
             } else {
-                if (innetHandler) innetHandler(error);
+                [subscriber sendError:error];
             }
-            return RACSignal.empty;
-        } else {
-            return [RACSignal error:error];
-        }
+        } completed:^{
+            [subscriber sendCompleted];
+        }];
+        [__compoundDisposable addDisposable:[RACDisposable disposableWithBlock:^{
+            [selfDisposable dispose];
+        }]];
+        [__compoundDisposable addDisposable:selfDisposable];
+        return __compoundDisposable;
     }];
 }
 @end
