@@ -190,8 +190,20 @@ static void notifyDataNotAllowed(void) {
                 if (selfEmpty || otherEmpty) [subscriber sendCompleted];
             }
         };
+        __block BOOL invalidTokenCompeleted = NO;
         void (^sendErrorIfNecessary)(void) = ^ {
             @synchronized(selfError, otherError) {
+                if (selfError.errorGlobalCodeByServer.integerValue == 10301 && !invalidTokenCompeleted) {
+                    [subscriber sendError:selfError];
+                    invalidTokenCompeleted = YES;
+                }
+                if (otherError.errorGlobalCodeByServer.integerValue == 10301 && !invalidTokenCompeleted) {
+                    [subscriber sendError:otherError];
+                    invalidTokenCompeleted = YES;
+                }
+                if (invalidTokenCompeleted) {
+                    return ;
+                }
                 BOOL selfErrorAlready = (selfError!=nil || selfCompleted);
                 BOOL otherErrorAlready = (otherError!=nil || otherCompleted);
                 if (!(selfErrorAlready && otherErrorAlready)) return ;
@@ -263,13 +275,8 @@ static void notifyDataNotAllowed(void) {
             }
         } error:^(NSError *error) {
             @synchronized (selfError) {
-                if (error.errorGlobalCodeByServer.integerValue == 10301) {
-                    selfCompleted = YES;
-                    sendCompletedIfNecessary();
-                } else {
-                    selfError = error;
-                    sendErrorIfNecessary();
-                }
+                selfError = error;
+                sendErrorIfNecessary();
             }
         } completed:^{
             @synchronized (selfValues) {
@@ -285,13 +292,8 @@ static void notifyDataNotAllowed(void) {
             }
         } error:^(NSError *error) {
             @synchronized (otherError) {
-                if (error.errorGlobalCodeByServer.integerValue == 10301) {
-                    otherCompleted = YES;
-                    sendCompletedIfNecessary();
-                } else {
-                    otherError = error;
-                    sendErrorIfNecessary();
-                }
+                otherError = error;
+                sendErrorIfNecessary();
             }
         } completed:^{
             @synchronized (selfValues) {
