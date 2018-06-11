@@ -219,11 +219,55 @@ InvalidTokenHandler defaultInvalidTokenHandler() {
 
 @end
 
+typedef struct {
+    unsigned int autoAlert : 1;
+    unsigned int blocked : 1;
+    void *action;
+} InnetInvalidTokenInfo;
+
+NSMutableArray *innetInvalidTokenInfos() {
+    static dispatch_once_t onceToken;
+    static NSMutableArray *__innetInvalidTokenInfos = nil;
+    dispatch_once(&onceToken, ^{
+        __innetInvalidTokenInfos = [NSMutableArray array];
+    });
+    return __innetInvalidTokenInfos;
+}
+
+InvalidTokenHandler innetInvalidTokenHandler() {
+    static dispatch_once_t onceToken;
+    static InvalidTokenHandler __innetHandler = NULL;
+    static int32_t __blockedInvalidTokenInfosSniffer = 0;
+    dispatch_once(&onceToken, ^{
+        __innetHandler = ^(NSError *error) {
+            NSValue *infoValue = innetInvalidTokenInfos().lastObject;
+            if (infoValue) {
+                InnetInvalidTokenInfo info;
+                [infoValue getValue:&info];
+                InvalidTokenHandler action = (__bridge InvalidTokenHandler)(info.action);
+                if (action) action(error);
+                OSAtomicDecrement32(&__blockedInvalidTokenInfosSniffer);
+            }
+        };
+    });
+    return __innetHandler;
+}
+
+void setUpInnetInvalidTokenInfo(InvalidTokenHandler block, BOOL autoAlert, BOOL blocked) {
+    InnetInvalidTokenInfo info;
+    info.autoAlert = autoAlert;
+    info.action = (__bridge void *)(block);
+    info.blocked = blocked;
+    NSValue *infoValue = [NSValue valueWithBytes:&info objCType:@encode(InnetInvalidTokenInfo)];
+    if (infoValue) [innetInvalidTokenInfos() addObject:infoValue];
+}
+
 @implementation RACSignal (InvalidToken)
 - (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block autoAlert:(BOOL)autoAlert {
     return [self handleInvalidToken:block autoAlert:autoAlert blocked:NO];
 }
 - (RACSignal *)handleInvalidToken:(InvalidTokenHandler)block autoAlert:(BOOL)autoAlert blocked:(BOOL)blocked {
+    
     static InvalidTokenHandler __innetHandler = NULL;
     static InvalidTokenHandler __innetBlock = NULL;
     static BOOL __innetAutoAlert = YES;
