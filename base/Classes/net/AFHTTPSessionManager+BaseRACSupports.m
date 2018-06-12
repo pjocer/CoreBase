@@ -15,7 +15,6 @@
 #import "AccessToken.h"
 #import "Profile.h"
 #import "RACSignal+NSURLError.h"
-#import <CoreUser/CoreUserManager.h>
 #import <libkern/OSAtomic.h>
 
 const HTTPMethod HTTPMethodGET = @"GET";
@@ -30,7 +29,7 @@ InvalidTokenHandler defaultInvalidTokenHandler() {
         handler = ^(NSError * _Nonnull error) {
             main_thread_safe(^{
                 [AccessToken setCurrentAccessToken:nil];
-                [CoreUserManager loginFromViewController:[QMUIHelper visibleViewController]];
+                [[RouterManager sharedManager] request:[[RouterRequest alloc] initWithURL:[NSURL URLWithString:@"base://login_register"] parameters:nil]];
             });
         };
     });

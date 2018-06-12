@@ -20,6 +20,7 @@
 #import "AccessToken.h"
 
 #import "RouterManager.h"
+#import "BaseRouterHandler.h"
 
 #import "UIView+NetworkFailed.h"
 #import "UIViewController+NetworkView.h"

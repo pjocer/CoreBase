@@ -73,6 +73,7 @@
 		B7FFA9E21E8E6A860070C6A2 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FFA9E11E8E6A860070C6A2 /* BaseNavigationController.m */; };
 		D347F4C61F3D43F100878AE4 /* UIView+ReloadAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */; };
 		D351415B1FE2413900046D66 /* AZAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = D35141591FE2413900046D66 /* AZAlert.m */; };
+		D361DF1D20CFCCA8006ED66D /* BaseRouterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D361DF1C20CFCCA8006ED66D /* BaseRouterHandler.m */; };
 		D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */; };
 		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
 		D3D51B0B2079B2E7009316A5 /* UIFont+LQFont.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */; };
@@ -235,6 +236,8 @@
 		D347F4C51F3D43F100878AE4 /* UIView+ReloadAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+ReloadAnimation.m"; path = "../UIView+ReloadAnimation.m"; sourceTree = "<group>"; };
 		D35141591FE2413900046D66 /* AZAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZAlert.m; sourceTree = "<group>"; };
 		D351415A1FE2413900046D66 /* AZAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZAlert.h; sourceTree = "<group>"; };
+		D361DF1B20CFCCA8006ED66D /* BaseRouterHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseRouterHandler.h; sourceTree = "<group>"; };
+		D361DF1C20CFCCA8006ED66D /* BaseRouterHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseRouterHandler.m; sourceTree = "<group>"; };
 		D3668A8E1F8DEB110060C99B /* base.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = base.podspec; sourceTree = SOURCE_ROOT; };
 		D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshActivityIndicatorViewFooter.h; sourceTree = "<group>"; };
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 				B76BB40C1E9F59E700F1EC6A /* RouterRegistry.m */,
 				B76BB40F1E9F59E700F1EC6A /* RouterManager.h */,
 				B76BB4101E9F59E700F1EC6A /* RouterManager.m */,
+				D361DF1B20CFCCA8006ED66D /* BaseRouterHandler.h */,
+				D361DF1C20CFCCA8006ED66D /* BaseRouterHandler.m */,
 			);
 			name = router;
 			sourceTree = "<group>";
@@ -981,6 +986,7 @@
 				B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */,
 				B7534FB21EA0B57900C94516 /* CoreTextField.m in Sources */,
 				B78FC4AC1E6FA65F007F33CA /* UIButton+BaseCreation.m in Sources */,
+				D361DF1D20CFCCA8006ED66D /* BaseRouterHandler.m in Sources */,
 				B775BEBA1EAB5DF1003EBABC /* ProfileAutoLoader.m in Sources */,
 				B7511E281EA9E5F200A5A972 /* Profile.m in Sources */,
 				B7FFA9DC1E8E66E90070C6A2 /* DrilldropMenuView.m in Sources */,
