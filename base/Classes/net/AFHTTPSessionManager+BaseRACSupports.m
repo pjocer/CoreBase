@@ -29,7 +29,7 @@ InvalidTokenHandler defaultInvalidTokenHandler() {
         handler = ^(NSError * _Nonnull error) {
             main_thread_safe(^{
                 [AccessToken setCurrentAccessToken:nil];
-                [[RouterManager sharedManager] request:[[RouterRequest alloc] initWithURL:[NSURL URLWithString:@"base://login_register"] parameters:nil]];
+                [RouterManager.sharedBaseHandler request:[[RouterRequest alloc] initWithURL:[NSURL URLWithString:@"base://login_register"] parameters:nil]];
             });
         };
     });
