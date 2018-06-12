@@ -238,7 +238,7 @@
 		D351415A1FE2413900046D66 /* AZAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZAlert.h; sourceTree = "<group>"; };
 		D361DF1B20CFCCA8006ED66D /* BaseRouterHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseRouterHandler.h; sourceTree = "<group>"; };
 		D361DF1C20CFCCA8006ED66D /* BaseRouterHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseRouterHandler.m; sourceTree = "<group>"; };
-		D3668A8E1F8DEB110060C99B /* base.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = base.podspec; sourceTree = SOURCE_ROOT; };
+		D3668A8E1F8DEB110060C99B /* base.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = base.podspec; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D39D72461F330D7400C240EE /* RefreshActivityIndicatorViewFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshActivityIndicatorViewFooter.h; sourceTree = "<group>"; };
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
 		D39D72491F330E0500C240EE /* NoMoreProductsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoMoreProductsView.h; sourceTree = "<group>"; };
