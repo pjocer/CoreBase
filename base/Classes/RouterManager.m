@@ -45,3 +45,14 @@
 }
 
 @end
+@implementation RouterManager (Handler)
++ (BaseRouterHandler *)sharedBaseHandler {
+    static dispatch_once_t onceToken;
+    static BaseRouterHandler *handler = nil;
+    dispatch_once(&onceToken, ^{
+        handler = [[BaseRouterHandler alloc] init];
+        [[[RouterManager sharedManager] routerRegistry] register:handler];
+    });
+    return handler;
+}
+@end

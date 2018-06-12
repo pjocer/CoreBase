@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RouterRegistry.h"
 #import "RouterRequest.h"
+#import "BaseRouterHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id)request:(RouterRequest *)request;
 
+@end
+
+@interface RouterManager (Handler)
++ (BaseRouterHandler *)sharedBaseHandler;
 @end
 
 NS_ASSUME_NONNULL_END
