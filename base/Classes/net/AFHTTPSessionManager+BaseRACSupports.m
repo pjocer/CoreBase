@@ -284,18 +284,27 @@ void setUpInnetInvalidTokenInfo(InvalidTokenHandler block, BOOL autoAlert, BOOL 
     static BOOL __innetBlocked = NO;
     static InvalidTokenHandler __blockedBlock = NULL;
     static BOOL __blockedAutoAlert = YES;
-    if (blocked) {
+    static int32_t __blockedInfo = 0;
+    if (blocked && __blockedInfo == 0) {
+        OSAtomicIncrement32(&__blockedInfo);
         __innetBlocked = YES;
         __blockedBlock = block;
         __blockedAutoAlert = autoAlert;
     }
     __innetBlock = __innetBlocked ? __blockedBlock : block;
+    __innetBlock = __innetBlock ?: defaultInvalidTokenHandler();
     __innetAutoAlert = __innetBlocked ? __blockedAutoAlert : autoAlert;
     return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
         RACCompoundDisposable *__compoundDisposable = [RACCompoundDisposable compoundDisposable];
+        dispatch_block_t clear_innet_data = ^{
+            if (__innetBlocked && blocked) {
+                __innetBlocked = NO;
+                OSAtomicDecrement32(&__blockedInfo);
+            }
+        };
         RACDisposable *selfDisposable = [self subscribeNext:^(id  _Nullable x) {
             [subscriber sendNext:x];
-            if (__innetBlocked) __innetBlocked = NO;
+            clear_innet_data();
         } error:^(NSError * _Nullable error) {
             if (error.errorGlobalCodeByServer.integerValue == 10301) {
                 main_thread_safe(^{
@@ -304,12 +313,12 @@ void setUpInnetInvalidTokenInfo(InvalidTokenHandler block, BOOL autoAlert, BOOL 
                         AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
                         [alert addConfirmItemWithTitle:@"OK" action:^{
                             if (__innetHandler) __innetHandler(error);
-                            if (__innetBlocked) __innetBlocked = NO;
+                            clear_innet_data();
                         }];
                         [alert show];
                     } else {
                         if (__innetHandler) __innetHandler(error);
-                        if (__innetBlocked) __innetBlocked = NO;
+                        clear_innet_data();
                     }
                 })
             } else {
