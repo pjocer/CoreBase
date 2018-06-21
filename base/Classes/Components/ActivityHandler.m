@@ -21,7 +21,7 @@ NSString *const ActivityCountDownEndTime    = @"2018-06-21 12:30:00";
 NSString *const PreSaleCountDownStartTime   = @"2018-06-18 23:50:30";
 NSString *const PreSaleCountDownEndTime     = @"2018-06-29 23:46:30";
 NSString *const ActivityStartTime           = @"2018-06-19 00:00:00";
-NSString *const ActivityEndTime             = @"2018-06-21 00:00:00";
+NSString *const ActivityEndTime             = @"2018-06-29 00:00:00";
 NSString *const ActivityCode                = @"plist1";
 
 @interface ActivityHandler ()
@@ -53,12 +53,17 @@ NSString *const ActivityCode                = @"plist1";
 
 - (void)startMonitoring {
     @weakify(self);
+    [self setHasClosedPreSaleView:NO];
     self._dispose = [[[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] takeUntilBlock:^BOOL(NSDate * _Nullable x) {
         @strongify(self);
         NSTimeZone *zone = [NSTimeZone defaultTimeZone];
         NSTimeInterval interval = [zone secondsFromGMTForDate:x];
         NSDate *alterred = [x dateByAddingTimeInterval:interval];
         NSComparisonResult result = [alterred compare:[self.fmt dateFromString:ActivityEndTime]];
+        if (result == NSOrderedDescending) {
+            [self.presaleSignal sendNext:x];
+            [self.activitySignal sendNext:x];
+        }
         return result == NSOrderedDescending;
     }] subscribeNext:^(NSDate * _Nullable x) {
         @strongify(self);
@@ -67,6 +72,9 @@ NSString *const ActivityCode                = @"plist1";
     }].asScopedDisposable;
     self.presaleTextSignal = [[[self.presaleSignal map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
+        if (self.hasClosedPreSaleView) {
+            return nil;
+        }
         NSDateFormatter *fmt = self.fmt;
         NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
         NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);

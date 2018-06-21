@@ -91,6 +91,9 @@
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.lineSpacing = 6;
     label.textAlignment = model.alignment;
+    if (!model.text) {
+        return label;
+    }
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:model.text];
     [text addAttribute:NSFontAttributeName value:UIFontMake(model.font_size) range:NSMakeRange(0, model.text.length)];
     NSMutableArray <TopNotificationAttributesModel *>*hrefs = [NSMutableArray array];
