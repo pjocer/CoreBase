@@ -57,7 +57,11 @@
         }
     }] subscribeNext:^(id  _Nullable x) {
         if (x == self.close) {
-            NotificationSharedLoader.top_model = nil;
+            if (self.clickedClose) {
+                self.clickedClose();
+            } else {
+                NotificationSharedLoader.top_model = nil;
+            }
         } else if ([x isKindOfClass:TTTAttributedLabelLink.class]) {
             if (self.clickedLink) self.clickedLink([[(TTTAttributedLabelLink *)x result] URL]);
         } else {
@@ -67,21 +71,18 @@
     return self;
 }
 
-static CGSize expectedSize;
-
 + (CGSize)expectedSize {
-    TopNotificationModel *model = NotificationSharedLoader.top_model;
+    return [self expectedSize:NotificationSharedLoader.top_model];
+}
+
++ (CGSize)expectedSize:(TopNotificationModel *)model {
     if (!model) {
         return CGSizeZero;
-    }
-    if (!CGSizeIsEmpty(expectedSize)) {
-        return expectedSize;
     }
     TTTAttributedLabel *label = [self getAttributedLabelWithData:model];
     CGSize s = [label sizeThatFits:CGSizeMake(SCREEN_WIDTH-50, CGFLOAT_MAX)];
     s.height = ceilf(s.height) + 20;
-    expectedSize = s;
-    return expectedSize;
+    return s;
 }
 
 + (TTTAttributedLabel *)getAttributedLabelWithData:(TopNotificationModel *)model {
