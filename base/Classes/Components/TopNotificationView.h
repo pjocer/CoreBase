@@ -17,6 +17,5 @@
 - (instancetype)init;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 - (instancetype)initWithData:(TopNotificationModel *)data;
-+ (CGSize)expectedSize;
 + (CGSize)expectedSize:(TopNotificationModel *)model;
 @end

@@ -27,8 +27,17 @@ NSNotificationName const TopNotificationDidUpdated = @"TopNotificationDidUpdate"
     static NotificationLoader *loader = nil;
     dispatch_once(&onceToken, ^{
         loader = [[NotificationLoader alloc] init];
+        loader.top_size = CGSizeZero;
     });
     return loader;
+}
+
+- (CGSize)top_size {
+    if (!CGSizeEqualToSize(_top_size, CGSizeZero)) {
+        return _top_size;
+    }
+    _top_size = [TopNotificationView expectedSize:self.top_model];
+    return _top_size;
 }
 
 - (void)execute {

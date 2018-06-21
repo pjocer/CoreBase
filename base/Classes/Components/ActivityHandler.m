@@ -8,6 +8,8 @@
 
 #import "ActivityHandler.h"
 #import "Network.h"
+#import "TopNotificationView.h"
+#import <QMUIKit/QMUICommonDefines.h>
 
 //NSString *const ActivityCountDownStartTime  = @"2018-07-02 00:00:00";
 //NSString *const ActivityCountDownEndTime    = @"2018-07-03 23:59:59";
@@ -31,7 +33,8 @@ NSString *const ActivityCode                = @"plist1";
 @property (nonatomic, readwrite, strong) RACReplaySubject <NSDate *>*presaleSignal;
 @property (nonatomic, readwrite, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
 @property (nonatomic, readwrite, strong) RACSignal <NSString *> *presaleTextSignal;
-@property (nonatomic, readwrite, strong) TopNotificationModel *data;
+@property (nonatomic, readwrite, assign) CGSize activity_presale_size;
+@property (nonatomic, readwrite, assign) CGSize activity_count_down_size;
 @end
 
 @implementation ActivityHandler
@@ -47,10 +50,18 @@ NSString *const ActivityCode                = @"plist1";
         handler.presaleSignal = [RACReplaySubject subject];
         handler.activityTimeIntervalSignal = [RACReplaySubject subject];
         handler.presaleTextSignal = [RACReplaySubject subject];
+        handler.activity_presale_size = CGSizeZero;
+        handler.activity_count_down_size = CGSizeMake(SCREEN_WIDTH, 37.f);
     });
     return handler;
 }
-
+- (CGSize)activity_presale_size {
+    if (!CGSizeEqualToSize(_activity_presale_size, CGSizeZero)) {
+        return _activity_presale_size;
+    }
+    _activity_presale_size = [TopNotificationView expectedSize:self.data];
+    return _activity_presale_size;
+}
 - (void)startMonitoring {
     @weakify(self);
     [self setHasClosedPreSaleView:NO];

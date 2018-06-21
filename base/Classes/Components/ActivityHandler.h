@@ -16,6 +16,8 @@ FOUNDATION_EXPORT NSString *const PreSaleCountDownEndTime;
 FOUNDATION_EXPORT NSString *const PreSaleCountDownStartTime;
 FOUNDATION_EXPORT NSString *const ActivityCode;
 
+#define ActivitySharedHandler [ActivityHandler sharedHandler]
+
 @interface ActivityHandler : NSObject
 @property (nonatomic, readonly, assign) BOOL isActivityCountDownViewAvaliable;
 @property (nonatomic, readonly, assign) BOOL isActivityPreSaleViewAvaliable;
@@ -26,7 +28,9 @@ FOUNDATION_EXPORT NSString *const ActivityCode;
 @property (nonatomic, readonly, strong) RACSubject <NSDate *> *presaleSignal;
 @property (nonatomic, readonly, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
 @property (nonatomic, readonly, strong) RACSignal <NSString *> *presaleTextSignal;
-@property (nonatomic, readonly, strong) TopNotificationModel *data;
+@property (nonatomic, strong) TopNotificationModel *data;
+@property (nonatomic, readonly, assign) CGSize activity_presale_size;
+@property (nonatomic, readonly, assign) CGSize activity_count_down_size;
 
 + (instancetype)sharedHandler;
 

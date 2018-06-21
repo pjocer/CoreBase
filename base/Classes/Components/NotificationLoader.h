@@ -17,6 +17,8 @@ FOUNDATION_EXPORT NSNotificationName const TopNotificationDidUpdated;
 
 @property (nonatomic, strong) TopNotificationModel *top_model;
 
+@property (nonatomic, assign) CGSize top_size;
+
 + (instancetype)sharedLoader;
 
 - (void)execute;

@@ -15,6 +15,7 @@
 #import <QMUIKit/QMUIKit.h>
 #import <Masonry/Masonry.h>
 #import "util.h"
+#import "ActivityHandler.h"
 
 @interface TopNotificationView ()
 @property (nonatomic, strong) TTTAttributedLabel *label;
@@ -69,10 +70,6 @@
         }
     }] ;
     return self;
-}
-
-+ (CGSize)expectedSize {
-    return [self expectedSize:NotificationSharedLoader.top_model];
 }
 
 + (CGSize)expectedSize:(TopNotificationModel *)model {
