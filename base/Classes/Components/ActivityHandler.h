@@ -10,13 +10,23 @@
 #import "TopNotificationModel.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 
+// 黑色倒计时
 FOUNDATION_EXPORT NSString *const ActivityCountDownEndTime;
 FOUNDATION_EXPORT NSString *const ActivityCountDownStartTime;
+// 预售倒计时
 FOUNDATION_EXPORT NSString *const PreSaleCountDownEndTime;
 FOUNDATION_EXPORT NSString *const PreSaleCountDownStartTime;
+// Coupon倒计时
+FOUNDATION_EXPORT NSString *const ActivityStartTime;
+FOUNDATION_EXPORT NSString *const ActivityEndTime;
+// Coupon Code
 FOUNDATION_EXPORT NSString *const ActivityCode;
 
 #define ActivitySharedHandler [ActivityHandler sharedHandler]
+
+FOUNDATION_EXPORT NSNotificationName const ActivityPresaleStatusDidChanged;
+FOUNDATION_EXPORT NSNotificationName const ActivityCountDownStatusDidChanged;
+FOUNDATION_EXPORT NSNotificationName const ActivityCouponCodeStatusDidChanged;
 
 @interface ActivityHandler : NSObject
 @property (nonatomic, readonly, assign) BOOL isActivityCountDownViewAvaliable;
@@ -24,8 +34,6 @@ FOUNDATION_EXPORT NSString *const ActivityCode;
 @property (nonatomic, readonly, assign) BOOL isActivityCouponCodeAvaliable;
 @property (nonatomic, readonly, strong) NSDateFormatter *fmt;
 @property (nonatomic, assign) BOOL hasClosedPreSaleView;
-@property (nonatomic, readonly, strong) RACSubject <NSDate *> *activitySignal;
-@property (nonatomic, readonly, strong) RACSubject <NSDate *> *presaleSignal;
 @property (nonatomic, readonly, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
 @property (nonatomic, readonly, strong) RACSignal <NSString *> *presaleTextSignal;
 @property (nonatomic, strong) TopNotificationModel *data;

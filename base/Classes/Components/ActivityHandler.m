@@ -19,18 +19,19 @@
 //NSString *const ActivityCode                = @"FREEDOM";
 
 NSString *const ActivityCountDownStartTime  = @"2018-06-21 02:20:00";
-NSString *const ActivityCountDownEndTime    = @"2018-06-21 12:30:00";
+NSString *const ActivityCountDownEndTime    = @"2018-06-25 12:30:00";
 NSString *const PreSaleCountDownStartTime   = @"2018-06-18 23:50:30";
 NSString *const PreSaleCountDownEndTime     = @"2018-06-29 23:46:30";
 NSString *const ActivityStartTime           = @"2018-06-19 00:00:00";
 NSString *const ActivityEndTime             = @"2018-06-29 00:00:00";
 NSString *const ActivityCode                = @"plist1";
 
+NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
+NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
+NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCodeStatusDidChanged";
+
 @interface ActivityHandler ()
-@property (nonatomic, strong) RACScopedDisposable *_dispose;
 @property (nonatomic, readwrite, strong) NSDateFormatter *fmt;
-@property (nonatomic, readwrite, strong) RACReplaySubject <NSDate *>*activitySignal;
-@property (nonatomic, readwrite, strong) RACReplaySubject <NSDate *>*presaleSignal;
 @property (nonatomic, readwrite, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
 @property (nonatomic, readwrite, strong) RACSignal <NSString *> *presaleTextSignal;
 @property (nonatomic, readwrite, assign) CGSize activity_presale_size;
@@ -46,10 +47,6 @@ NSString *const ActivityCode                = @"plist1";
         handler = [[ActivityHandler alloc] init];
         NSTimeZone *timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PST"];
         [NSTimeZone setDefaultTimeZone:timeZone];
-        handler.activitySignal = [RACReplaySubject subject];
-        handler.presaleSignal = [RACReplaySubject subject];
-        handler.activityTimeIntervalSignal = [RACReplaySubject subject];
-        handler.presaleTextSignal = [RACReplaySubject subject];
         handler.activity_presale_size = CGSizeZero;
         handler.activity_count_down_size = CGSizeMake(SCREEN_WIDTH, 37.f);
     });
@@ -65,23 +62,37 @@ NSString *const ActivityCode                = @"plist1";
 - (void)startMonitoring {
     @weakify(self);
     [self setHasClosedPreSaleView:NO];
-    self._dispose = [[[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] takeUntilBlock:^BOOL(NSDate * _Nullable x) {
+    RACSignal *time = [[[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] takeUntilBlock:^BOOL(NSDate * _Nullable x) {
         @strongify(self);
         NSTimeZone *zone = [NSTimeZone defaultTimeZone];
         NSTimeInterval interval = [zone secondsFromGMTForDate:x];
         NSDate *alterred = [x dateByAddingTimeInterval:interval];
         NSComparisonResult result = [alterred compare:[self.fmt dateFromString:ActivityEndTime]];
         if (result == NSOrderedDescending) {
-            [self.presaleSignal sendNext:x];
-            [self.activitySignal sendNext:x];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:@(NO)];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:@(NO)];
         }
         return result == NSOrderedDescending;
-    }] subscribeNext:^(NSDate * _Nullable x) {
+    }] replayLast];
+    [[[time map:^id _Nullable(id  _Nullable value) {
         @strongify(self);
-        [self.presaleSignal sendNext:x];
-        [self.activitySignal sendNext:x];
-    }].asScopedDisposable;
-    self.presaleTextSignal = [[[self.presaleSignal map:^id _Nullable(NSDate * _Nullable value) {
+        return @(self.isActivityCouponCodeAvaliable);
+    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCouponCodeStatusDidChanged object:x];
+    }];
+    [[[time map:^id _Nullable(id  _Nullable value) {
+        @strongify(self);
+        return @(self.isActivityCouponCodeAvaliable);
+    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:x];
+    }];
+    [[[time map:^id _Nullable(id  _Nullable value) {
+        @strongify(self);
+        return @(self.isActivityCountDownViewAvaliable);
+    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:x];
+    }];
+    self.presaleTextSignal = [[[time map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
         if (self.hasClosedPreSaleView) {
             return nil;
@@ -102,7 +113,7 @@ NSString *const ActivityCode                = @"plist1";
         }
         return text;
     }] distinctUntilChanged] replayLast];
-    self.activityTimeIntervalSignal = [[[[[self.activitySignal map:^id _Nullable(NSDate * _Nullable value) {
+    self.activityTimeIntervalSignal = [[[[[time map:^id _Nullable(NSDate * _Nullable value) {
         return @(self.isActivityCountDownViewAvaliable);
     }] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
         return [value boolValue];
@@ -122,12 +133,13 @@ NSString *const ActivityCode                = @"plist1";
 }
 
 - (BOOL)isActivityCouponCodeAvaliable {
-    return [self isActivityCountDownViewAvaliable];
+    return [[ActivityHandler sharedHandler] isActivityAvaliableFrom:ActivityStartTime to:ActivityEndTime];
 }
 
 - (void)setHasClosedPreSaleView:(BOOL)hasClosedPreSaleView {
     [[NSUserDefaults standardUserDefaults] setObject:hasClosedPreSaleView?[self.fmt stringFromDate:NSDate.date]:nil forKey:@"has_closed_presale"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:@(!hasClosedPreSaleView)];
 }
 
 - (BOOL)hasClosedPreSaleView {
