@@ -25,8 +25,8 @@
         [self.contentView addSubview:self.countDownView];
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self);
-            make.top.left.mas_greaterThanOrEqualTo(10);
-            make.right.bottom.mas_lessThanOrEqualTo(-10);
+            make.top.left.mas_greaterThanOrEqualTo(10).priorityLow();
+            make.right.bottom.mas_lessThanOrEqualTo(-10).priorityLow();
         }];
         [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.bottom.equalTo(self.contentView);
