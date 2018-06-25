@@ -9,6 +9,7 @@
 #import "CountDownTextView.h"
 #import <Masonry/Masonry.h>
 #import <QMUIKit/QMUIKit.h>
+#import "ActivityHandler.h"
 
 @interface CountDownTextView()
 @property (nonatomic, strong) UILabel *descriptionLabel;
@@ -34,6 +35,12 @@
         [self.countDownView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.top.bottom.equalTo(self.contentView);
             make.left.equalTo(self.descriptionLabel.mas_right).offset(3);
+        }];
+        self.contentView.hidden = !ActivitySharedHandler.isActivityCountDownViewAvaliable;
+        @weakify(self);
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:ActivityCountDownStatusDidChanged object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+            @strongify(self);
+            self.contentView.hidden = ![x.object boolValue];
         }];
     }
     return self;
