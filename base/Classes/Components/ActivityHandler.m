@@ -18,13 +18,13 @@
 //NSString *const ActivityEndTime             = @"2018-07-04 00:00:00";
 //NSString *const ActivityCode                = @"FREEDOM";
 
-NSString *const ActivityCountDownStartTime  = @"2018-06-21 02:20:00";
-NSString *const ActivityCountDownEndTime    = @"2018-06-25 12:30:00";
+NSString *const ActivityCountDownStartTime  = @"2018-06-25 04:00:00";
+NSString *const ActivityCountDownEndTime    = @"2018-06-25 04:30:00";
 NSString *const PreSaleCountDownStartTime   = @"2018-06-18 23:50:30";
 NSString *const PreSaleCountDownEndTime     = @"2018-06-29 23:46:30";
 NSString *const ActivityStartTime           = @"2018-06-19 00:00:00";
 NSString *const ActivityEndTime             = @"2018-06-29 00:00:00";
-NSString *const ActivityCode                = @"plist1";
+NSString *const ActivityCode                = @"test_coupon1";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";

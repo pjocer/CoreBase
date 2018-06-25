@@ -130,7 +130,7 @@
     button.titleLabel.font = _textFont;
     button.layer.cornerRadius = 2;
     button.clipsToBounds = YES;
-    [button setTitle:@"00" forState:UIControlStateNormal];
+    [button setTitle:@"0" forState:UIControlStateNormal];
     return button;
 }
 - (UIButton *)hourView1 {
