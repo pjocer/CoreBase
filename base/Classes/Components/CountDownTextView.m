@@ -44,6 +44,7 @@
     }
     return self;
 }
+
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [[UIView alloc] init];
