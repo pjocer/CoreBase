@@ -36,9 +36,8 @@
             make.right.top.bottom.equalTo(self.contentView);
             make.left.equalTo(self.descriptionLabel.mas_right).offset(3);
         }];
-        self.contentView.hidden = !ActivitySharedHandler.isActivityCountDownViewAvaliable;
         @weakify(self);
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:ActivityCountDownStatusDidChanged object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+        [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:ActivityCountDownStatusDidChanged object:nil] startWith:[NSNotification notificationWithName:ActivityCountDownStatusDidChanged object:@(ActivitySharedHandler.isActivityCountDownViewAvaliable)]] subscribeNext:^(NSNotification * _Nullable x) {
             @strongify(self);
             self.contentView.hidden = ![x.object boolValue];
         }];
