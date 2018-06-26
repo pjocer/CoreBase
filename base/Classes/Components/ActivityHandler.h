@@ -35,7 +35,7 @@ FOUNDATION_EXPORT NSNotificationName const ActivityCouponCodeStatusDidChanged;
 @property (nonatomic, readonly, strong) NSDateFormatter *fmt;
 @property (nonatomic, assign) BOOL hasClosedPreSaleView;
 @property (nonatomic, readonly, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
-@property (nonatomic, readonly, strong) RACSignal <NSString *> *presaleTextSignal;
+@property (nonatomic, readonly, strong) RACSignal <TopNotificationModel *> *presaleTextSignal;
 @property (nonatomic, strong) TopNotificationModel *data;
 @property (nonatomic, readonly, assign) CGSize activity_presale_size;
 @property (nonatomic, readonly, assign) CGSize activity_count_down_size;

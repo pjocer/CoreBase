@@ -18,13 +18,20 @@
 //NSString *const ActivityEndTime             = @"2018-07-04 00:00:00";
 //NSString *const ActivityCode                = @"FREEDOM";
 
-NSString *const ActivityCountDownStartTime  = @"2018-06-25 07:10:30";
-NSString *const ActivityCountDownEndTime    = @"2018-06-25 07:11:00";
-NSString *const PreSaleCountDownStartTime   = @"2018-06-18 23:50:30";
-NSString *const PreSaleCountDownEndTime     = @"2018-06-29 23:46:30";
-NSString *const ActivityStartTime           = @"2018-06-19 00:00:00";
-NSString *const ActivityEndTime             = @"2018-06-29 00:00:00";
-NSString *const ActivityCode                = @"test_coupon1";
+#define TIME_INTERVAL_GAP 600
+#define START_PRESALE_TEXT TIME_INTERVAL_GAP*2
+
+//预售
+NSString *const PreSaleCountDownStartTime   = @"2018-06-26 02:30:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-06-26 02:50:00";
+//黑色倒计时
+NSString *const ActivityCountDownStartTime  = @"2018-06-26 02:50:00";
+NSString *const ActivityCountDownEndTime    = @"2018-06-26 02:58:00";
+//真正的活动时间范围
+NSString *const ActivityStartTime           = @"2018-06-26 02:30:00";
+NSString *const ActivityEndTime             = @"2018-06-26 03:00:00";
+
+NSString *const ActivityCode                = @"happy4test4";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
@@ -33,7 +40,7 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
 @interface ActivityHandler ()
 @property (nonatomic, readwrite, strong) NSDateFormatter *fmt;
 @property (nonatomic, readwrite, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
-@property (nonatomic, readwrite, strong) RACSignal <NSString *> *presaleTextSignal;
+@property (nonatomic, readwrite, strong) RACSignal <TopNotificationModel *> *presaleTextSignal;
 @property (nonatomic, readwrite, assign) CGSize activity_presale_size;
 @property (nonatomic, readwrite, assign) CGSize activity_count_down_size;
 @end
@@ -96,23 +103,18 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
     self.presaleTextSignal = [[time map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
         if (self.hasClosedPreSaleView) {
-            return nil;
+            return [self generateTopNotificationActivityData:nil];
         }
         NSDateFormatter *fmt = self.fmt;
         NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
         NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
-        NSInteger remainingDays = timeInterval/(3600*24);
+        if (timeInterval > START_PRESALE_TEXT) {
+            return [self generateTopNotificationActivityData:nil];
+        }
+        NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
         NSString *text = nil;
-        if (remainingDays == 1) {
-            text = [NSString stringWithFormat:@"%@ OFF ALL WEDDING DRESSES | ENDS IN 1 DAY." ,@"10%"];
-        }
-        if (remainingDays == 2) {
-            text = [NSString stringWithFormat:@"%@ OFF ALL WEDDING DRESSES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays];
-        }
-        if (remainingDays > 2) {
-            text = [NSString stringWithFormat:@"%ld DAYS UNTIL OUR 4TH OF JULY SALE | %@ OFF ALL WEDDING DRESSES.", remainingDays, @"10%"];
-        }
-        return text;
+        text = [NSString stringWithFormat:@"%@ OFF ALL WEDDING DRESSES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays+2];
+        return [self generateTopNotificationActivityData:text];;
     }] distinctUntilChanged];
     self.activityTimeIntervalSignal = [[[[[time map:^id _Nullable(NSDate * _Nullable value) {
         return @(self.isActivityCountDownViewAvaliable);
@@ -174,20 +176,34 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
     return (startInterval < nowInterval && nowInterval < endInterval);
 }
 
-- (TopNotificationModel *)data {
-    if (!_data) {
-        _data = [TopNotificationModel new];
-        _data.background_color = @"FDE2EC";
-        _data.alignment = NSTextAlignmentCenter;
-        _data.font_size = 12;
-        _data.display_template = YES;
-        TopNotificationAttributesModel *_attribute1 = [TopNotificationAttributesModel new];
-        _attribute1.type = TopNotifyLabelAttributesTypeFontColor;
-        _attribute1.value = @"333333";
-        TopNotificationAttributesModel *_attribute2 = [TopNotificationAttributesModel new];
-        _attribute2.type = TopNotifyLabelAttributesTypeBold;
-        _attribute2.value = @(YES);
-        _data.attributes = @[_attribute1, _attribute2];
+- (TopNotificationModel *)generateTopNotificationActivityData:(NSString *)aText {
+    if (aText) {
+        if (!_data) {
+            _data = [TopNotificationModel new];
+            _data.background_color = @"FDE2EC";
+            _data.alignment = NSTextAlignmentCenter;
+            _data.font_size = 12;
+            _data.display_template = YES;
+            _data.text = aText;
+            TopNotificationAttributesModel *_attribute1 = [TopNotificationAttributesModel new];
+            _attribute1.type = TopNotifyLabelAttributesTypeFontColor;
+            _attribute1.value = @"333333";
+            _attribute1.start = 0;
+            _attribute1.length = aText.length;
+//            TopNotificationAttributesModel *_attribute2 = [TopNotificationAttributesModel new];
+//            _attribute2.type = TopNotifyLabelAttributesTypeBold;
+//            _attribute2.value = @(YES);
+//            _attribute2.start = 0;
+//            _attribute2.length = aText.length;
+            _data.attributes = @[_attribute1];
+        } else {
+            if (![_data.text isEqualToString:aText]) {
+                _data = nil;
+                _data = [self generateTopNotificationActivityData:aText];
+            }
+        }
+    } else {
+        _data = nil;
     }
     return _data;
 }
