@@ -11,27 +11,20 @@
 #import "TopNotificationView.h"
 #import <QMUIKit/QMUICommonDefines.h>
 
-//NSString *const ActivityCountDownStartTime  = @"2018-07-02 00:00:00";
-//NSString *const ActivityCountDownEndTime    = @"2018-07-03 23:59:59";
-//NSString *const PreSaleCountDownStartTime   = @"2018-06-25 00:00:00";
-//NSString *const PreSaleCountDownEndTime     = @"2018-07-01 23:59:59";
-//NSString *const ActivityEndTime             = @"2018-07-04 00:00:00";
-//NSString *const ActivityCode                = @"FREEDOM";
-
-#define TIME_INTERVAL_GAP 600
+#define TIME_INTERVAL_GAP (3600*24)
 #define START_PRESALE_TEXT TIME_INTERVAL_GAP*2
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-06-26 02:30:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-06-26 02:50:00";
+NSString *const PreSaleCountDownStartTime   = @"2018-07-02 00:00:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-07-03 23:59:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-06-26 02:50:00";
-NSString *const ActivityCountDownEndTime    = @"2018-06-26 02:58:00";
+NSString *const ActivityCountDownStartTime  = @"2018-07-04 00:00:00";
+NSString *const ActivityCountDownEndTime    = @"2018-07-04 21:59:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-06-26 02:30:00";
-NSString *const ActivityEndTime             = @"2018-06-26 03:00:00";
+NSString *const ActivityStartTime           = @"2018-07-02 00:00:00";
+NSString *const ActivityEndTime             = @"2018-07-04 23:59:59";
 
-NSString *const ActivityCode                = @"happy4test4";
+NSString *const ActivityCode                = @"HAPPY4TH";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
@@ -68,13 +61,9 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
 }
 - (void)startMonitoring {
     @weakify(self);
-    [self setHasClosedPreSaleView:NO];
     RACSignal *time = [[[[RACSignal interval:1.f onScheduler:[RACScheduler mainThreadScheduler]] startWith:NSDate.date] takeUntilBlock:^BOOL(NSDate * _Nullable x) {
         @strongify(self);
-        NSTimeZone *zone = [NSTimeZone defaultTimeZone];
-        NSTimeInterval interval = [zone secondsFromGMTForDate:x];
-        NSDate *alterred = [x dateByAddingTimeInterval:interval];
-        NSComparisonResult result = [alterred compare:[self.fmt dateFromString:ActivityEndTime]];
+        NSComparisonResult result = [x compare:[self.fmt dateFromString:ActivityEndTime]];
         if (result == NSOrderedDescending) {
             [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:@(NO)];
             [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:@(NO)];
@@ -90,7 +79,7 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
     }];
     [[[time map:^id _Nullable(id  _Nullable value) {
         @strongify(self);
-        return @(self.isActivityCouponCodeAvaliable);
+        return @(self.isActivityPreSaleViewAvaliable);
     }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
         [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:x];
     }];
@@ -108,7 +97,7 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         NSDateFormatter *fmt = self.fmt;
         NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
         NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
-        if (timeInterval > START_PRESALE_TEXT) {
+        if (timeInterval > START_PRESALE_TEXT || timeInterval < 0) {
             return [self generateTopNotificationActivityData:nil];
         }
         NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
