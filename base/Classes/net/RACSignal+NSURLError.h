@@ -45,4 +45,6 @@ FOUNDATION_EXPORT NSString *const AzazieErrorSingleErrorMessageKey;
 
 + (void)showURLErrorAlertWith:(NSError *)error;
 + (void)showURLErrorAlertWith:(NSError *)error action:(dispatch_block_t)action;
++ (void)showAllURLErrorAlertWith:(NSError *)error;
++ (void)showAllURLErrorAlertWith:(NSError *)error action:(dispatch_block_t)action;
 @end

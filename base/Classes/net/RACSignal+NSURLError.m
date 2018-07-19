@@ -346,6 +346,18 @@ static void notifyDataNotAllowed(void) {
     }];
 }
 
++ (void)showAllURLErrorAlertWith:(NSError *)error {
+    [RACSignal showAllURLErrorAlertWith:error action:NULL];
+}
+
++ (void)showAllURLErrorAlertWith:(NSError *)error action:(dispatch_block_t)action{
+    if (error.responseObject || error.domain == AzazieErrorDomain) {
+        [RACSignal __doNSURLErrorWithCode:error.code title:@"OK" action:action];
+    } else {
+        [RACSignal __doAzazieURLErrorWithError:error Head:nil confirmTitle:nil confirmAction:action cancelTitle:nil cancelAction:NULL];
+    }
+}
+
 + (void)showURLErrorAlertWith:(NSError *)error {
     AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:[RACSignal __NSURLErrorMessageWithCode:error.code] preferConfirm:YES];
     [alert addConfirmItemWithTitle:@"OK" action:NULL];
