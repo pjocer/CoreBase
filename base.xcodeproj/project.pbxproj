@@ -81,6 +81,7 @@
 		D361DF1D20CFCCA8006ED66D /* BaseRouterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D361DF1C20CFCCA8006ED66D /* BaseRouterHandler.m */; };
 		D39D72481F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */; };
 		D39D724B1F330E0500C240EE /* NoMoreProductsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D39D724A1F330E0500C240EE /* NoMoreProductsView.m */; };
+		D3C5BA742105C03100B7B829 /* UILabel+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C5BA732105C03100B7B829 /* UILabel+Loading.m */; };
 		D3D51B0B2079B2E7009316A5 /* UIFont+LQFont.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */; };
 		D3D51B0E2079C96F009316A5 /* AZProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B0C2079C96F009316A5 /* AZProgressHUD.m */; };
 		D3D51B142079CD00009316A5 /* UIViewController+NetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D51B122079CD00009316A5 /* UIViewController+NetworkView.m */; };
@@ -256,6 +257,8 @@
 		D39D72471F330D7400C240EE /* RefreshActivityIndicatorViewFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshActivityIndicatorViewFooter.m; sourceTree = "<group>"; };
 		D39D72491F330E0500C240EE /* NoMoreProductsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoMoreProductsView.h; sourceTree = "<group>"; };
 		D39D724A1F330E0500C240EE /* NoMoreProductsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoMoreProductsView.m; sourceTree = "<group>"; };
+		D3C5BA722105C03100B7B829 /* UILabel+Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Loading.h"; sourceTree = "<group>"; };
+		D3C5BA732105C03100B7B829 /* UILabel+Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Loading.m"; sourceTree = "<group>"; };
 		D3D51B092079B2E7009316A5 /* UIFont+LQFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LQFont.h"; sourceTree = "<group>"; };
 		D3D51B0A2079B2E7009316A5 /* UIFont+LQFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LQFont.m"; sourceTree = "<group>"; };
 		D3D51B0C2079C96F009316A5 /* AZProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZProgressHUD.m; sourceTree = "<group>"; };
@@ -639,6 +642,8 @@
 			children = (
 				B7BC60F51E83617000859FE6 /* UIImageView+Loading.h */,
 				B7BC60F61E83617000859FE6 /* UIImageView+Loading.m */,
+				D3C5BA722105C03100B7B829 /* UILabel+Loading.h */,
+				D3C5BA732105C03100B7B829 /* UILabel+Loading.m */,
 			);
 			name = ImageLoading;
 			sourceTree = "<group>";
@@ -998,6 +1003,7 @@
 				D34566C220DBB0D800A00C63 /* ActivityHandler.m in Sources */,
 				B7BC60E81E827B4000859FE6 /* UIView+NetworkFailed.m in Sources */,
 				B7C739061ED4313A00FCC28A /* AppIdentifier.m in Sources */,
+				D3C5BA742105C03100B7B829 /* UILabel+Loading.m in Sources */,
 				B76BB4081E9F59E000F1EC6A /* RouterRequest.m in Sources */,
 				D34566C120DBB0D800A00C63 /* CountDownTextView.m in Sources */,
 				B76BB4121E9F59E700F1EC6A /* RouterRegistry.m in Sources */,

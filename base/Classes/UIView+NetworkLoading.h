@@ -14,7 +14,7 @@ typedef void(^NetworkViewTapHandler)(UIView *networkView);
 
 - (UIView *)addSubviewForNetworkLoading;
 - (UIView *)addSubviewForNetworkLoadingWithTapHandler:(NetworkViewTapHandler)handler;
-
+- (UIView *)addSubviewForNetworkLoadingWithTitle:(NSString *)title detailTexts:(NSArray *)texts;
 - (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY;
 - (UIView *)addSubviewForNetworkLoadingWithOffsetY:(CGFloat)offsetY tapHandler:(NetworkViewTapHandler)handler;
 

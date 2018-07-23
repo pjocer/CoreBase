@@ -27,6 +27,7 @@
 #import "UIView+NetworkLoading.h"
 
 #import "UIImageView+Loading.h"
+#import "UILabel+Loading.h"
 
 #import "UIView+LoadingIndicator.h"
 #import "UITableViewCell+LoadingIndicator.h"

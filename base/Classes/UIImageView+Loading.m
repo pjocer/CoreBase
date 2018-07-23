@@ -62,7 +62,14 @@
 {
     [self az_setImageWithURL:URL placeholderImage:image showLoadingIndicator:NO completion:completion];
 }
-
+- (void)az_setImageWithSignal:(RACSignal <NSURL *>*)aSignal placeholderImage:(UIImage *)image completion:(BaseImageLoadCompletion)completion {
+    self.image = image;
+    @weakify(self);
+    [aSignal subscribeNext:^(NSURL * _Nullable x) {
+        @strongify(self);
+        [self az_setImageWithURL:x placeholderImage:image completion:completion];
+    }];
+}
 - (void)setImageWithDefaultPlaceholder
 {
     self.image = [UIImageView defaultPlaceholderImage];

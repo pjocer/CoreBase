@@ -276,7 +276,9 @@ void setUpInnetInvalidTokenInfo(InvalidTokenHandler block, BOOL autoAlert, BOOL 
         __innetHandler = ^(NSError *error) {
             if (__invalidTokenSniffer == 0) {
                 OSAtomicDecrement32(&__invalidTokenSniffer);
-                if (__innetBlock) __innetBlock(error);
+                if (__innetBlock) {
+                    __innetBlock(error);
+                }
                 OSAtomicIncrement32(&__invalidTokenSniffer);
             }
         };
@@ -312,12 +314,16 @@ void setUpInnetInvalidTokenInfo(InvalidTokenHandler block, BOOL autoAlert, BOOL 
                     if (__innetAutoAlert) {
                         AZAlert *alert = [AZAlert alertWithTitle:@"Hmmm..." detailText:error.errorMessageByServer preferConfirm:YES];
                         [alert addConfirmItemWithTitle:@"OK" action:^{
-                            if (__innetHandler) __innetHandler(error);
+                            if (__innetHandler) {
+                                __innetHandler(error);
+                            }
                             clear_innet_data();
                         }];
                         [alert show];
                     } else {
-                        if (__innetHandler) __innetHandler(error);
+                        if (__innetHandler) {
+                            __innetHandler(error);
+                        }
                         clear_innet_data();
                     }
                 })

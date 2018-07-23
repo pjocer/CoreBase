@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +27,11 @@ typedef void(^BaseImageLoadCompletion)(UIImage *_Nullable image);
 
 /// No loading indicator
 - (void)az_setImageWithURL:(NSURL *)URL
+          placeholderImage:(nullable UIImage *)image
+                completion:(nullable BaseImageLoadCompletion)completion;
+
+/// Loading with signal
+- (void)az_setImageWithSignal:(RACSignal <NSURL *>*)aSignal
           placeholderImage:(nullable UIImage *)image
                 completion:(nullable BaseImageLoadCompletion)completion;
 
