@@ -12,4 +12,8 @@
 - (void)az_setTextWithSignal:(RACSignal <NSString *>*)aSignal
             expectedWidth:(CGFloat)width
                     color:(UIColor *)color;
+- (void)az_setTextWithSignal:(RACSignal <NSString *>*)aSignal
+               expectedWidth:(CGFloat)width
+                   alignment:(NSTextAlignment)alignment
+                       color:(UIColor *)color;
 @end

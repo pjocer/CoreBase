@@ -37,9 +37,10 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
     if (!networkLoadingView) {
         networkLoadingView = [[UIView alloc] init];
         objc_setAssociatedObject(self, kNetworkLoadingView, networkLoadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        networkLoadingView.backgroundColor = [UIColor whiteColor];
         [self addSubview:networkLoadingView];
         [networkLoadingView mas_makeConstraints:^(MASConstraintMaker *maker){
-            maker.edges.mas_equalTo(UIEdgeInsetsZero);
+            maker.edges.equalTo(self);
         }];
         
         
@@ -47,6 +48,7 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
         [networkLoadingView addSubview:contentView];
         [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(networkLoadingView);
+            make.width.lessThanOrEqualTo(networkLoadingView).dividedBy(3.f/2.f);
         }];
         
         UIImageView *gifImageView = [[UIImageView alloc] init];
@@ -96,7 +98,7 @@ static const void * kNetworkLoadingView = &kNetworkLoadingView;
     @weakify(detail);
     [[[[[RACSignal interval:2 onScheduler:[RACScheduler mainThreadScheduler]] startWith:[NSDate date]] takeUntil:[networkLoadingView rac_signalForSelector:@selector(removeFromSuperview)]] map:^id _Nullable(NSDate * _Nullable value) {
         static NSInteger idx = -1;
-        return @(++idx);
+        return @((++idx)%texts.count);
     }] subscribeNext:^(NSNumber * _Nullable x) {
         @strongify(detail);
         [UIView animateWithDuration:0.3 animations:^{
