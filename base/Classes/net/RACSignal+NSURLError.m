@@ -352,9 +352,9 @@ static void notifyDataNotAllowed(void) {
 
 + (void)showAllURLErrorAlertWith:(NSError *)error action:(dispatch_block_t)action{
     if (error.responseObject || error.domain == AzazieErrorDomain) {
-        [RACSignal __doNSURLErrorWithCode:error.code title:@"OK" action:action];
-    } else {
         [RACSignal __doAzazieURLErrorWithError:error Head:nil confirmTitle:nil confirmAction:action cancelTitle:nil cancelAction:NULL];
+    } else {
+        [RACSignal __doNSURLErrorWithCode:error.code title:@"OK" action:action];
     }
 }
 
