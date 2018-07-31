@@ -25,7 +25,7 @@
             self.requestSerializer = requestSerializer;
         }
         
-        [self.requestSerializer setHTTPMethodsEncodingParametersInURI:[NSSet setWithObjects:@"GET", @"HEAD", @"DELETE", @"POST", nil]];
+        [self.requestSerializer setHTTPMethodsEncodingParametersInURI:[NSSet setWithObjects:@"GET", @"HEAD", @"DELETE", nil]];
         [self.requestSerializer setAuthorizationHeaderFieldWithUsername:@"lebbay" password:@"passw0rd"];
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
