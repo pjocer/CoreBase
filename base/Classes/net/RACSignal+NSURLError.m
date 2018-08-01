@@ -35,6 +35,18 @@ static void notifyDataNotAllowed(void) {
     [alert addCancelItemWithTitle:@"Cancel" action:NULL];
     [alert show];
 }
+AZSignalErrorAlertModel * processErrorAlertModel(NSString *alertText,NSString *confirmTitle,dispatch_block_t confirmAction,NSString *cancelTitle,dispatch_block_t cancelAction) {
+    AZSignalErrorAlertModel *model = [AZSignalErrorAlertModel new];
+    model.alertText = alertText;
+    model.confirmTitle = confirmTitle;
+    model.confirmAction = confirmAction;
+    model.cancelTitle = cancelTitle;
+    model.cancelAction = cancelAction;
+    return model;
+}
+@implementation AZSignalErrorAlertModel
+
+@end
 
 @implementation RACSignal (NSURLError)
 
@@ -80,10 +92,10 @@ static void notifyDataNotAllowed(void) {
                         cancelTitle:(NSString *)cancelTitle
                        cancelAction:(dispatch_block_t)cancelAction {
     dispatch_block_t _confirmAction = confirmAction;
-    NSString *_confirmTitle = confirmTitle;
+    NSString *_confirmTitle = confirmTitle?:@"OK";
     dispatch_block_t _cancelAction = cancelAction;
     NSString *_cancelTitle = cancelTitle;
-    NSString *_head = head;
+    NSString *_head = head?:@"Hmmm...";
     NSMutableArray *detailTexts = [NSMutableArray arrayWithCapacity:0];
     if (error.errorMessageByServer) {
         [detailTexts addObject:error.errorMessageByServer];
@@ -324,7 +336,7 @@ static void notifyDataNotAllowed(void) {
 - (RACSignal *)doAzazieURLErrorAlert {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
-            if (error.errorCodeByServer.integerValue != 10301) {
+            if (error.errorGlobalCodeByServer.integerValue != 10301) {
                 [RACSignal __doAzazieURLErrorWithError:error Head:nil confirmTitle:nil confirmAction:NULL cancelTitle:nil cancelAction:NULL];
             }
         }
@@ -334,10 +346,27 @@ static void notifyDataNotAllowed(void) {
     return [self doURLErrorAlertWithHead:nil confirmTitle:title confirmAction:action cancelTitle:nil cancelAction:NULL];
 }
 
+- (RACSignal *)doURLErrorAlertCustomize:(CustomizeErrorAlert)aBlock {
+    if (aBlock) {
+        return [self doError:^(NSError * _Nonnull error) {
+            AZSignalErrorAlertModel *model = aBlock(error);
+            if (error.responseObject || error.domain == AzazieErrorDomain) {
+                if (error.errorGlobalCodeByServer.integerValue != 10301) {
+                    [RACSignal __doAzazieURLErrorWithError:error Head:model.alertText confirmTitle:model.confirmTitle?:@"OK" confirmAction:model.confirmAction cancelTitle:model.cancelTitle cancelAction:model.cancelAction];
+                }
+            } else {
+                [RACSignal __doNSURLErrorWithCode:error.code title:model.confirmTitle action:model.confirmAction];
+            }
+        }];
+    } else {
+        return [self doURLErrorAlert];
+    }
+}
+
 - (RACSignal *)doURLErrorAlertWithHead:(NSString *)head confirmTitle:(NSString *)title confirmAction:(dispatch_block_t)confirmAction cancelTitle:(NSString *)cancel cancelAction:(dispatch_block_t)cancelAction {
     return [self doError:^(NSError * _Nonnull error) {
         if (error.responseObject || error.domain == AzazieErrorDomain) {
-            if (error.errorCodeByServer.integerValue != 10301) {
+            if (error.errorGlobalCodeByServer.integerValue != 10301) {
                 [RACSignal __doAzazieURLErrorWithError:error Head:head confirmTitle:title confirmAction:confirmAction cancelTitle:cancel cancelAction:cancelAction];
             }
         } else {

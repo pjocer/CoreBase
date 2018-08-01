@@ -17,6 +17,31 @@ FOUNDATION_EXPORT NSInteger const AzazieErrorMultipleErrors;
 FOUNDATION_EXPORT NSInteger const AzazieErrorSingleError;
 FOUNDATION_EXPORT NSString *const AzazieErrorSingleErrorMessageKey;
 
+
+@class AZSignalErrorAlertModel;
+typedef AZSignalErrorAlertModel *(^CustomizeErrorAlert)(NSError *error);
+
+
+/**
+ convenience init
+
+ @param alertText "Hmmm..." by default
+ @param confirmTitle "OK" by default
+ @param confirmAction OK action
+ @param cancelTitle nil by default
+ @param cancelAction NULL by default
+ @return AZSignalErrorAlertModel instance
+ */
+FOUNDATION_EXPORT AZSignalErrorAlertModel * processErrorAlertModel(NSString *alertText,NSString *confirmTitle,dispatch_block_t confirmAction,NSString *cancelTitle,dispatch_block_t cancelAction);
+
+@interface AZSignalErrorAlertModel : NSObject
+@property (nonatomic, strong) NSString *alertText;
+@property (nonatomic, strong) NSString *confirmTitle;
+@property (nonatomic, copy) dispatch_block_t confirmAction;
+@property (nonatomic, strong) NSString *cancelTitle;
+@property (nonatomic, copy) dispatch_block_t cancelAction;
+@end
+
 @interface RACSignal<__covariant ValueType> (NSURLError)
 
 // catch URLError and then send nil to next
@@ -37,6 +62,7 @@ FOUNDATION_EXPORT NSString *const AzazieErrorSingleErrorMessageKey;
 - (RACSignal<ValueType> *)doAzazieURLErrorAlert;
 - (RACSignal<ValueType> *)doURLErrorAlertWithConfirmTitle:(NSString *)title
                                                    action:(dispatch_block_t)action;
+- (RACSignal<ValueType> *)doURLErrorAlertCustomize:(CustomizeErrorAlert)aBlock;
 - (RACSignal<ValueType> *)doURLErrorAlertWithHead:(NSString *)head
                                      confirmTitle:(NSString *)title
                                     confirmAction:(dispatch_block_t)confirmAction
