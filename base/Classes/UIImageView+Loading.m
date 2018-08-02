@@ -34,8 +34,7 @@
     return BaseImageWithNamed(IS_AZAZIE?@"product_placeholder":@"product_placeholder_loveprom");
 }
 
-- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image showLoadingIndicator:(BOOL)showLoadingIndicator completion:(BaseImageLoadCompletion)completion
-{
+- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image showLoadingIndicator:(BOOL)showLoadingIndicator animation:(BOOL)animate completion:(nullable BaseImageLoadCompletion)completion {
     if (showLoadingIndicator)
     {
         [self startLoading];
@@ -46,11 +45,10 @@
     @weakify(self);
     [self sd_setImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         @strongify(self);
-        [[UIApplication sharedApplication] hideNetworkActivityIndicator];
         main_thread_safe(^{
-            @strongify(self);
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             [self stopLoading];
-            if (image) {
+            if (image && animate) {
                 CATransition *transition = [CATransition animation];
                 transition.type = kCATransitionFade;
                 transition.duration = 0.3;
@@ -64,9 +62,15 @@
     }];;
 }
 
-- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image completion:(void (^)(UIImage * _Nullable))completion
-{
-    [self az_setImageWithURL:URL placeholderImage:image showLoadingIndicator:NO completion:completion];
+- (void)az_setImageWithURL:(NSURL *)URL
+          placeholderImage:(nullable UIImage *)image
+      showLoadingIndicator:(BOOL)showLoadingIndicator
+                completion:(nullable BaseImageLoadCompletion)completion {
+    [self az_setImageWithURL:URL placeholderImage:image showLoadingIndicator:showLoadingIndicator animation:YES completion:NULL];
+}
+
+- (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image completion:(void (^)(UIImage * _Nullable))completion {
+    [self az_setImageWithURL:URL placeholderImage:image showLoadingIndicator:NO animation:YES completion:completion];
 }
 - (void)az_setImageWithSignal:(RACSignal <NSURL *>*)aSignal placeholderImage:(UIImage *)image completion:(BaseImageLoadCompletion)completion {
     @weakify(self);

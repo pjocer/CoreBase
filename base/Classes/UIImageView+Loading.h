@@ -20,6 +20,22 @@ typedef void(^BaseImageLoadCompletion)(UIImage *_Nullable image);
 + (UIImage *)defaultCirclePlaceholderImage;
 + (UIImage *)productPlaceholderImage;
 
+
+/**
+ Set web image
+
+ @param URL image url
+ @param image placeholder image
+ @param showLoadingIndicator show loading indicator on current image view
+ @param animate animation setting image
+ @param completion completion call back
+ */
+- (void)az_setImageWithURL:(NSURL *)URL
+          placeholderImage:(nullable UIImage *)image
+      showLoadingIndicator:(BOOL)showLoadingIndicator
+                 animation:(BOOL)animate
+                completion:(nullable BaseImageLoadCompletion)completion;
+
 - (void)az_setImageWithURL:(NSURL *)URL
           placeholderImage:(nullable UIImage *)image
       showLoadingIndicator:(BOOL)showLoadingIndicator
