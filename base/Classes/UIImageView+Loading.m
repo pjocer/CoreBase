@@ -35,11 +35,9 @@
 }
 
 - (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image showLoadingIndicator:(BOOL)showLoadingIndicator animation:(BOOL)animate completion:(nullable BaseImageLoadCompletion)completion {
-    if (showLoadingIndicator)
-    {
+    if (showLoadingIndicator) {
         [self startLoading];
     }
-    
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
     SDWebImageOptions option = SDWebImageQueryDataWhenInMemory|SDWebImageRetryFailed|SDWebImageRefreshCached|SDWebImageContinueInBackground|SDWebImageQueryDiskSync;
     @weakify(self);
