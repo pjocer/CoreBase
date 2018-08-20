@@ -73,3 +73,10 @@ NS_ASSUME_NONNULL_END
 @property (nonatomic, strong, readonly) FLAnimatedImageView *imageView;
 @property (nonatomic, strong, readonly) UILabel *actionLabel;
 @end
+
+@interface AZProgressHUDDelegateManager : NSObject
+
+
+@end
+
+

@@ -118,6 +118,7 @@
 @property (nonatomic, assign) AZProgressHUDAnimationType _displayAnimationType;
 @property (nonatomic, assign) AZProgressHUDAnimationType _hiddenAnimationType;
 @property (nonatomic, strong) AZProgressHUDDefaultContentView *defaultContentView;
+@property (nonatomic, strong) AZProgressHUDDelegateManager *delegateManager;
 @end
 
 @implementation AZProgressHUD
@@ -149,6 +150,15 @@
     hud.blocked(YES).autoremoveOnHidden(YES).hideAfterDelay(DISPATCH_TIME_NOW);
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.bezelView.color = UIColorClear;
+    
+    hud.delegateManager = [[AZProgressHUDDelegateManager alloc] init];
+    hud.delegate = hud.delegateManager;
+    
+    @weakify(hud);
+    [[hud.delegateManager rac_signalForSelector:@selector(hudWasHidden:)] subscribeNext:^(RACTuple * _Nullable x) {
+        @strongify(hud);
+        hud.contentView(nil);
+    }];
     return hud;
 }
 - (AZProgressHUDDefaultContentView *)defaultContentView {
@@ -221,7 +231,7 @@
     };
 }
 
-- (AZProgressHUD *(^)(UIView  *view))contentView {
+- (AZProgressHUD *(^)(UIView *view))contentView {
     return ^(UIView *view) {
         self.mode = MBProgressHUDModeCustomView;
         self.customView = view;
@@ -399,4 +409,13 @@
 }
 
 
+
+@interface AZProgressHUDDelegateManager () <MBProgressHUDDelegate>
+
+@end
+
+@implementation AZProgressHUDDelegateManager
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+    
+}
 @end
