@@ -408,7 +408,7 @@
     return self.customView == self.defaultContentView || [self.customView isKindOfClass:AZProgressHUDDefaultContentView.class];
 }
 
-
+@end
 
 @interface AZProgressHUDDelegateManager () <MBProgressHUDDelegate>
 
