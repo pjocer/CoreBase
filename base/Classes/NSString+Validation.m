@@ -21,4 +21,9 @@
     return self.length >= 5;
 }
 
+- (BOOL)isContainSpecialCharacters
+{
+    return !TXRegexMatch(@"^[\\u0000-\uffff]*$", self);
+}
+
 @end
