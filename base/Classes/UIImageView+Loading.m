@@ -47,11 +47,11 @@
             [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             [self stopLoading];
             if (image && animate) {
-                CATransition *transition = [CATransition animation];
-                transition.type = kCATransitionFade;
-                transition.duration = 0.3;
-                transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-                [self.layer addAnimation:transition forKey:nil];
+//                CATransition *transition = [CATransition animation];
+//                transition.type = kCATransitionFade;
+//                transition.duration = 0.3;
+//                transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//                [self.layer addAnimation:transition forKey:nil];
             }
             if (completion) {
                 completion(image);
