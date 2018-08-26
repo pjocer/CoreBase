@@ -15,16 +15,16 @@
 #define START_PRESALE_TEXT TIME_INTERVAL_GAP*2
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-07-23 00:00:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-07-31 23:59:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-08-29 00:00:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-09-03 23:59:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-08-01 00:00:00";
-NSString *const ActivityCountDownEndTime    = @"2018-08-01 21:59:59";
+NSString *const ActivityCountDownStartTime  = @"2018-09-04 00:00:00";
+NSString *const ActivityCountDownEndTime    = @"2018-09-04 21:59:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-07-30 00:00:00";
-NSString *const ActivityEndTime             = @"2018-08-01 23:59:59";
+NSString *const ActivityStartTime           = @"2018-09-02 00:00:00";
+NSString *const ActivityEndTime             = @"2018-09-04 23:59:59";
 
-NSString *const ActivityCode                = @"SAVE10";
+NSString *const ActivityCode                = @"LABORDAY";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
@@ -98,15 +98,15 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
         NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
         
-        if (timeInterval > TIME_INTERVAL_GAP * 2 && timeInterval < TIME_INTERVAL_GAP * 9) {
+        if (timeInterval > TIME_INTERVAL_GAP * 2 && timeInterval < TIME_INTERVAL_GAP * 7) {
             NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
-            NSString *text = [NSString stringWithFormat:@"%ld Days Until Fall Preview Sale | %@ Off All Wedding Dresses." ,remainingDays-1, @"10%"];
+            NSString *text = [NSString stringWithFormat:@"%ld DAYS UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays-1, @"10%"];
             return [self generateTopNotificationActivityData:text];
         }
         if (timeInterval <= TIME_INTERVAL_GAP * 2 && timeInterval > 0) {
             NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
             NSString *text = nil;
-            text = [NSString stringWithFormat:@"%@ OFF ALL WEDDING DRESSES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays+2];
+            text = [NSString stringWithFormat:@"%@ OFF ALL ACCESSORIES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays+2];
             return [self generateTopNotificationActivityData:text];
         }
         return [self generateTopNotificationActivityData:nil];
