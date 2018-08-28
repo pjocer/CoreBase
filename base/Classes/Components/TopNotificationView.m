@@ -24,16 +24,11 @@
 
 @implementation TopNotificationView
 
-- (instancetype)initWithData:(TopNotificationModel *)data {
+- (instancetype)init {
     if (self = [super init]) {
-        self.model = data;
         [self subscribe];
     }
     return self;
-}
-
-- (instancetype)init {
-    return [self initWithData:nil];
 }
 
 - (instancetype)subscribe {

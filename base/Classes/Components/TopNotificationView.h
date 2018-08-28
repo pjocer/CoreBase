@@ -16,6 +16,5 @@
 @property (nonatomic, copy) dispatch_block_t clickedClose;
 - (instancetype)init;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-- (instancetype)initWithData:(TopNotificationModel *)data;
 + (CGSize)expectedSize:(TopNotificationModel *)model;
 @end
