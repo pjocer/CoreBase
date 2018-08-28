@@ -17,16 +17,16 @@
 
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-08-28 00:32:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-08-28 00:37:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-08-28 01:21:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-08-28 01:26:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-08-28 00:38:00";
-NSString *const ActivityCountDownEndTime    = @"2018-08-28 00:38:59";
+NSString *const ActivityCountDownStartTime  = @"2018-08-28 01:27:00";
+NSString *const ActivityCountDownEndTime    = @"2018-08-28 01:27:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-08-28 00:36:00";
-NSString *const ActivityEndTime             = @"2018-08-28 00:38:59";
+NSString *const ActivityStartTime           = @"2018-08-28 01:24:00";
+NSString *const ActivityEndTime             = @"2018-08-28 01:27:59";
 
-NSString *const ActivityCode                = @"LABORDAY_TEST10";
+NSString *const ActivityCode                = @"LABORDAY_TEST12";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
@@ -84,9 +84,14 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
         NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
         
-        if (timeInterval > TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval <= TIME_INTERVAL_GAP * PRESALE_DAYS) {
-            NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
-            NSString *text = [NSString stringWithFormat:@"%ld DAYS UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays-1, @"10%"];
+        if (timeInterval > TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval < TIME_INTERVAL_GAP * PRESALE_DAYS) {
+            NSInteger remainingDays = (timeInterval/TIME_INTERVAL_GAP) - 1;
+            NSString *text = @"";
+            if (remainingDays == 1) {
+                text = [NSString stringWithFormat:@"%ld DAY UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays, @"10%"];
+            } else {
+                text = [NSString stringWithFormat:@"%ld DAYS UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays, @"10%"];
+            }
             return [self generateTopNotificationActivityData:text];
         }
         if (timeInterval <= TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval >= 0) {
