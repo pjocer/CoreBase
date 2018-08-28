@@ -17,14 +17,14 @@
 
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-08-27 23:58:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-08-28 10:05:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-08-28 00:32:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-08-28 00:37:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-08-27 10:06:00";
-NSString *const ActivityCountDownEndTime    = @"2018-08-29 10:06:59";
+NSString *const ActivityCountDownStartTime  = @"2018-08-28 00:38:00";
+NSString *const ActivityCountDownEndTime    = @"2018-08-28 00:38:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-08-27 10:04:00";
-NSString *const ActivityEndTime             = @"2018-08-27 10:06:59";
+NSString *const ActivityStartTime           = @"2018-08-28 00:36:00";
+NSString *const ActivityEndTime             = @"2018-08-28 00:38:59";
 
 NSString *const ActivityCode                = @"LABORDAY_TEST10";
 

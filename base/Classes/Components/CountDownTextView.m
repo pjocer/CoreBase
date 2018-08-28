@@ -37,7 +37,7 @@
             make.left.equalTo(self.descriptionLabel.mas_right).offset(3);
         }];
         @weakify(self);
-        [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:ActivityCountDownStatusDidChanged object:nil] startWith:[NSNotification notificationWithName:ActivityCountDownStatusDidChanged object:@(ActivitySharedHandler.isActivityCountDownViewAvaliable)]] subscribeNext:^(NSNotification * _Nullable x) {
+        [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:ActivityCountDownStatusDidChanged object:nil] startWith:[NSNotification notificationWithName:ActivityCountDownStatusDidChanged object:@(ActivitySharedHandler.countDownInterval)]] subscribeNext:^(NSNotification * _Nullable x) {
             @strongify(self);
             NSTimeInterval interval = [x.object integerValue];
             self.countDownView.countDownTimeInterval = interval;
