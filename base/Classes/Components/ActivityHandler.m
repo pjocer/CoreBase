@@ -17,11 +17,11 @@
 
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-08-27 10:00:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-08-27 10:05:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-08-27 23:58:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-08-28 10:05:59";
 //黑色倒计时
 NSString *const ActivityCountDownStartTime  = @"2018-08-27 10:06:00";
-NSString *const ActivityCountDownEndTime    = @"2018-08-27 10:06:59";
+NSString *const ActivityCountDownEndTime    = @"2018-08-29 10:06:59";
 //真正的活动时间范围
 NSString *const ActivityStartTime           = @"2018-08-27 10:04:00";
 NSString *const ActivityEndTime             = @"2018-08-27 10:06:59";
@@ -34,8 +34,6 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
 
 @interface ActivityHandler ()
 @property (nonatomic, readwrite, strong) NSDateFormatter *fmt;
-@property (nonatomic, readwrite, strong) RACSignal <NSNumber *> *activityTimeIntervalSignal;
-@property (nonatomic, readwrite, strong) RACSignal <TopNotificationModel *> *presaleTextSignal;
 @property (nonatomic, readwrite, assign) CGSize activity_presale_size;
 @property (nonatomic, readwrite, assign) CGSize activity_count_down_size;
 @end
@@ -71,13 +69,13 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         @strongify(self);
         NSComparisonResult result = [x compare:[self.fmt dateFromString:ActivityEndTime]];
         if (result == NSOrderedDescending) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:@(NO)];
-            [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:@(NO)];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:@(0)];
             [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCouponCodeStatusDidChanged object:@(NO)];
         }
         return result == NSOrderedDescending;
     }] replayLast];
-    self.presaleTextSignal = [[[[time map:^id _Nullable(NSDate * _Nullable value) {
+    [[[[time map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
         if (self.hasClosedPreSaleView) {
             return [self generateTopNotificationActivityData:nil];
@@ -100,8 +98,11 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         return [self generateTopNotificationActivityData:nil];
     }] map:^id _Nullable(TopNotificationModel *_Nullable value) {
         return value.text;
-    }] distinctUntilChanged] mapReplace:self.data];
-    self.activityTimeIntervalSignal = [[[[[time map:^id _Nullable(NSDate * _Nullable value) {
+    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
+        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:self.data];
+    }];
+    [[[[[[time map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
         return @(self.isActivityCountDownViewAvaliable);
     }] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
@@ -110,24 +111,15 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         NSDateFormatter *fmt = self.fmt;
         NSDate *endTime = [fmt dateFromString:ActivityCountDownEndTime];
         return @(floor([endTime timeIntervalSinceDate:NSDate.date]));
-    }] distinctUntilChanged];
+    }] distinctUntilChanged] subscribeNext:^(NSNumber *_Nullable x) {
+        self.countDownInterval = [x integerValue];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:x];
+    }];
     [[[time map:^id _Nullable(id  _Nullable value) {
         @strongify(self);
         return @(self.isActivityCouponCodeAvaliable);
     }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
         [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCouponCodeStatusDidChanged object:x];
-    }];
-    [[[time map:^id _Nullable(id  _Nullable value) {
-        @strongify(self);
-        return @(self.isActivityPreSaleViewAvaliable);
-    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:x];
-    }];
-    [[[time map:^id _Nullable(id  _Nullable value) {
-        @strongify(self);
-        return @(self.isActivityCountDownViewAvaliable);
-    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:x];
     }];
 }
 

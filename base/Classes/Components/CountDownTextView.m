@@ -39,7 +39,9 @@
         @weakify(self);
         [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:ActivityCountDownStatusDidChanged object:nil] startWith:[NSNotification notificationWithName:ActivityCountDownStatusDidChanged object:@(ActivitySharedHandler.isActivityCountDownViewAvaliable)]] subscribeNext:^(NSNotification * _Nullable x) {
             @strongify(self);
-            self.contentView.hidden = ![x.object boolValue];
+            NSTimeInterval interval = [x.object integerValue];
+            self.countDownView.countDownTimeInterval = interval;
+            self.contentView.hidden = (interval==0);
         }];
     }
     return self;
