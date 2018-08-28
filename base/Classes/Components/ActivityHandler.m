@@ -17,14 +17,14 @@
 
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-08-28 02:47:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-08-28 02:52:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-08-28 03:09:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-08-28 03:14:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-08-28 02:53:00";
-NSString *const ActivityCountDownEndTime    = @"2018-08-28 02:53:59";
+NSString *const ActivityCountDownStartTime  = @"2018-08-28 03:15:00";
+NSString *const ActivityCountDownEndTime    = @"2018-08-28 03:15:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-08-28 02:51:00";
-NSString *const ActivityEndTime             = @"2018-08-28 02:53:59";
+NSString *const ActivityStartTime           = @"2018-08-28 03:13:00";
+NSString *const ActivityEndTime             = @"2018-08-28 03:15:59";
 
 NSString *const ActivityCode                = @"LABORDAY_TEST12";
 
@@ -111,6 +111,9 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         @strongify(self);
         return @(self.isActivityCountDownViewAvaliable);
     }] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
+        if (![value boolValue]) {
+            self.countDownInterval = 0;
+        }
         return [value boolValue];
     }] map:^id _Nullable(id  _Nullable value) {
         NSDateFormatter *fmt = self.fmt;
