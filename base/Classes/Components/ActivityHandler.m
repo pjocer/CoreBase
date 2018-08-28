@@ -77,7 +77,7 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         }
         return result == NSOrderedDescending;
     }] replayLast];
-    self.presaleTextSignal = [[[time map:^id _Nullable(NSDate * _Nullable value) {
+    self.presaleTextSignal = [[[[time map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
         if (self.hasClosedPreSaleView) {
             return [self generateTopNotificationActivityData:nil];
@@ -100,7 +100,7 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         return [self generateTopNotificationActivityData:nil];
     }] map:^id _Nullable(TopNotificationModel *_Nullable value) {
         return value.text;
-    }] distinctUntilChanged] ;
+    }] distinctUntilChanged] mapReplace:self.data];
     self.activityTimeIntervalSignal = [[[[[time map:^id _Nullable(NSDate * _Nullable value) {
         @strongify(self);
         return @(self.isActivityCountDownViewAvaliable);
