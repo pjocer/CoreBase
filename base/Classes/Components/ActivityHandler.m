@@ -20,11 +20,11 @@
 NSString *const PreSaleCountDownStartTime   = @"2018-08-28 03:51:00";
 NSString *const PreSaleCountDownEndTime     = @"2018-08-28 03:56:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-08-28 03:57:00";
-NSString *const ActivityCountDownEndTime    = @"2018-08-28 03:57:59";
+NSString *const ActivityCountDownStartTime  = @"2018-08-28 04:28:00";
+NSString *const ActivityCountDownEndTime    = @"2018-08-28 04:28:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-08-28 03:55:00";
-NSString *const ActivityEndTime             = @"2018-08-28 03:57:59";
+NSString *const ActivityStartTime           = @"2018-08-28 04:28:00";
+NSString *const ActivityEndTime             = @"2018-08-28 04:28:59";
 
 NSString *const ActivityCode                = @"LABORDAY_TEST12";
 
@@ -107,21 +107,25 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         @strongify(self);
         [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:self.data];
     }];
-    [[[[[[time map:^id _Nullable(NSDate * _Nullable value) {
+    [[[time filter:^BOOL(id  _Nullable value) {
         @strongify(self);
-        return @(self.isActivityCountDownViewAvaliable);
-    }] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
-        if (![value boolValue]) {
+        if (!self.isActivityCountDownViewAvaliable) {
             self.countDownInterval = 0;
+            return NO;
         }
-        return [value boolValue];
+        return YES;
     }] map:^id _Nullable(id  _Nullable value) {
         NSDateFormatter *fmt = self.fmt;
         NSDate *endTime = [fmt dateFromString:ActivityCountDownEndTime];
         return @(floor([endTime timeIntervalSinceDate:NSDate.date]));
-    }] distinctUntilChanged] subscribeNext:^(NSNumber *_Nullable x) {
+    }] subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
         self.countDownInterval = [x integerValue];
-        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:x];
+    }];
+    [[[RACObserve(self, countDownInterval) map:^id _Nullable(id  _Nullable value) {
+        return @([value integerValue]==0);
+    }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:@(self.countDownInterval)];
     }];
     [[[time map:^id _Nullable(id  _Nullable value) {
         @strongify(self);
