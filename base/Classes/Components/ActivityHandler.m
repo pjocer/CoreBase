@@ -11,20 +11,22 @@
 #import "TopNotificationView.h"
 #import <QMUIKit/QMUICommonDefines.h>
 
-#define TIME_INTERVAL_GAP (3600*24)
-#define START_PRESALE_TEXT TIME_INTERVAL_GAP*2
+#define TIME_INTERVAL_GAP (60)
+#define PRESALE_DAYS 6
+#define PRESALE_SECOND_TEXT_DAYS 2
+
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-08-29 00:00:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-09-03 23:59:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-08-27 10:00:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-08-27 10:05:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-09-04 00:00:00";
-NSString *const ActivityCountDownEndTime    = @"2018-09-04 21:59:59";
+NSString *const ActivityCountDownStartTime  = @"2018-08-27 10:06:00";
+NSString *const ActivityCountDownEndTime    = @"2018-08-27 10:06:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-09-02 00:00:00";
-NSString *const ActivityEndTime             = @"2018-09-04 23:59:59";
+NSString *const ActivityStartTime           = @"2018-08-27 10:04:00";
+NSString *const ActivityEndTime             = @"2018-08-27 10:06:59";
 
-NSString *const ActivityCode                = @"LABORDAY";
+NSString *const ActivityCode                = @"LABORDAY_TEST10";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
@@ -53,6 +55,10 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
     return handler;
 }
 - (CGSize)activity_presale_size {
+    if (!self.data) {
+        _activity_presale_size = CGSizeZero;
+        return _activity_presale_size;
+    }
     if (!CGSizeEqualToSize(_activity_presale_size, CGSizeZero)) {
         return _activity_presale_size;
     }
@@ -71,6 +77,40 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
         }
         return result == NSOrderedDescending;
     }] replayLast];
+    self.presaleTextSignal = [[[time map:^id _Nullable(NSDate * _Nullable value) {
+        @strongify(self);
+        if (self.hasClosedPreSaleView) {
+            return [self generateTopNotificationActivityData:nil];
+        }
+        NSDateFormatter *fmt = self.fmt;
+        NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
+        NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
+        
+        if (timeInterval > TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval <= TIME_INTERVAL_GAP * PRESALE_DAYS) {
+            NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
+            NSString *text = [NSString stringWithFormat:@"%ld DAYS UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays-1, @"10%"];
+            return [self generateTopNotificationActivityData:text];
+        }
+        if (timeInterval <= TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval >= 0) {
+            NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
+            NSString *text = nil;
+            text = [NSString stringWithFormat:@"%@ OFF ALL ACCESSORIES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays+2];
+            return [self generateTopNotificationActivityData:text];
+        }
+        return [self generateTopNotificationActivityData:nil];
+    }] map:^id _Nullable(TopNotificationModel *_Nullable value) {
+        return value.text;
+    }] distinctUntilChanged] ;
+    self.activityTimeIntervalSignal = [[[[[time map:^id _Nullable(NSDate * _Nullable value) {
+        @strongify(self);
+        return @(self.isActivityCountDownViewAvaliable);
+    }] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
+        return [value boolValue];
+    }] map:^id _Nullable(id  _Nullable value) {
+        NSDateFormatter *fmt = self.fmt;
+        NSDate *endTime = [fmt dateFromString:ActivityCountDownEndTime];
+        return @(floor([endTime timeIntervalSinceDate:NSDate.date]));
+    }] distinctUntilChanged];
     [[[time map:^id _Nullable(id  _Nullable value) {
         @strongify(self);
         return @(self.isActivityCouponCodeAvaliable);
@@ -89,37 +129,6 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
     }] distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
         [[NSNotificationCenter defaultCenter] postNotificationName:ActivityCountDownStatusDidChanged object:x];
     }];
-    self.presaleTextSignal = [[time map:^id _Nullable(NSDate * _Nullable value) {
-        @strongify(self);
-        if (self.hasClosedPreSaleView) {
-            return [self generateTopNotificationActivityData:nil];
-        }
-        NSDateFormatter *fmt = self.fmt;
-        NSDate *endTime = [fmt dateFromString:PreSaleCountDownEndTime];
-        NSInteger timeInterval = floor([endTime timeIntervalSinceDate:NSDate.date]);
-        
-        if (timeInterval > TIME_INTERVAL_GAP * 2 && timeInterval < TIME_INTERVAL_GAP * 7) {
-            NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
-            NSString *text = [NSString stringWithFormat:@"%ld DAYS UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays-1, @"10%"];
-            return [self generateTopNotificationActivityData:text];
-        }
-        if (timeInterval <= TIME_INTERVAL_GAP * 2 && timeInterval > 0) {
-            NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
-            NSString *text = nil;
-            text = [NSString stringWithFormat:@"%@ OFF ALL ACCESSORIES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays+2];
-            return [self generateTopNotificationActivityData:text];
-        }
-        return [self generateTopNotificationActivityData:nil];
-    }] distinctUntilChanged];
-    self.activityTimeIntervalSignal = [[[[[time map:^id _Nullable(NSDate * _Nullable value) {
-        return @(self.isActivityCountDownViewAvaliable);
-    }] distinctUntilChanged] filter:^BOOL(id  _Nullable value) {
-        return [value boolValue];
-    }] map:^id _Nullable(id  _Nullable value) {
-        NSDateFormatter *fmt = self.fmt;
-        NSDate *endTime = [fmt dateFromString:ActivityCountDownEndTime];
-        return @(floor([endTime timeIntervalSinceDate:NSDate.date]));
-    }] distinctUntilChanged];
 }
 
 - (BOOL)isActivityPreSaleViewAvaliable {
@@ -185,7 +194,12 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
             _attribute1.value = @"333333";
             _attribute1.start = 0;
             _attribute1.length = aText.length;
-            _data.attributes = @[_attribute1];
+            TopNotificationAttributesModel *_attribute2 = [TopNotificationAttributesModel new];
+            _attribute2.type = TopNotifyLabelAttributesTypeUnderline;
+            NSRange underline = [aText rangeOfString:@"ACCESSORIES"];
+            _attribute2.start = underline.location;
+            _attribute2.length = underline.length;
+            _data.attributes = @[_attribute1, _attribute2];
         } else {
             if (![_data.text isEqualToString:aText]) {
                 _data = nil;
