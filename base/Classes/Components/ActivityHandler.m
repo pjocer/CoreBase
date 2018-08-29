@@ -11,7 +11,7 @@
 #import "TopNotificationView.h"
 #import <QMUIKit/QMUICommonDefines.h>
 
-#define TIME_INTERVAL_GAP (60)
+#define TIME_INTERVAL_GAP (60*60*24)
 #define PRESALE_DAYS 6
 #define PRESALE_SECOND_TEXT_DAYS 2
 
