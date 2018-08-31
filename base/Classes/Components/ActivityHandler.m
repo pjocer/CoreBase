@@ -150,7 +150,7 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
 - (void)setHasClosedPreSaleView:(BOOL)hasClosedPreSaleView {
     [[NSUserDefaults standardUserDefaults] setObject:hasClosedPreSaleView?[self.fmt stringFromDate:NSDate.date]:nil forKey:@"has_closed_presale"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:@(!hasClosedPreSaleView)];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ActivityPresaleStatusDidChanged object:nil];
 }
 
 - (BOOL)hasClosedPreSaleView {
