@@ -20,6 +20,7 @@
 @interface TopNotificationView ()
 @property (nonatomic, strong) TTTAttributedLabel *label;
 @property (nonatomic, strong) UIImageView *close;
+@property (nonatomic, strong) UIView *closeContent;
 @end
 
 @implementation TopNotificationView
@@ -48,13 +49,13 @@
             CGPoint point = [value locationInView:self.label];
             TTTAttributedLabelLink *link = [self.label linkAtPoint:point];
             return link;
-        } else if (CGRectContainsPoint(self.close.bounds, [value locationInView:self.close])) {
-            return self.close;
+        } else if (CGRectContainsPoint(self.closeContent.bounds, [value locationInView:self.closeContent])) {
+            return self.closeContent;
         } else {
             return nil;
         }
     }] subscribeNext:^(id  _Nullable x) {
-        if (x == self.close) {
+        if (x == self.closeContent) {
             if (self.clickedClose) {
                 self.clickedClose();
             } else {
@@ -151,15 +152,15 @@
 
 - (void)renderCloseButton {
     if (!self.model.text) {
-        [self.close removeFromSuperview];
+        [self.closeContent removeFromSuperview];
         return;
     } else {
-        if (!self.close.superview) {
-            [self addSubview:self.close];
-            [self.close mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.width.height.mas_equalTo(10);
-                make.top.mas_equalTo(10);
-                make.right.mas_equalTo(-10);
+        if (!self.closeContent.superview) {
+            [self addSubview:self.closeContent];
+            [self.closeContent mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.width.height.mas_equalTo(20);
+                make.top.mas_equalTo(5);
+                make.right.mas_equalTo(-5);
             }];
         }
     }
@@ -191,6 +192,20 @@
             }];
         }
     }
+}
+
+- (UIView *)closeContent {
+    if (!_closeContent) {
+        _closeContent = [[UIView alloc] init].tx_backgroundColor(UIColorClear);
+        
+        [_closeContent addSubview:self.close];
+        [self.close mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(10, 10));
+            make.centerX.equalTo(_closeContent);
+            make.top.mas_equalTo(5);
+        }];
+    }
+    return _closeContent;
 }
 
 - (UIImageView *)close {
