@@ -32,7 +32,15 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
 }
 
 @implementation UIScrollView (Loading)
-
+- (BOOL)hasRefreshHeader {
+    return self.mj_header!=nil;
+}
+- (BOOL)hasRefreshFooter {
+    return self.mj_footer!=nil;
+}
+- (BOOL)hasRefreshHeaderFooter {
+    return self.hasRefreshHeader&&self.hasRefreshFooter;
+}
 - (BOOL)isHeaderRefreshing {
     return self.mj_header.isRefreshing;
 }

@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UIScrollView (Loading)
+- (BOOL)hasRefreshHeader;
+- (BOOL)hasRefreshFooter;
+- (BOOL)hasRefreshHeaderFooter;
 - (BOOL)isHeaderRefreshing;
 - (BOOL)isFooterRefreshing;
 - (void)addRefreshHeaderWithBlock:(void(^)(void))block;
