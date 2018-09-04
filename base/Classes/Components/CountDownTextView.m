@@ -56,7 +56,7 @@
 - (UILabel *)descriptionLabel {
     if (!_descriptionLabel) {
         _descriptionLabel = [[UILabel alloc] qmui_initWithFont:UIFontMake(10) textColor:UIColorWhite];
-        _descriptionLabel.text = @"10% OFF FOR ALL WEDDING DRESSES ENDS IN";
+        _descriptionLabel.text = ActivityCountDownText;
     }
     return _descriptionLabel ;
 }

@@ -11,22 +11,23 @@
 #import "TopNotificationView.h"
 #import <QMUIKit/QMUICommonDefines.h>
 
-#define TIME_INTERVAL_GAP (60*60*24)
-#define PRESALE_DAYS 6
-#define PRESALE_SECOND_TEXT_DAYS 2
+#define TIME_INTERVAL_GAP (60) //一天
+#define PRESALE_DAYS 12          // 粉色显示天数
+#define PRESALE_SECOND_TEXT_DAYS 2  //提前几天显示倒计时
 
 
 //预售
-NSString *const PreSaleCountDownStartTime   = @"2018-08-29 00:00:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-09-03 23:59:59";
+NSString *const PreSaleCountDownStartTime   = @"2018-09-04 01:05:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-09-04 01:16:59";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-09-04 00:00:00";
-NSString *const ActivityCountDownEndTime    = @"2018-09-04 23:59:59";
+NSString *const ActivityCountDownStartTime  = @"2018-09-04 01:17:00";
+NSString *const ActivityCountDownEndTime    = @"2018-09-04 01:17:59";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-09-02 00:00:00";
-NSString *const ActivityEndTime             = @"2018-09-04 23:59:59";
+NSString *const ActivityStartTime           = @"2018-09-04 01:15:00";
+NSString *const ActivityEndTime             = @"2018-09-04 01:17:59";
 
-NSString *const ActivityCode                = @"LABORDAY";
+NSString *const ActivityCode                = @"WEDDING_TEST4";
+NSString *const ActivityCountDownText       = @"10% OFF ALL WEDDING DRESSES WITH CODE: WEDDING10";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
 NSNotificationName const ActivityCountDownStatusDidChanged = @"ActivityCountDownStatusDidChanged";
@@ -88,16 +89,16 @@ NSNotificationName const ActivityCouponCodeStatusDidChanged = @"ActivityCouponCo
             NSInteger remainingDays = (timeInterval/TIME_INTERVAL_GAP) - 1;
             NSString *text = @"";
             if (remainingDays == 1) {
-                text = [NSString stringWithFormat:@"%ld DAY UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays, @"10%"];
+                text = [NSString stringWithFormat:@"Get Ready! %ld Day Until Our Fall Sale! | %@ Off All Wedding Dresses" ,remainingDays, @"10%"];
             } else {
-                text = [NSString stringWithFormat:@"%ld DAYS UNTIL LABOR DAY SALE | %@ OFF ALL ACCESSORIES" ,remainingDays, @"10%"];
+                text = [NSString stringWithFormat:@"Get Ready! %ld Days Until Our Fall Sale! | %@ Off All Wedding Dresses" ,remainingDays, @"10%"];
             }
             return [self generateTopNotificationActivityData:text];
         }
-        if (timeInterval <= TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval >= 0) {
+        if (timeInterval < TIME_INTERVAL_GAP * PRESALE_SECOND_TEXT_DAYS && timeInterval >= 0) {
             NSInteger remainingDays = timeInterval/TIME_INTERVAL_GAP;
             NSString *text = nil;
-            text = [NSString stringWithFormat:@"%@ OFF ALL ACCESSORIES | ENDS IN %ld DAYS." ,@"10%" ,remainingDays+2];
+            text = [NSString stringWithFormat:@"%@ OFF ALL WEDDING DRESSES | ENDS IN %ld DAYS" ,@"10%" ,remainingDays+2];
             return [self generateTopNotificationActivityData:text];
         }
         return [self generateTopNotificationActivityData:nil];

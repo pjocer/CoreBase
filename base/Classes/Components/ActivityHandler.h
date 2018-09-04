@@ -22,6 +22,9 @@ FOUNDATION_EXPORT NSString *const ActivityEndTime;
 // Coupon Code
 FOUNDATION_EXPORT NSString *const ActivityCode;
 
+// Coupon Code
+FOUNDATION_EXPORT NSString *const ActivityCountDownText;
+
 #define ActivitySharedHandler [ActivityHandler sharedHandler]
 
 FOUNDATION_EXPORT NSNotificationName const ActivityPresaleStatusDidChanged;
