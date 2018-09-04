@@ -22,7 +22,7 @@ FOUNDATION_EXPORT NSString *const ActivityEndTime;
 // Coupon Code
 FOUNDATION_EXPORT NSString *const ActivityCode;
 
-// Coupon Code
+// Countdown Text
 FOUNDATION_EXPORT NSString *const ActivityCountDownText;
 
 #define ActivitySharedHandler [ActivityHandler sharedHandler]
