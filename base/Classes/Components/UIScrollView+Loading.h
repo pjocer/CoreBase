@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MJRefresh/MJRefresh.h>
 
 @interface UIScrollView (Loading)
+- (MJRefreshHeader *)refreshHeader;
+- (MJRefreshFooter *)refreshFooter;
 - (BOOL)hasRefreshHeader;
 - (BOOL)hasRefreshFooter;
 - (BOOL)hasRefreshHeaderFooter;

@@ -7,7 +7,6 @@
 //
 
 #import "UIScrollView+Loading.h"
-#import <MJRefresh/MJRefresh.h>
 #import <TXFire/TXFire.h>
 #import <TXFire/UIImage+TXGIF.h>
 #import "util.h"
@@ -32,6 +31,12 @@ static NSArray<UIImage *> *refreshingGif(NSTimeInterval *duration)
 }
 
 @implementation UIScrollView (Loading)
+- (MJRefreshHeader *)refreshHeader {
+    return self.mj_header;
+}
+- (MJRefreshFooter *)refreshFooter {
+    return self.mj_footer;
+}
 - (BOOL)hasRefreshHeader {
     return self.mj_header!=nil;
 }
