@@ -138,29 +138,6 @@
     [self.QMUIAlert addAction:QMUIAction];
 }
 
-//- (void)addItemWithTitleAttributes:(NSDictionary *)attr title:(NSString *)title action:(dispatch_block_t)action {
-//    QMUIButton *item = [QMUIButton buttonWithType:UIButtonTypeCustom];
-//    item.titleLabel.font = [UIFont dynamic_fontWithName:IS_AZAZIE?OrdinaryBold:FunctionProDemi size:15.f];
-//    if (attr) {
-//        [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateHighlighted];
-//        [item setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attr] forState:UIControlStateNormal];
-//    } else {
-//        [item setTitleColor:UIColorMakeWithHex(@"#333333") forState:UIControlStateNormal];
-//        [item setTitleColor:UIColorMakeWithHex(@"#333333") forState:UIControlStateHighlighted];
-//        [item setTitle:title forState:UIControlStateNormal];
-//        [item setTitle:title forState:UIControlStateHighlighted];
-//    }
-//    [self.items addObject:item];
-//    [self drawFooterItemsIfNeeded];
-//    @weakify(self);
-//    [[item rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-//        @strongify(self);
-//        [self dissmissWithAnimated:YES completion:^{
-//            if (action) action();
-//        }];
-//    }];
-//}
-
 - (void)show {
     [self showWithAnimated:YES completion:NULL withoutMask:NO];
 }
