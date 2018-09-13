@@ -54,7 +54,7 @@
     alertController.alertHeaderBackgroundColor = UIColorWhite;
     alertController.alertButtonBackgroundColor = UIColorWhite;
     alertController.alertHeaderInsets = UIEdgeInsetsMake(48.f, 48.f, 32.f, 48.f);
-    alertController.alertContentMaximumWidth = [UIScreen mainScreen].bounds.size.width - 80.f;
+    alertController.alertContentMaximumWidth = [UIScreen mainScreen].bounds.size.width - (80.f * [UIScreen mainScreen].bounds.size.width / 375.f);
     
     NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *buttonAttributes = [[NSMutableDictionary alloc] init];
