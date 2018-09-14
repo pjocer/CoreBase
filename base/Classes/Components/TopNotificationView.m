@@ -36,7 +36,11 @@
     @weakify(self);
     [[RACObserve(self, model) distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
         @strongify(self);
-        self.backgroundColor = UIColorMakeWithHex(self.model.background_color?:@"e8437b");
+        if (self.model.background_color) {
+            self.backgroundColor = UIColorMakeWithHex(self.model.background_color);
+        } else {
+            self.backgroundColor = UIColorClear;
+        }
         [self renderDetailLabel];
         [self renderCloseButton];
         [self setNeedsLayout];
