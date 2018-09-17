@@ -12,8 +12,10 @@
 #import "UIApplication+Base.h"
 #import "UIColor+BaseStyle.h"
 #import "util.h"
+#import <SDWebImage/UIImage+GIF.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/FLAnimatedImageView+WebCache.h>
 #import "UIView+LoadingIndicator.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import <QMUIKit/QMUIKit.h>
@@ -35,29 +37,45 @@
 }
 
 - (void)az_setImageWithURL:(NSURL *)URL placeholderImage:(UIImage *)image showLoadingIndicator:(BOOL)showLoadingIndicator animation:(BOOL)animate completion:(nullable BaseImageLoadCompletion)completion {
-    if (showLoadingIndicator) {
-        [self startLoading];
-    }
-    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     SDWebImageOptions option = SDWebImageQueryDataWhenInMemory|SDWebImageRetryFailed|SDWebImageRefreshCached|SDWebImageContinueInBackground|SDWebImageQueryDiskSync;
+
     @weakify(self);
-    [self sd_setImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        @strongify(self);
-        main_thread_safe(^{
-            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-            [self stopLoading];
-            if (image && animate) {
-//                CATransition *transition = [CATransition animation];
-//                transition.type = kCATransitionFade;
-//                transition.duration = 0.3;
-//                transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//                [self.layer addAnimation:transition forKey:nil];
-            }
-            if (completion) {
-                completion(image);
-            }
-        });
-    }];;
+    if ([[URL.absoluteString substringFromIndex:URL.absoluteString.length-3] isEqualToString:@"gif"]) {
+        if (showLoadingIndicator) [self startLoading];
+        [[UIApplication sharedApplication] showNetworkActivityIndicator];
+        self.image = image;
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:URL options:option progress:NULL completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+            @strongify(self);
+            main_thread_safe(^{
+                [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                [self stopLoading];
+                
+                UIImage *gifImage = [UIImage sd_animatedGIFWithData:data];
+                if ([gifImage isGIF]) {
+                    self.image = gifImage;
+                    if (completion) completion(gifImage);
+                } else {
+                    self.image = image;
+                    if (completion) completion(image);
+                }
+            });
+        }];
+        
+    } else {
+        if (showLoadingIndicator) [self startLoading];
+        [[UIApplication sharedApplication] showNetworkActivityIndicator];
+        [self sd_setImageWithURL:URL placeholderImage:image options:option progress:NULL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            @strongify(self);
+            main_thread_safe(^{
+                [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                [self stopLoading];
+                
+                if (completion) {
+                    completion(image);
+                }
+            });
+        }];
+    }
 }
 
 - (void)az_setImageWithURL:(NSURL *)URL
