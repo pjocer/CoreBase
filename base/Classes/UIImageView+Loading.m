@@ -40,7 +40,7 @@
     SDWebImageOptions option = SDWebImageQueryDataWhenInMemory|SDWebImageRetryFailed|SDWebImageRefreshCached|SDWebImageContinueInBackground|SDWebImageQueryDiskSync;
 
     @weakify(self);
-    if ([[URL.absoluteString substringFromIndex:URL.absoluteString.length-3] isEqualToString:@"gif"]) {
+    if ([URL.absoluteString hasSuffix:@"gif"]) {
         if (showLoadingIndicator) [self startLoading];
         [[UIApplication sharedApplication] showNetworkActivityIndicator];
         self.image = image;
