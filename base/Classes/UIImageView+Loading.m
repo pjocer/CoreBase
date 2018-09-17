@@ -48,9 +48,8 @@
             @strongify(self);
             main_thread_safe(^{
                 [[UIApplication sharedApplication] hideNetworkActivityIndicator];
-                [self stopLoading];
-                
                 UIImage *gifImage = [UIImage sd_animatedGIFWithData:data];
+                [self stopLoading];
                 if ([gifImage isGIF]) {
                     self.image = gifImage;
                     if (completion) completion(gifImage);
