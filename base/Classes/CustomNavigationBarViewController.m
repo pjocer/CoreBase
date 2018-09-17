@@ -52,16 +52,21 @@
     [super viewDidLoad];
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _navigationBar.delegate = self;
-    [self.view addSubview:_navigationBar];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.view addSubview:self.navigationBar];
     self.tx_interactiveNavigationBarHidden = YES;
-    _navigationBar.frame = CGRectMake(0, 20, self.view.bounds.size.width, 44.f);
+    [_navigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(20);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(44.f);
+    }];
 }
 - (void)viewSafeAreaInsetsDidChange {
     [super viewSafeAreaInsetsDidChange];
     if (@available(iOS 11.0, *)) {
-        _navigationBar.frame = CGRectMake(0, self.view.safeAreaInsets.top, self.view.bounds.size.width, 44.f);
-    } else {
-        _navigationBar.frame = CGRectMake(0, 20, self.view.bounds.size.width, 44.f);
+        [_navigationBar mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.view.safeAreaInsets.top);
+        }];
     }
 }
 - (void)backlizeLeftBarButtonItem
