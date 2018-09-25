@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
   s.author       = { "Jocer" => "com.pjocer@outlook.com" }
 
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "9.0"
 	s.license      = "Copyright (c) 2017-present Azazie, Inc. All rights reserved."
 
   s.source       = { :git => "https://g.digi800.com/azios/base.git", :tag => s.version }
