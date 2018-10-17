@@ -12,6 +12,7 @@
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "UserAgent.h"
 #import "AppIdentifier.h"
+#import "AZLocationHandler.h"
 
 @implementation BaseHTTPSessionManager
 
@@ -33,6 +34,12 @@
         [self.requestSerializer setValue:[AppIdentifier IDFA] forHTTPHeaderField:@"idfa"];
         [self.requestSerializer setValue:[AppIdentifier IDFV] forHTTPHeaderField:@"idfv"];
         
+        for (NSHTTPCookie *cookie in NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies) {
+            if ([cookie.name isEqualToString:@"sample_source"]) {
+                [self.requestSerializer setValue:[NSString stringWithFormat:@"%@=%@", cookie.name, cookie.value] forHTTPHeaderField:@"Cookie"];
+            }
+        }
+        
         AFJSONResponseSerializer *jsonResponseSerializer = (AFJSONResponseSerializer *)self.responseSerializer;
         jsonResponseSerializer.removesKeysWithNullValues = YES;
         
@@ -42,6 +49,11 @@
         }] startWith:[AccessToken currentAccessToken]] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             [self updateHeaderForToken:x];
+        }];
+        
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:APPLocationDidChangeNotification object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+            @strongify(self);
+            [self updateHeaderForLocation];
         }];
     }
     return self;
@@ -55,6 +67,13 @@
 - (void)updateHeaderForToken:(AccessToken *)token {
     @synchronized (self) {
         [self.requestSerializer setValue:token.tokenString forHTTPHeaderField:@"Token"];
+    }
+}
+
+- (void)updateHeaderForLocation{
+    @synchronized (self) {
+        NSString *location = AZLocationHandler.isCanadaLocated ? @"CA" : @"US";
+        [self.requestSerializer setValue:[NSString stringWithFormat:@"%@=%@", @"sample_source", location] forHTTPHeaderField:@"Cookie"];
     }
 }
 

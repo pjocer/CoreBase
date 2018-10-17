@@ -76,6 +76,7 @@
 
 #import "AZAlert.h"
 #import "AZProgressHUD.h"
+#import "AZLocationHandler.h"
 
 #import "NotificationLoader.h"
 
