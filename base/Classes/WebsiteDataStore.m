@@ -19,14 +19,7 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
 
 + (void)setCookieName:(NSString *)name value:(NSString *)value
 {
-    NSDictionary *properties = @{NSHTTPCookiePath: @"/",
-                                 NSHTTPCookieName: name,
-                                 NSHTTPCookieValue: value,
-                                 NSHTTPCookieExpires: [NSDate dateWithTimeIntervalSinceNow:7 * 24 * 3600],
-                                 NSHTTPCookieDomain: @"*.azazie.com",
-                                 };
-    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:properties];
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    [self setCookieName:name value:value domain:@"*.azazie.com"];
 }
 
 + (void)setCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
