@@ -34,9 +34,11 @@
         [self.requestSerializer setValue:[AppIdentifier IDFA] forHTTPHeaderField:@"idfa"];
         [self.requestSerializer setValue:[AppIdentifier IDFV] forHTTPHeaderField:@"idfv"];
         
+        [self.requestSerializer setValue:@"sample_source=US" forHTTPHeaderField:@"Cookie"];
         for (NSHTTPCookie *cookie in NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies) {
-            if ([cookie.name isEqualToString:@"sample_source"]) {
+            if ([cookie.name isEqualToString:@"sample_source"] && [cookie.domain isEqualToString:@".azazie.com"]) {
                 [self.requestSerializer setValue:[NSString stringWithFormat:@"%@=%@", cookie.name, cookie.value] forHTTPHeaderField:@"Cookie"];
+                NSLog(@"%@=%@", cookie.name, cookie.value);
             }
         }
         
@@ -70,7 +72,7 @@
     }
 }
 
-- (void)updateHeaderForLocation{
+- (void)updateHeaderForLocation {
     @synchronized (self) {
         NSString *location = AZLocationHandler.isCanadaLocated ? @"CA" : @"US";
         [self.requestSerializer setValue:[NSString stringWithFormat:@"%@=%@", @"sample_source", location] forHTTPHeaderField:@"Cookie"];

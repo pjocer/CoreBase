@@ -45,6 +45,7 @@ static NSString *const encodeKey = @"encode.location";
                 [[NSUserDefaults standardUserDefaults] setObject:encodedObject forKey:storeKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
             }
+            [WebsiteDataStore setCookieName:LocationCookieName value:defaultHandler.location == AZLocationAddress_Canada ? @"CA" : @"US" domain:@".azazie.com"];
         }
     }
     pthread_mutex_unlock(&mutex);
@@ -66,7 +67,8 @@ static NSString *const encodeKey = @"encode.location";
 + (void)setLocation:(AZLocationAddress)location {
     pthread_mutex_lock(&mutex);
     {
-        if (location!=AZLocationAddress_America && location!=AZLocationAddress_Canada) {
+        if (location!=AZLocationAddress_America && location!=AZLocationAddress_Canada)
+        {
             pthread_mutex_unlock(&mutex);
             return ;
         }
@@ -90,12 +92,16 @@ static NSString *const encodeKey = @"encode.location";
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:storeKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
-    
-        [WebsiteDataStore setCookieName:LocationCookieName value:newLocation.location == AZLocationAddress_Canada ? @"CA" : @"US"];
+        
+        [WebsiteDataStore setCookieName:LocationCookieName value:defaultHandler.location == AZLocationAddress_Canada ? @"CA" : @"US" domain:@".azazie.com"];
     }
     pthread_mutex_unlock(&mutex);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:APPLocationDidChangeNotification object:nil userInfo:nil];
+}
+
++ (void)setCookie {
+    [WebsiteDataStore setCookieName:LocationCookieName value:defaultHandler.location == AZLocationAddress_Canada ? @"CA" : @"US" domain:@".azazie.com"];
 }
 
 + (void)startDefaultLocat {

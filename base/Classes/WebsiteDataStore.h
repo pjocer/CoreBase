@@ -15,6 +15,7 @@ FOUNDATION_EXTERN const NSNotificationName CookiesDidDeleteNotification;
 
 /// domain: *.azazie.com expires: 1 week
 + (void)setCookieName:(NSString *)name value:(NSString *)value;
++ (void)setCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain;
 
 + (void)removeAllCookies;
 

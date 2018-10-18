@@ -29,6 +29,17 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
 }
 
++ (void)setCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
+    NSDictionary *properties = @{NSHTTPCookiePath: @"/",
+                                 NSHTTPCookieName: name,
+                                 NSHTTPCookieValue: value,
+                                 NSHTTPCookieExpires: [NSDate dateWithTimeIntervalSinceNow:7 * 24 * 3600],
+                                 NSHTTPCookieDomain: domain,
+                                 };
+    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:properties];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+}
+
 + (void)removeAllCookies
 {
     void(^start)(void) = ^{
