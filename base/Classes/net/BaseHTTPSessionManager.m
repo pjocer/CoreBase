@@ -34,7 +34,10 @@
         [self.requestSerializer setValue:[AppIdentifier IDFA] forHTTPHeaderField:@"idfa"];
         [self.requestSerializer setValue:[AppIdentifier IDFV] forHTTPHeaderField:@"idfv"];
         
-        [self.requestSerializer setValue:@"sample_source=US" forHTTPHeaderField:@"Cookie"];
+        //防止cookie被清除
+        [AZLocationHandler defaultHaandler];
+        
+        //写入sample_source header
         for (NSHTTPCookie *cookie in NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies) {
             if ([cookie.name isEqualToString:@"sample_source"] && [cookie.domain isEqualToString:@".azazie.com"]) {
                 [self.requestSerializer setValue:[NSString stringWithFormat:@"%@=%@", cookie.name, cookie.value] forHTTPHeaderField:@"Cookie"];
