@@ -82,6 +82,7 @@ static BOOL loadedFromDisk = NO;
             if (encodedObject)
             {
                 globalAccessToken = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                NSLog(@"%@",globalAccessToken.tokenString);
             }
         }
     }
@@ -111,7 +112,7 @@ static BOOL loadedFromDisk = NO;
         }
         else /// remove cookies.
         {
-            [WebsiteDataStore removeAllCookies];
+            [WebsiteDataStore deleteCookieName:@"login_token" value:oldToken.tokenString];
         }
         
         if (oldToken && newToken && [oldToken.userID isEqualToString:newToken.userID])

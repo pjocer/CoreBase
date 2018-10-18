@@ -17,12 +17,10 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
 
 @implementation WebsiteDataStore
 
-+ (void)setCookieName:(NSString *)name value:(NSString *)value
-{
-    [self setCookieName:name value:value domain:@"*.azazie.com"];
-}
-
-+ (void)setCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
++ (NSHTTPCookie *)getCookie:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
+    if (!(name && value && domain)) {
+        return nil;
+    }
     NSDictionary *properties = @{NSHTTPCookiePath: @"/",
                                  NSHTTPCookieName: name,
                                  NSHTTPCookieValue: value,
@@ -30,7 +28,32 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
                                  NSHTTPCookieDomain: domain,
                                  };
     NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:properties];
+    return cookie;
+}
+
++ (void)setCookieName:(NSString *)name value:(NSString *)value
+{
+    [self setCookieName:name value:value domain:@"*.azazie.com"];
+}
+
++ (void)setCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
+    NSHTTPCookie *cookie = [self getCookie:name value:value domain:domain];
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    if (WKHTTPCookieStore.class) {
+        [WKWebsiteDataStore.defaultDataStore.httpCookieStore setCookie:cookie completionHandler:NULL];
+    }
+}
+
++ (void)deleteCookieName:(NSString *)name value:(NSString *)value {
+    [self deleteCookieName:name value:value domain:value];
+}
+
++ (void)deleteCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
+    NSHTTPCookie *cookie = [self getCookie:name value:value domain:domain];
+    [NSHTTPCookieStorage.sharedHTTPCookieStorage deleteCookie:cookie];
+    if (WKHTTPCookieStore.class) {
+        [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:NULL];
+    }
 }
 
 + (void)removeAllCookies

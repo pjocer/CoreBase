@@ -17,6 +17,9 @@ FOUNDATION_EXTERN const NSNotificationName CookiesDidDeleteNotification;
 + (void)setCookieName:(NSString *)name value:(NSString *)value;
 + (void)setCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain;
 
++ (void)deleteCookieName:(NSString *)name value:(NSString *)value;
++ (void)deleteCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain;
+
 + (void)removeAllCookies;
 
 @end
