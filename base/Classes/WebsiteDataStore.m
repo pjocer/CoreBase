@@ -53,15 +53,17 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
         }
     }];
     [NSHTTPCookieStorage.sharedHTTPCookieStorage deleteCookie:cookie];
-    [WKWebsiteDataStore.defaultDataStore.httpCookieStore getAllCookies:^(NSArray<NSHTTPCookie *> * _Nonnull cookies) {
-        [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.name isEqualToString:name]) {
-                cookie = obj;
-                *stop = YES;
-            }
+    if (@available(iOS 11.0, *)) {
+        [WKWebsiteDataStore.defaultDataStore.httpCookieStore getAllCookies:^(NSArray<NSHTTPCookie *> * _Nonnull cookies) {
+            [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.name isEqualToString:name]) {
+                    cookie = obj;
+                    *stop = YES;
+                }
+            }];
         }];
-    }];
-    [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:NULL];
+        [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:NULL];
+    }
 }
 
 + (void)removeAllCookies
