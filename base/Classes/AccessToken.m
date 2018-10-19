@@ -112,7 +112,7 @@ static BOOL loadedFromDisk = NO;
         }
         else /// remove cookies.
         {
-            [WebsiteDataStore deleteCookieName:@"login_token" value:oldToken.tokenString];
+            [WebsiteDataStore deleteCookieName:@"login_token"];
         }
         
         if (oldToken && newToken && [oldToken.userID isEqualToString:newToken.userID])

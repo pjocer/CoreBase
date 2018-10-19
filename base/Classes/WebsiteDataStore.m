@@ -44,16 +44,24 @@ const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotifi
     }
 }
 
-+ (void)deleteCookieName:(NSString *)name value:(NSString *)value {
-    [self deleteCookieName:name value:value domain:value];
-}
-
-+ (void)deleteCookieName:(NSString *)name value:(NSString *)value domain:(NSString *)domain {
-    NSHTTPCookie *cookie = [self getCookie:name value:value domain:domain];
++ (void)deleteCookieName:(NSString *)name {
+    __block NSHTTPCookie *cookie = nil;
+    [NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.name isEqualToString:name]) {
+            cookie = obj;
+            *stop = YES;
+        }
+    }];
     [NSHTTPCookieStorage.sharedHTTPCookieStorage deleteCookie:cookie];
-    if (WKHTTPCookieStore.class) {
-        [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:NULL];
-    }
+    [WKWebsiteDataStore.defaultDataStore.httpCookieStore getAllCookies:^(NSArray<NSHTTPCookie *> * _Nonnull cookies) {
+        [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.name isEqualToString:name]) {
+                cookie = obj;
+                *stop = YES;
+            }
+        }];
+    }];
+    [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:NULL];
 }
 
 + (void)removeAllCookies
