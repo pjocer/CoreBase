@@ -36,7 +36,14 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
 + (NSArray<NSHTTPCookie *> *)getAllCustomCookies {
     NSMutableArray *cookies = [NSMutableArray array];
     [NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.name isEqualToString:@"login_token"] || [obj.name isEqualToString:LocationCookieName]) {
+        static BOOL login_token_done = NO;
+        if ([obj.name isEqualToString:@"login_token"] && !login_token_done) {
+            login_token_done = YES;
+            [cookies addObject:obj];
+        }
+        static BOOL location_done = NO;
+        if ([obj.name isEqualToString:LocationCookieName] && !location_done) {
+            location_done = YES;
             [cookies addObject:obj];
         }
     }];
