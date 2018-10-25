@@ -12,6 +12,7 @@
 #import "util.h"
 #import <libkern/OSAtomic.h>
 #import "AZLocationHandler.h"
+#import "AccessToken.h"
 
 const NSNotificationName CookiesWillDeleteNotification = @"CookiesWillDeleteNotification";
 const NSNotificationName CookiesDidDeleteNotification = @"CookiesDidDeleteNotification";
@@ -35,18 +36,10 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
 
 + (NSArray<NSHTTPCookie *> *)getAllCustomCookies {
     NSMutableArray *cookies = [NSMutableArray array];
-    [NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies enumerateObjectsUsingBlock:^(NSHTTPCookie * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        static BOOL login_token_done = NO;
-        if ([obj.name isEqualToString:@"login_token"] && !login_token_done) {
-            login_token_done = YES;
-            [cookies addObject:obj];
-        }
-        static BOOL location_done = NO;
-        if ([obj.name isEqualToString:LocationCookieName] && !location_done) {
-            location_done = YES;
-            [cookies addObject:obj];
-        }
-    }];
+    if (AccessToken.currentAccessToken.tokenString) {
+        [cookies addObject:[self getCookie:@"ios_login_token" value:AccessToken.currentAccessToken.tokenString domain:@"*.azazie.com"]];
+    }
+    [cookies addObject:[self getCookie:LocationCookieName value:AZLocationHandler.isCanadaLocated?@"CA":@"UA" domain:@"*.azazie.com"]];
     return cookies;
 }
 
