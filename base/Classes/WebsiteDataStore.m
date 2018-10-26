@@ -39,16 +39,15 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
     if (AccessToken.currentAccessToken.tokenString) {
         [cookies addObject:[self getCookie:@"ios_token" value:AccessToken.currentAccessToken.tokenString domain:@".azazie.com"]];
     }
-    [cookies addObject:[self getCookie:LocationCookieName value:AZLocationHandler.isCanadaLocated?@"CA":@"UA" domain:@".azazie.com"]];
+    [cookies addObject:[self getCookie:LocationCookieName value:AZLocationHandler.isCanadaLocated?@"CA":@"US" domain:@".azazie.com"]];
     return cookies;
 }
 
 + (NSString *)getCookieString:(NSHTTPCookie *)cookie {
-    NSString *string = [NSString stringWithFormat:@"%@=%@;domain=%@;path=%@",
+    NSString *string = [NSString stringWithFormat:@"%@=%@;domain=%@;path=/",
                         cookie.name,
                         cookie.value,
-                        cookie.domain,
-                        cookie.path ?: @"/"];
+                        cookie.domain];
     
     return string;
 }
