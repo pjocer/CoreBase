@@ -108,11 +108,11 @@ static BOOL loadedFromDisk = NO;
         
         if (newToken)
         {
-            [WebsiteDataStore setCookieName:@"ios_login_token" value:newToken.tokenString];
+            [WebsiteDataStore setCookieName:@"ios_token" value:newToken.tokenString];
         }
         else /// remove cookies.
         {
-            [WebsiteDataStore deleteCookieName:@"ios_login_token"];
+            [WebsiteDataStore deleteCookieName:@"ios_token"];
         }
         
         if (oldToken && newToken && [oldToken.userID isEqualToString:newToken.userID])
