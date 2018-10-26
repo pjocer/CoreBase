@@ -103,9 +103,11 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
     if (@available(iOS 11.0, *)) {
         [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidDeleteNotification object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
         }];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidDeleteNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
     }
 }
 
