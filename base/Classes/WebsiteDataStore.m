@@ -40,6 +40,7 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
         [cookies addObject:[self getCookie:@"ios_token" value:AccessToken.currentAccessToken.tokenString domain:@".azazie.com"]];
     }
     [cookies addObject:[self getCookie:LocationCookieName value:AZLocationHandler.isCanadaLocated?@"CA":@"US" domain:@".azazie.com"]];
+    
     return cookies;
 }
 
@@ -103,11 +104,9 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
     if (@available(iOS 11.0, *)) {
         [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:cookie completionHandler:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidDeleteNotification object:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
         }];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidDeleteNotification object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
     }
 }
 
