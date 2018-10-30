@@ -64,9 +64,8 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
         if (@available(iOS 11.0, *)) {
             main_thread_safe(^{
-                [WKWebsiteDataStore.defaultDataStore.httpCookieStore setCookie:cookie completionHandler:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
-                }];
+                [WKWebsiteDataStore.defaultDataStore.httpCookieStore setCookie:cookie completionHandler:NULL];
+                [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
             })
         } else {
             [[NSNotificationCenter defaultCenter] postNotificationName:CookiesDidChangedNotification object:nil userInfo:nil];
@@ -82,9 +81,8 @@ const NSNotificationName CookiesDidChangedNotification = @"CookiesDidChangedNoti
     [NSHTTPCookieStorage.sharedHTTPCookieStorage deleteCookie:previous];
     if (@available(iOS 11.0, *)) {
         main_thread_safe(^{
-            [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:previous completionHandler:^{
-                deleteComplete();
-            }];
+            [WKWebsiteDataStore.defaultDataStore.httpCookieStore deleteCookie:previous completionHandler:NULL];
+            deleteComplete();
         })
     } else {
         deleteComplete();
