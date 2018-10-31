@@ -15,19 +15,19 @@
 #define TIME_INTERVAL_GAP (60*10)
 
 //预售倒计时
-NSString *const PreSaleCountDownStartTime   = @"2018-10-30 22:40:00";
-NSString *const PreSaleCountDownEndTime     = @"2018-10-30 23:20:00";
+NSString *const PreSaleCountDownStartTime   = @"2018-10-31 00:00:00";
+NSString *const PreSaleCountDownEndTime     = @"2018-11-04 00:00:00";
 //结束倒计时
-NSString *const ActivityWillEndStartTime    = @"2018-10-30 23:20:00";
-NSString *const ActivityWillEndEndTime      = @"2018-10-30 23:30:00";
+NSString *const ActivityWillEndStartTime    = @"2018-11-04 00:00:00";
+NSString *const ActivityWillEndEndTime      = @"2018-11-05 00:00:00";
 //黑色倒计时
-NSString *const ActivityCountDownStartTime  = @"2018-10-30 23:30:00";
-NSString *const ActivityCountDownEndTime    = @"2018-10-30 23:40:00";
+NSString *const ActivityCountDownStartTime  = @"2018-11-05 00:00:00";
+NSString *const ActivityCountDownEndTime    = @"2018-11-06 00:00:00";
 //真正的活动时间范围
-NSString *const ActivityStartTime           = @"2018-10-31 00:00:00";
-NSString *const ActivityEndTime             = @"2018-10-31 00:10:00";
+NSString *const ActivityStartTime           = @"2018-11-04 00:00:00";
+NSString *const ActivityEndTime             = @"2018-11-06 00:00:00";
 
-NSString *const ActivityCode                = @"bday_test";
+NSString *const ActivityCode                = @"BDAY";
 NSString *const ActivityCountDownText       = @"BDAY SAMPLE SALE WILL END IN";
 
 NSNotificationName const ActivityPresaleStatusDidChanged = @"ActivityPresaleStatusDidChanged";
