@@ -10,15 +10,6 @@
 #import "TopNotificationModel.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 
-// 黑色倒计时
-FOUNDATION_EXPORT NSString *const ActivityCountDownEndTime;
-FOUNDATION_EXPORT NSString *const ActivityCountDownStartTime;
-// 预售倒计时
-FOUNDATION_EXPORT NSString *const PreSaleCountDownEndTime;
-FOUNDATION_EXPORT NSString *const PreSaleCountDownStartTime;
-// Coupon倒计时
-FOUNDATION_EXPORT NSString *const ActivityStartTime;
-FOUNDATION_EXPORT NSString *const ActivityEndTime;
 // Coupon Code
 FOUNDATION_EXPORT NSString *const ActivityCode;
 
