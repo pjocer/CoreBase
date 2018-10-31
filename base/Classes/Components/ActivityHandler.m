@@ -12,7 +12,7 @@
 #import <QMUIKit/QMUICommonDefines.h>
 
 
-#define TIME_INTERVAL_GAP (60*10)
+#define TIME_INTERVAL_GAP (60*60*24)
 
 //预售倒计时
 NSString *const PreSaleCountDownStartTime   = @"2018-10-31 00:00:00";
